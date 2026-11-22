@@ -62,6 +62,17 @@ def _append_excerpts(lines: list[str], evidence: tuple[Evidence, ...]) -> None:
         lines.extend(["", *(f"  > {line}" for line in item.text.splitlines()), ""])
 
 
+def _append_review_items(lines: list[str], review: Review) -> None:
+    if len(review.items) < 2:
+        return
+    lines.extend(["**逐项复核**", ""])
+    for item in review.items:
+        answer = f"。{item.answer}" if item.answer else ""
+        refs = f"（引用：{', '.join(item.evidence_ids)}）" if item.evidence_ids else ""
+        lines.append(f"- {item.question} · {_STATUS_LABELS[item.status]}{answer}{refs}")
+    lines.append("")
+
+
 def render_report(
     request: TaskRequest,
     plan: Plan,
@@ -89,6 +100,7 @@ def render_report(
     lines.extend(["", "## 复核结果", ""])
 
     lines.extend([f"状态：{_STATUS_LABELS[review.status]}", review.note, ""])
+    _append_review_items(lines, review)
 
     if claim is not None and review.status in {"supported", "inference"}:
         heading = "## 结论" if review.status == "supported" else "## 待验证推断"
@@ -99,7 +111,9 @@ def render_report(
         excerpts = evidence
 
     if review.status == "insufficient":
-        lines.extend(["## 需要补充的材料", "", supplement_question(request.question), ""])
+        lines.extend(["## 需要补充的材料", "", supplement_question(
+            request.question, review if len(review.items) > 1 else None,
+        ), ""])
 
     _append_excerpts(lines, excerpts)
     return "\n".join(lines).rstrip() + "\n"
@@ -162,6 +176,7 @@ def render_step_report(
         if result.attempted_queries:
             lines.append(f"已用检索词：{'、'.join(result.attempted_queries)}")
         lines.extend([result.review.note, ""])
+        _append_review_items(lines, result.review)
         if result.claim is not None and status in {"supported", "inference"}:
             text = result.claim.text if status == "supported" else f"待验证推断：{result.claim.text}"
             lines.extend([text, "", f"引用：{', '.join(result.claim.evidence_ids)}", ""])

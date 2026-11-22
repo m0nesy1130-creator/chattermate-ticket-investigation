@@ -205,6 +205,13 @@ def _task_session(thread_id: str):
         raise HTTPException(500, {"message": "无法读取或保存本地文件。", "task_id": thread_id}) from error
 
 
+def _console_snapshot(graph, config) -> StateSnapshot:
+    snapshot = load_snapshot(graph, config)
+    if snapshot.values.get("bridge_fingerprint"):
+        raise TaskNotFoundError("找不到该控制台任务。")
+    return snapshot
+
+
 def _save_upload(thread_id: str, upload: UploadFile) -> tuple[Evidence, ...]:
     filename = (upload.filename or "").replace("\\", "/").rsplit("/", 1)[-1]
     suffix = Path(filename).suffix.lower()
@@ -328,14 +335,14 @@ def create_task(
 @app.get("/tasks/{task_id}", summary="查询任务状态")
 def get_task(task_id: UUID) -> TaskView:
     with _task_session(task_id.hex) as (checkpointer, config):
-        snapshot = load_snapshot(task_graph("offline", checkpointer), config)
+        snapshot = _console_snapshot(task_graph("offline", checkpointer), config)
         return _task_view(task_id.hex, snapshot)
 
 
 @app.post("/tasks/{task_id}/clarification", summary="回答需求追问或确认分析范围")
 def clarify_task(task_id: UUID, reply: ClarificationReply) -> TaskView:
     with _task_session(task_id.hex) as (checkpointer, config):
-        snapshot = load_snapshot(task_graph("offline", checkpointer), config)
+        snapshot = _console_snapshot(task_graph("offline", checkpointer), config)
         graph = task_graph(snapshot.values["mode"], checkpointer)
         resume_with_clarification(
             graph, config, snapshot, reply.receipt,
@@ -354,7 +361,7 @@ def supplement_task(
     if finish == (file is not None):
         raise HTTPException(422, "请上传一份补充文档，或选择用现有证据结束任务。")
     with _task_session(task_id.hex) as (checkpointer, config):
-        snapshot = load_snapshot(task_graph("offline", checkpointer), config)
+        snapshot = _console_snapshot(task_graph("offline", checkpointer), config)
         graph = task_graph(snapshot.values["mode"], checkpointer)
         if file is not None:
             resume_with_document(graph, config, snapshot, receipt, lambda: _save_upload(task_id.hex, file))
@@ -366,7 +373,7 @@ def supplement_task(
 @app.post("/tasks/{task_id}/retry", summary="继续因执行故障而中断的任务")
 def retry_task(task_id: UUID) -> TaskView:
     with _task_session(task_id.hex) as (checkpointer, config):
-        snapshot = load_snapshot(task_graph("offline", checkpointer), config)
+        snapshot = _console_snapshot(task_graph("offline", checkpointer), config)
         if snapshot.interrupts:
             raise TaskConflictError("当前任务正在等待输入。请先处理待确认内容或补充材料。")
         if snapshot.next:
@@ -379,7 +386,7 @@ def retry_task(task_id: UUID) -> TaskView:
 @app.get("/tasks/{task_id}/report", summary="下载 Markdown 报告", response_class=Response)
 def download_report(task_id: UUID) -> Response:
     with _task_session(task_id.hex) as (checkpointer, config):
-        snapshot = load_snapshot(task_graph("offline", checkpointer), config)
+        snapshot = _console_snapshot(task_graph("offline", checkpointer), config)
         if snapshot.interrupts or snapshot.next:
             raise TaskConflictError("任务完成后才能下载报告。")
         return Response(

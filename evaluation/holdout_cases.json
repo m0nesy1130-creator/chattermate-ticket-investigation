@@ -1,0 +1,67 @@
+[
+  {
+    "id": "H01",
+    "directory": "holdout/commission",
+    "question": "本期青禾冷库空载试运要连续运行多久？验收记录最迟在什么日期前归档？",
+    "status": "supported",
+    "patterns": ["72\\s*小时", "12\\s*月\\s*18\\s*(日|号)|2026[-/]12[-/]18"],
+    "refs": [["spec.txt", 3], ["notice.txt", 2]]
+  },
+  {
+    "id": "H02",
+    "file": "holdout/versions/policy.txt",
+    "question": "按 2026 年生效正式版，备用传感器到货后多少个工作日内抽检？",
+    "status": "supported",
+    "patterns": ["(4|四)\\s*(个)?工作日"],
+    "lines": [3]
+  },
+  {
+    "id": "H03",
+    "directory": "holdout/dispute",
+    "question": "QH-17 V3 同一协议的两个签章副本分别规定多少个月质保，能否确定唯一值？",
+    "status": "conflicting",
+    "patterns": ["18\\s*(个)?月", "24\\s*(个)?月"],
+    "refs": [["buyer.txt", 2], ["seller.txt", 2]]
+  },
+  {
+    "id": "H04",
+    "file": "holdout/paraphrase.txt",
+    "question": "防洪期两次例行巡视之间要隔多少天？",
+    "status": "supported",
+    "patterns": ["14\\s*(天|日)|十[四]\\s*(天|日)"],
+    "lines": [2]
+  },
+  {
+    "id": "H05",
+    "file": "holdout/deposit.txt",
+    "question": "履约担保要实际交多少元作为保证金？",
+    "status": "insufficient",
+    "patterns": [],
+    "lines": []
+  },
+  {
+    "id": "H06",
+    "file": "holdout/liquid.txt",
+    "question": "什么情况属于重大漏液？签收重大漏液报告后维修人员最迟多久要到达机房？",
+    "status": "insufficient",
+    "patterns": ["40\\s*分钟|四十分钟"],
+    "lines": [2],
+    "partial": true
+  },
+  {
+    "id": "H07",
+    "file": "holdout/conditional.txt",
+    "question": "城区中心库在周三正常工作日 17:30 收到申请，最迟在哪个工作日发出？",
+    "status": "supported",
+    "patterns": ["下[一个个]{0,2}工作日|次[一]?[个]?工作日|周四|星期四"],
+    "lines": [3]
+  },
+  {
+    "id": "H08",
+    "directory": "holdout/locations",
+    "question": "南岸库的常规存储温度上限为多少摄氏度？",
+    "status": "supported",
+    "patterns": ["12\\s*(摄氏度|°C|℃)"],
+    "refs": [["south.txt", 2]]
+  }
+]

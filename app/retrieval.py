@@ -30,6 +30,7 @@ MODEL_FILES = (
 MODEL_DIMENSION = 512
 # 用内置逐行资料和补证样例测得的初始候选门槛。
 MIN_SIMILARITY = 0.65
+MAX_NEIGHBOR_LINES = 2
 INDEX_DIR = Path(__file__).resolve().parents[1] / "runtime" / "rag"
 
 
@@ -113,4 +114,24 @@ def find_hybrid_evidence(
         if similarities[index] >= MIN_SIMILARITY
     )
     candidates = {item.evidence_id: item for item in (*exact_matches, *semantic_matches)}
-    return tuple(candidates.values())[:limit]
+    hits = tuple(candidates.values())[:limit]
+    return (*hits, *_neighbor_lines(hits, evidence))
+
+
+def _neighbor_lines(hits: tuple[Evidence, ...], evidence: tuple[Evidence, ...]) -> tuple[Evidence, ...]:
+    if not hits:
+        return ()
+    by_location = {(item.source, item.version, item.line): item for item in evidence if item.line is not None}
+    known = {item.evidence_id for item in hits}
+    neighbors = []
+    for hit in hits:
+        if hit.line is None:
+            continue
+        for offset in (-1, 1):
+            neighbor = by_location.get((hit.source, hit.version, hit.line + offset))
+            if neighbor is not None and neighbor.evidence_id not in known:
+                neighbors.append(neighbor)
+                known.add(neighbor.evidence_id)
+                if len(neighbors) == MAX_NEIGHBOR_LINES:
+                    return tuple(neighbors)
+    return tuple(neighbors)

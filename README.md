@@ -15,6 +15,12 @@
 
 本地 ChatterMate 工作台接入通用分析和合同付款核对。工单队列与 LangGraph 检查点使用同一个调查编号。演示台账中断时，系统保留已核验的合同年费。台账恢复后，从失败的付款查询步骤继续，最终核对出未付余额。ChatterMate 原有的 Agno、Redis 分别用于原生 Agent 与实时通信等基础设施。
 
+## 工单分析工作台
+
+[ChatterMate 工作台源码](ChatterMate/)和分析引擎收录于同一仓库。工作台支持通用分析、合同付款核对、分析范围确认、材料补交、失败续跑和人工回写。[本地运行说明](ChatterMate/CONTRACT_INVESTIGATION.md) · [上游许可](ChatterMate/LICENSE) · [上游署名](ChatterMate/NOTICE)
+
+本地环境配置和迁移完成后，在 Windows 上双击 `ChatterMate/start-local.cmd`，即可启动服务并打开 `http://localhost:3000/workbench`。
+
 ## 面试演示
 
 [在线体验（无需登录）](https://analysis-agent-demo-u3lh.onrender.com/)
@@ -23,7 +29,7 @@
 
 ## 评测结果
 
-用 `deepseek-flash` 对 12 道虚构文档题各运行一次关键词检索与混合检索，同一题使用相同的文档和评分标准。
+2026-11-13 基线使用 `deepseek-flash` 对 12 道虚构文档题各运行一次关键词检索与混合检索，同一题使用相同的文档和评分标准。
 
 | 指标 | 关键词 | 关键词 + BGE |
 | --- | ---: | ---: |
@@ -33,6 +39,10 @@
 | 单题耗时中位数 | 1.65 秒 | 4.91 秒 |
 
 另有 6 道流程题，首次运行通过 5 道。跨进程补证恢复了原计划和已有结论，但计划中多余的一步使任务仍待补证。该题单独复测时生成了两步计划，补证后完成。文档组的混合检索漏过一道需要合并两处原文的题。以下报告记录每组通过情况、评分口径及复跑环境。[实跑报告](evaluation/baseline.md) · [运行说明与样例数据](evaluation/README.md)
+
+后续加入逐项证据复核、计划目标去重和相邻原文召回。[优化与复测记录](evaluation/optimization-2026-11-15.md)
+
+增加 DeepSeek 有限重试和任务级阶段追踪。五个故障注入场景已用真实 MySQL 检查点验收，独立文档集的混合检索通过 7/8 道。[失败恢复与独立评测](evaluation/reliability-2026-11-15.md)
 
 ## 快速体验
 

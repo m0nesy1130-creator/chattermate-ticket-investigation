@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: !reset null
+    image: chattermate/backend:latest
+  knowledge_processor:
+    build: !reset null
+    image: chattermate/backend:latest
+  ticket_investigator:
+    build: !reset null
+    image: chattermate/backend:latest
+  crm_sync:
+    build: !reset null
+    image: chattermate/backend:latest
+  db:
+    build: !reset null
+    image: pgvector/pgvector:pg16
+    volumes:
+      - ./backend/scripts/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql:ro

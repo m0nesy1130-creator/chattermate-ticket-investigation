@@ -3,6 +3,8 @@
 评测使用虚构合同和工单，共 18 道题。12 道文档题分别跑关键词检索与关键词加 BGE 的混合检索，6 道流程题各跑一次。全套共运行 30 次。
 
 [查看 2026-11-13 的实跑基线](baseline.md)。
+[查看 2026-11-15 的优化与复测记录](optimization-2026-11-15.md)。
+[查看失败恢复与独立评测记录](reliability-2026-11-15.md)。
 
 ## 运行
 
@@ -12,9 +14,13 @@
 & '.\.venv\Scripts\python.exe' -X utf8 -m evaluation.run --suite documents
 & '.\.venv\Scripts\python.exe' -X utf8 -m evaluation.run --suite workflows --case R01
 & '.\.venv\Scripts\python.exe' -X utf8 -m evaluation.run
+& '.\.venv\Scripts\python.exe' -X utf8 -m evaluation.run --suite holdout
+& '.\.venv\Scripts\python.exe' -X utf8 -m evaluation.recovery --mysql
 ```
 
 文档组只需要 DeepSeek 和本地向量模型。流程组的 R01 需要可写的 MySQL 检查点库，M01、M02、W01 需要只读业务库。W01 同时需要能访问 Python 官方文档。
+
+`--suite holdout` 使用单独的 [8 道文档题](holdout_cases.json)，并通过 H09 验证源文件更新后的记忆失效。`--case H09` 可只运行真实 MySQL 记忆案例。`--suite all` 保持原有 18 题口径。
 
 运行器逐题保存 JSON 到 `runtime/evaluation/`，也可用 `--output` 指定文件。结果包括运行用时、召回行号、引用行号、评分、流程步骤和报告。R01 的虚构任务会写入指定的检查点库，并在子进程中恢复；可在隔离的检查点库中执行。题目未通过时也会继续运行，自动化调用方可以从 JSON 读取 `summary`。
 

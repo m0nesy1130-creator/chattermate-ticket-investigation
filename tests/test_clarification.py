@@ -32,7 +32,10 @@ class ClarifyingModel:
             return {"prompt": "请确认分析范围。", "directions": [], "scope": self.scope}
         if "cited_ids" in data:
             self.calls.append("review")
-            return {"status": "supported", "note": "报价直接支持。"}
+            return {"status": "supported", "note": "报价直接支持。", "checks": [
+                {"question": data["question"], "status": "supported", "answer": data["claim"],
+                 "evidence_ids": data["cited_ids"]},
+            ]}
         if "evidence" in data:
             self.calls.append("resolve")
             return {"claim": "每年 12,000 元。", "evidence_ids": ["L2"]}

@@ -8,7 +8,9 @@ import pymysql
 from langgraph.checkpoint.mysql.pymysql import PyMySQLSaver
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 
-from .contracts import Claim, Evidence, Money, Plan, PlanStep, RejectedDirection, Review, StepResult, TaskRequest
+from .contracts import (
+    Claim, Evidence, Money, Plan, PlanStep, RejectedDirection, Review, ReviewItem, StepResult, TaskRequest,
+)
 from .credentials import LOCAL_MYSQL, MYSQL_CREDENTIAL, read_credential
 
 
@@ -20,7 +22,7 @@ def checkpoint_serializer() -> JsonPlusSerializer:
     return JsonPlusSerializer(
         allowed_msgpack_modules=[
             (cls.__module__, cls.__name__)
-            for cls in (TaskRequest, Plan, Evidence, Claim, Review, PlanStep, StepResult, Money, RejectedDirection)
+            for cls in (TaskRequest, Plan, Evidence, Claim, Review, ReviewItem, PlanStep, StepResult, Money, RejectedDirection)
         ]
     )
 

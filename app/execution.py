@@ -13,6 +13,7 @@ from .contracts import Claim, Evidence, Money, PlanStep, Review, StepResult
 from .documents import search_documents, supplement_evidence
 from .evidence import resolve_claim, review_claim
 from .memory import recall_evidence, remember_supported
+from .observability import observed_node
 from .payments import calculate_balance, contract_anchors, query_payments, resolve_contract_fee
 from .planning import latest_results
 
@@ -31,6 +32,7 @@ class PlanExecutionState(TypedDict, total=False):
     step_feedback: str
     step_stopped: bool
     shared_evidence: tuple[Evidence, ...]
+    latest_supplement: tuple[Evidence, ...]
 
 
 def _step(state: PlanExecutionState) -> PlanStep:
@@ -72,8 +74,12 @@ def add_execution_nodes(graph, client, *, can_pause: bool) -> None:
         step = _step(state)
         if step.kind == "adaptive":
             inherited = tuple(item for result in _dependency_results(state, step) for item in result.evidence)
+            supplement = state.get("latest_supplement", ())
+            new_evidence = search_documents(
+                step.question, step.question, supplement, hybrid=state.get("hybrid", False),
+            ) if supplement else ()
             candidates = _unique_evidence(state["step_candidates"], state.get("planning_evidence", ()),
-                                          state.get("shared_evidence", ()), inherited)
+                                          state.get("shared_evidence", ()), inherited, new_evidence or supplement[:12])
             action = choose_action(client, state, phase="resolve", question=step.question, evidence=candidates,
                                    feedback=state.get("step_feedback", ""), preferred=step.preferred_tool, hints=step.queries)
             if action["tool"] == "finish":
@@ -161,7 +167,11 @@ def add_execution_nodes(graph, client, *, can_pause: bool) -> None:
         revision = state.get("document_revision", 0) + 1
         additions = supplement_evidence(state["document"], reply, revision)
         return Command(
-            update={"document": (*state["document"], *additions), "document_revision": revision},
+            update={
+                "document": (*state["document"], *additions),
+                "document_revision": revision,
+                "latest_supplement": additions,
+            },
             goto="dispatch_step",
         )
 
@@ -192,9 +202,9 @@ def add_execution_nodes(graph, client, *, can_pause: bool) -> None:
         return {}
 
     graph.add_node("dispatch_step", dispatch_step)
-    graph.add_node("retrieve_step", retrieve_step)
-    graph.add_node("resolve_step", resolve_step)
-    graph.add_node("review_step", review_step)
+    graph.add_node("retrieve_step", observed_node(retrieve_step, "retrieve"))
+    graph.add_node("resolve_step", observed_node(resolve_step, "resolve"))
+    graph.add_node("review_step", observed_node(review_step, "review"))
     graph.add_node("step_supplement", step_supplement)
     graph.add_node("summarize_steps", summarize_steps)
     graph.add_node("remember_steps", remember_steps)

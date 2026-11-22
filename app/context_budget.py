@@ -135,6 +135,14 @@ def keep_visible_references(result: dict, data: dict) -> dict:
     if isinstance(refs, list) and all(isinstance(ref, str) for ref in refs) and not set(refs) <= visible:
         # 任一引用不可见时，整项结论交回复核判为缺证。
         result["evidence_ids"] = []
+    checks = result.get("checks")
+    if isinstance(checks, list):
+        for item in checks:
+            if not isinstance(item, dict):
+                continue
+            refs = item.get("evidence_ids")
+            if isinstance(refs, list) and not all(isinstance(ref, str) and ref in visible for ref in refs):
+                item["evidence_ids"] = []
     if isinstance(result.get("rejected"), list):
         result["rejected"] = [row for row in result["rejected"] if isinstance(row, dict)
                               and isinstance(ref := row.get("id", row.get("evidence_id")), str) and ref in visible]

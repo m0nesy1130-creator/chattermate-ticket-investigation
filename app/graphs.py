@@ -17,16 +17,20 @@ from .documents import search_documents, supplement_evidence
 from .evidence import resolve_claim, review_claim, supplement_question
 from .execution import PlanExecutionState, add_execution_nodes
 from .memory import recall_evidence, remember_supported
+from .observability import observed_node
 from .payments import PaymentScope, payment_plan
 from .planning import make_adaptive_plan, make_plan
 
 
 class AnalysisState(PlanExecutionState, TypedDict, total=False):
+    bridge_fingerprint: str
     request: TaskRequest
     document: tuple[Evidence, ...]
     directory: DirectorySource
     payment: PaymentScope
     plan: Plan
+    question_parts: tuple[str, ...]
+    retried_gaps: bool
     candidates: tuple[Evidence, ...]
     claim: Claim | None
     review: Review
@@ -150,13 +154,23 @@ def build_graph(
         if client is None:
             return {"plan": Plan(query=question)}
         result = client.complete_json(
-            '将问题转成一个短的文档检索词。返回 JSON 对象，例如 {"query":"验收标准"}。',
+            '将问题转成一个短的原文检索词 query，并把用户要求回答的独立事实列在 parts。'
+            '每项必须保留对象、时间等约束。不把查找、核对或报告要求单列。'
+            '单一问题只列一项，最多六项。例：'
+            '{"query":"培训通知","parts":["培训地点在哪里？","报到时间是几点？"]}。',
             {"question": question},
         )
         query = result.get("query")
         if not isinstance(query, str) or not query.strip():
             raise ValueError("模型未生成有效的检索词。")
-        return {"plan": Plan(query=query.strip())}
+        raw_parts = result.get("parts")
+        if not isinstance(raw_parts, list) or not 1 <= len(raw_parts) <= 6 or any(
+            not isinstance(part, str) or not part.strip() for part in raw_parts
+        ):
+            parts = ()
+        else:
+            parts = tuple(dict.fromkeys(part.strip() for part in raw_parts))
+        return {"plan": Plan(query=query.strip()), "question_parts": parts}
 
     def after_plan(state: AnalysisState) -> Literal["retrieve", "dispatch_step"]:
         return "dispatch_step" if state.get("plan_steps") else "retrieve"
@@ -176,11 +190,13 @@ def build_graph(
             current = tuple(item for item in candidates if not item.evidence_id.startswith("M-"))
             recalled = recall_evidence(project, state["document"], lambda items: search(state, items))
             candidates = (*current, *recalled)
-        return {"candidates": candidates, "claim": resolve_claim(state["request"].question, candidates, client)}
+        claim = resolve_claim(state["request"].question, candidates, client, parts=state.get("question_parts", ()))
+        return {"candidates": candidates, "claim": claim}
 
     def review(state: AnalysisState) -> dict:
         result = review_claim(
-            state["request"].question, state["claim"], state["candidates"], client
+            state["request"].question, state["claim"], state["candidates"], client,
+            parts=state.get("question_parts", ()),
         )
         if state.get("project") and result.status == "supported":
             return {"review": result, "reviewed_at": datetime.now(timezone.utc).isoformat()}
@@ -195,9 +211,14 @@ def build_graph(
         )
         return {}
 
-    def after_review(state: AnalysisState) -> Literal["remember", "supplement", "__end__"]:
+    def after_review(state: AnalysisState) -> Literal["remember", "retrieve_gaps", "supplement", "__end__"]:
         if state.get("project") and state["review"].status == "supported":
             return "remember"
+        if (
+            client is not None and state["review"].status == "insufficient"
+            and len(state["review"].items) > 1 and not state.get("retried_gaps")
+        ):
+            return "retrieve_gaps"
         if (
             checkpointer is not None
             and state["review"].status == "insufficient"
@@ -206,30 +227,48 @@ def build_graph(
             return "supplement"
         return END
 
+    def search_gaps(state: AnalysisState, document: tuple[Evidence, ...]) -> tuple[Evidence, ...]:
+        return unique_evidence(*(
+            search_documents(item.query or item.question, item.question, document, hybrid=state.get("hybrid", False))
+            for item in state["review"].items if item.status == "insufficient"
+        ))
+
+    def retrieve_gaps(state: AnalysisState) -> Command[Literal["resolve", "supplement", "__end__"]]:
+        candidates = unique_evidence(state["candidates"], search_gaps(state, state["document"]))
+        if len(candidates) > len(state["candidates"]):
+            return Command(update={"retried_gaps": True, "candidates": candidates}, goto="resolve")
+        next_node = "supplement" if checkpointer is not None and not state.get("supplemented") else END
+        return Command(update={"retried_gaps": True}, goto=next_node)
+
     def supplement(state: AnalysisState) -> Command[Literal["resolve", "__end__"]]:
-        reply = interrupt(supplement_question(state["request"].question))
+        review = state["review"]
+        reply = interrupt(supplement_question(state["request"].question, review if len(review.items) > 1 else None))
         additions = supplement_evidence(state["document"], reply, 1)
         matches = search(state, additions)
+        if len(review.items) > 1:
+            matches = unique_evidence(matches, search_gaps(state, additions))
         current = tuple(item for item in state["candidates"] if not item.evidence_id.startswith("M-"))
         return Command(
             update={
                 "document": (*state["document"], *additions),
                 "candidates": (*current, *matches),
                 "supplemented": True,
+                "retried_gaps": False,
             },
             goto="resolve" if matches else END,
         )
 
     graph = StateGraph(AnalysisState)
-    graph.add_node("assess", assess)
+    graph.add_node("assess", observed_node(assess, "clarify"))
     graph.add_node("clarify_input", clarify_input)
-    graph.add_node("plan", plan)
-    graph.add_node("plan_probe", plan_probe)
-    graph.add_node("plan_observe", plan_observe)
+    graph.add_node("plan", observed_node(plan, "plan"))
+    graph.add_node("plan_probe", observed_node(plan_probe, "plan"))
+    graph.add_node("plan_observe", observed_node(plan_observe, "retrieve"))
     graph.add_node("plan_input", plan_input)
-    graph.add_node("retrieve", retrieve)
-    graph.add_node("resolve", resolve)
-    graph.add_node("review", review)
+    graph.add_node("retrieve", observed_node(retrieve, "retrieve"))
+    graph.add_node("resolve", observed_node(resolve, "resolve"))
+    graph.add_node("review", observed_node(review, "review"))
+    graph.add_node("retrieve_gaps", observed_node(retrieve_gaps, "retrieve"))
     graph.add_node("remember", remember)
     graph.add_node("supplement", supplement)
     add_execution_nodes(graph, client, can_pause=checkpointer is not None)

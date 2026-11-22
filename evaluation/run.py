@@ -23,12 +23,14 @@ from app.deepseek_client import DeepSeekClient
 from app.directories import load_directory
 from app.documents import load_evidence
 from app.graphs import build_graph
+from app.observability import collect_events
 from app.payments import payment_scope
 from app.planning import latest_results
 from app.tasks import (
     finish_with_current_evidence, initial_state, input_receipt, load_snapshot, pending_kind,
     report_from_state, resume_with_clarification, resume_with_document,
 )
+from .holdout import memory_case
 
 
 ROOT = Path(__file__).resolve().parent
@@ -43,15 +45,21 @@ def matches(patterns, text):
 
 
 def document_case(case, client, hybrid):
-    doc = load_evidence(FIXTURES / case["file"])
+    if "directory" in case:
+        root = (FIXTURES / case["directory"]).resolve()
+        directory, doc = load_directory(str(root))
+        required = {tuple(ref) for ref in case["refs"]}
+    else:
+        path = (FIXTURES / case["file"]).resolve()
+        root, directory, doc = path.parent, None, load_evidence(path)
+        required = {(path.name, line) for line in case["lines"]}
     state = build_graph(client).invoke(
-        initial_state(case["question"], doc, mode="live", hybrid=hybrid, project=None)
+        initial_state(case["question"], doc, mode="live", hybrid=hybrid, project=None, directory=directory)
     )
     review, claim = state["review"], state["claim"]
-    candidates = {e.evidence_id: e for e in state["candidates"]}
-    required = set(case["lines"])
-    cited = {candidates[key].line for key in claim.evidence_ids if key in candidates} if claim else set()
-    candidate_lines = {e.line for e in candidates.values()}
+    candidates = {e.evidence_id: (Path(e.source).relative_to(root).as_posix(), e.line) for e in state["candidates"]}
+    cited = {candidates[key] for key in claim.evidence_ids if key in candidates} if claim else set()
+    locations = set(candidates.values())
     supported = review.status == "supported"
     expected = case["status"]
     answer_ok = review.status == expected
@@ -63,15 +71,31 @@ def document_case(case, client, hybrid):
     if expected == "supported":
         citation_ok = bool(supported and claim and cited == required and all(key in candidates for key in claim.evidence_ids))
     elif expected == "conflicting":
-        citation_ok = answer_ok and required.issubset(candidate_lines) and all(f"L{line}" in review.note for line in required)
+        cited = {
+            location for key, location in candidates.items()
+            if re.search(rf"(?<![A-Za-z0-9_-]){re.escape(key)}(?![A-Za-z0-9_-])", review.note)
+        }
+        citation_ok = answer_ok and required.issubset(cited)
+    elif case.get("partial"):
+        supported_items = [item for item in review.items if item.status == "supported"]
+        verified_ids = {ref for item in supported_items for ref in item.evidence_ids}
+        cited = {candidates[ref] for ref in verified_ids if ref in candidates}
+        answer_ok = (answer_ok and any(item.status == "insufficient" for item in review.items)
+                     and matches(case["patterns"], " ".join(item.answer for item in supported_items)))
+        citation_ok = cited == required and verified_ids.issubset(candidates)
     return {
         "status": review.status, "expected_status": expected, "answer_ok": answer_ok,
         "citation_ok": citation_ok, "passed": answer_ok and citation_ok is not False,
         "query": state["plan"].query,
+        "review_items": [asdict(item) for item in review.items],
+        "retried_gaps": state.get("retried_gaps", False),
         "claim": asdict(claim) if claim else None, "note": review.note,
-        "candidate_lines": sorted(candidate_lines), "cited_lines": sorted(cited),
-        "required_lines_retrieved": required.issubset(candidate_lines) if required else None,
-        "expected_lines": case["lines"], "expected_patterns": case["patterns"],
+        "candidate_lines": sorted({line for _, line in locations}),
+        "cited_lines": sorted({line for _, line in cited}),
+        "candidate_locations": sorted(locations), "cited_locations": sorted(cited),
+        "required_lines_retrieved": required.issubset(locations) if required else None,
+        "expected_locations": sorted(required), "expected_lines": sorted({line for _, line in required}),
+        "expected_patterns": case["patterns"],
     }
 
 
@@ -136,7 +160,7 @@ def clarification_case(graph, config):
 
 def cross_process_resume(thread_id):
     config = {"configurable": {"thread_id": thread_id}}
-    with mysql_checkpointer(thread_id) as saver, tracing_context(enabled=False):
+    with mysql_checkpointer(thread_id) as saver, tracing_context(enabled=False), collect_events() as events:
         graph = build_graph(DeepSeekClient.from_environment(), checkpointer=saver)
         before = load_snapshot(graph, config)
         plan = before.values["plan_steps"]
@@ -156,7 +180,7 @@ def cross_process_resume(thread_id):
             "passed": bool(report and plan_kept and fee_kept and attachment_used
                            and done.values["review"].status == "supported"),
             "plan_kept": plan_kept, "fee_kept": fee_kept, "attachment_used": attachment_used,
-            "steps": steps, "report": report,
+            "steps": steps, "report": report, "resume_trace": events,
         }
 
 
@@ -281,11 +305,24 @@ def summarize(rows):
             "errors": sum("error" in row for row in group),
             "median_seconds": round(median(row["seconds"] for row in group), 3),
         }
+        attempts = [attempt for row in group for event in row["trace"] for attempt in event["model_attempts"]]
+        groups[mode]["model_attempts"] = len(attempts)
+        groups[mode]["automatic_retries"] = sum(attempt["attempt"] > 1 for attempt in attempts)
+        for phase in ("plan", "retrieve", "resolve", "review"):
+            durations = [
+                event["seconds"] for row in group for event in row["trace"] if event["phase"] == phase
+            ]
+            if durations:
+                groups[mode].setdefault("median_node_seconds", {})[phase] = round(median(durations), 3)
         for metric, expected in (("answer_ok", "all"), ("citation_ok", {"supported", "conflicting"}),
                                  ("missing_ok", {"insufficient"}), ("required_lines_retrieved", {"supported", "conflicting"})):
             if mode == "workflow":
                 break
-            selected = group if expected == "all" else [r for r in group if r["expected_status"] in expected]
+            selected = group if expected == "all" else [
+                r for r in group if r["expected_status"] in expected or (
+                    r.get("partial") and metric in {"citation_ok", "required_lines_retrieved"}
+                )
+            ]
             if selected:
                 field = "answer_ok" if metric == "missing_ok" else metric
                 groups[mode][metric] = [sum(row.get(field) is True for row in selected), len(selected)]
@@ -294,7 +331,7 @@ def summarize(rows):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--suite", choices=("documents", "workflows", "all"), default="all")
+    parser.add_argument("--suite", choices=("documents", "workflows", "holdout", "all"), default="all")
     parser.add_argument("--case", action="append", default=[])
     parser.add_argument("--payment-source", default="payment_demo")
     parser.add_argument("--query-source", default="ticket_demo")
@@ -305,49 +342,56 @@ def main():
         print(json.dumps(cross_process_resume(args.resume_child), ensure_ascii=False))
         return
 
-    cases = json.loads((ROOT / "document_cases.json").read_text(encoding="utf-8"))
+    case_file = "holdout_cases.json" if args.suite == "holdout" else "document_cases.json"
+    cases = json.loads((ROOT / case_file).read_text(encoding="utf-8"))
     selected = set(args.case)
     available = {c["id"] for c in cases} if args.suite != "workflows" else set()
-    if args.suite != "documents":
+    if args.suite == "holdout":
+        available.add("H09")
+    if args.suite in {"workflows", "all"}:
         available.update(WORKFLOW_IDS)
     if selected - available:
         parser.error("未知或不属于所选套件的用例：" + ", ".join(sorted(selected - available)))
-    client = DeepSeekClient.from_environment()
+    selected_documents = [case for case in cases if not selected or case["id"] in selected] if args.suite != "workflows" else []
+    client = DeepSeekClient.from_environment() if selected_documents or args.suite in {"workflows", "all"} else None
     output = args.output or ROOT.parent / "runtime" / "evaluation" / f"{datetime.now():%Y%m%d-%H%M%S}-{uuid4().hex[:6]}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     record = {
-        "model": client.model, "started_at": datetime.now(timezone.utc).isoformat(),
+        "model": client.model if client is not None else None, "started_at": datetime.now(timezone.utc).isoformat(),
         "suite": args.suite, "rows": [],
     }
     rows = record["rows"]
 
     def collect(base, execute):
         began = perf_counter()
-        try:
-            result = execute()
-        except (OSError, RuntimeError, ValueError, subprocess.SubprocessError) as error:
-            result = {"passed": False, "error": str(error)}
-        row = {**base, **result, "seconds": round(perf_counter() - began, 3)}
+        with collect_events() as trace:
+            try:
+                result = execute()
+            except (OSError, RuntimeError, ValueError, subprocess.SubprocessError) as error:
+                result = {"passed": False, "error": str(error)}
+        trace.extend(result.pop("resume_trace", []))
+        row = {**base, **result, "seconds": round(perf_counter() - began, 3), "trace": trace}
         rows.append(row)
         record["summary"] = summarize(rows)
         output.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"{row['id']} {row['mode']}: {'PASS' if row['passed'] else 'FAIL'} ({row['seconds']:.2f}s)", flush=True)
 
     with tracing_context(enabled=False):
-        if args.suite != "workflows":
+        if selected_documents:
             from app.retrieval import prepare_embedder
 
             prepare_embedder()
-            for case in cases:
-                if selected and case["id"] not in selected:
-                    continue
+            for case in selected_documents:
                 for hybrid in (False, True):
                     base = {
                         "id": case["id"], "mode": "hybrid" if hybrid else "keyword",
                         "expected_status": case["status"], "question": case["question"],
+                        "partial": case.get("partial", False),
                     }
                     collect(base, lambda: document_case(case, client, hybrid))
-        if args.suite != "documents":
+        if args.suite == "holdout" and (not selected or "H09" in selected):
+            collect({"id": "H09", "mode": "workflow"}, memory_case)
+        if args.suite in {"workflows", "all"}:
             for case_id in WORKFLOW_IDS:
                 if selected and case_id not in selected:
                     continue

@@ -23,7 +23,10 @@ ROWS = (
 class ContractModel:
     def complete_json(self, _instructions, data):
         if "cited_ids" in data:
-            return {"status": "supported", "note": "费用及合同周期有原文支持。"}
+            return {"status": "supported", "note": "费用及合同周期有原文支持。", "checks": [
+                {"question": data["question"], "status": "supported", "answer": data["claim"],
+                 "evidence_ids": data["cited_ids"]},
+            ]}
         return {"amount": "12000.00", "currency": "CNY", "evidence_ids": ["L1", "L2", "L3"]}
 
 

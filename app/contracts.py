@@ -39,13 +39,27 @@ ReviewStatus = Literal["supported", "inference", "insufficient", "conflicting"]
 
 
 @dataclass(frozen=True)
+class ReviewItem:
+    question: str
+    status: ReviewStatus
+    answer: str = ""
+    evidence_ids: tuple[str, ...] = ()
+    query: str = ""
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "evidence_ids", tuple(self.evidence_ids))
+
+
+@dataclass(frozen=True)
 class Review:
     status: ReviewStatus
     note: str
     rejected: tuple[RejectedDirection, ...] = ()
+    items: tuple[ReviewItem, ...] = ()
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "rejected", tuple(self.rejected))
+        object.__setattr__(self, "items", tuple(self.items))
 
 
 @dataclass(frozen=True)
