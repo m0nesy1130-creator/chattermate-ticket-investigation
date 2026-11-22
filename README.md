@@ -4,6 +4,17 @@
 
 例如，核对一份维护合同时，Agent 可以先从合同原文确认年费，再从付款台账查询已入账金额，最后计算未付余额。报告列出合同原文行号、付款记录编号和差额计算。缺少合同条款或查不到付款记录时，任务会提示补证，或按现有证据生成部分报告。
 
+## 技术栈与本地集成
+
+| 模块 | 技术 | 职责 |
+| --- | --- | --- |
+| 分析引擎 | Python、LangGraph、DeepSeek API | 澄清分析需求，按依赖执行步骤，检索和复核证据。 |
+| 服务接口 | FastAPI | 创建、查询和恢复调查，接收补充材料。 |
+| 执行持久化 | MySQL | 保存 LangGraph 检查点。合同核对通过独立只读连接访问付款台账。 |
+| 本地工单集成 | ChatterMate、Vue 3、TypeScript、SQLAlchemy、PostgreSQL、Docker Compose | 复用工单、权限和活动记录。PostgreSQL 保存调查队列和回写记录，Worker 调用分析引擎。 |
+
+本地 ChatterMate 工作台接入通用分析和合同付款核对。工单队列与 LangGraph 检查点使用同一个调查编号。演示台账中断时，系统保留已核验的合同年费。台账恢复后，从失败的付款查询步骤继续，最终核对出未付余额。ChatterMate 原有的 Agno、Redis 分别用于原生 Agent 与实时通信等基础设施。
+
 ## 面试演示
 
 [在线体验（无需登录）](https://analysis-agent-demo-u3lh.onrender.com/)
