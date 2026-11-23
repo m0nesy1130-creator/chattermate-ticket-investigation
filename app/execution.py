@@ -2,6 +2,7 @@
 
 from dataclasses import replace
 from datetime import datetime, timezone
+from graphlib import TopologicalSorter
 from hashlib import sha256
 from typing import Literal, TypedDict
 
@@ -33,6 +34,7 @@ class PlanExecutionState(TypedDict, total=False):
     step_stopped: bool
     shared_evidence: tuple[Evidence, ...]
     latest_supplement: tuple[Evidence, ...]
+    prior_step_claims: dict[str, str]
 
 
 def _step(state: PlanExecutionState) -> PlanStep:
@@ -166,11 +168,35 @@ def add_execution_nodes(graph, client, *, can_pause: bool) -> None:
             return Command(update={"active_step": ""}, goto="summarize_steps")
         revision = state.get("document_revision", 0) + 1
         additions = supplement_evidence(state["document"], reply, revision)
+        # New material can change any document-backed result and its dependents.
+        # Keep independent ledger results on the original checkpoint.
+        affected = {
+            item.id for item in state["plan_steps"]
+            if item.kind in {"contract_fee", "adaptive"} or (
+                item.kind == "document" and any(
+                    search_documents(query, item.question, additions, hybrid=state.get("hybrid", False))
+                    for query in item.queries
+                )
+            )
+        }
+        dependencies = {item.id: item.depends_on for item in state["plan_steps"]}
+        for step_id in TopologicalSorter(dependencies).static_order():
+            if affected.intersection(dependencies[step_id]):
+                affected.add(step_id)
+        retained = [
+            item for item in state["step_results"] if item.step_id not in affected
+        ]
         return Command(
             update={
                 "document": (*state["document"], *additions),
                 "document_revision": revision,
                 "latest_supplement": additions,
+                "step_results": retained,
+                "prior_step_claims": {
+                    step_id: item.claim.text
+                    for step_id, item in latest_results(state["step_results"]).items()
+                    if step_id in affected and item.claim is not None
+                },
             },
             goto="dispatch_step",
         )

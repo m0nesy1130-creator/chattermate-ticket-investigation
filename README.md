@@ -1,31 +1,35 @@
-# analysis-agent
+# ChatterMate 工单深度调查
 
-一个用 Python、LangGraph 和 FastAPI 实现的本地分析 Agent。它接收分析问题，按需读取本地资料、公开网页和已配置的 MySQL 表，把分析结果写成可追溯到原文或查询结果的 Markdown 报告。
+Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能。经办人在原有工单详情页发起分析、上传材料和确认范围，系统按计划调查并生成带证据的结论，审核后将结果写回同一张工单的内部活动。
 
-例如，核对一份维护合同时，Agent 可以先从合同原文确认年费，再从付款台账查询已入账金额，最后计算未付余额。报告列出合同原文行号、付款记录编号和差额计算。缺少合同条款或查不到付款记录时，任务会提示补证，或按现有证据生成部分报告。
+**典型场景：核对合同付款。** 系统读取合同条款和只读 MySQL 台账，分别确认应付金额、实付金额和差额。经办人可以点开每项结论查看合同原文行号或台账记录编号。证据不足时可上传补充材料。若台账查询中断，可从失败步骤续跑，复用已核实的合同条款。
 
-## 技术栈与本地集成
+## 新增能力
 
-| 模块 | 技术 | 职责 |
-| --- | --- | --- |
-| 分析引擎 | Python、LangGraph、DeepSeek API | 澄清分析需求，按依赖执行步骤，检索和复核证据。 |
-| 服务接口 | FastAPI | 创建、查询和恢复调查，接收补充材料。 |
-| 执行持久化 | MySQL | 保存 LangGraph 检查点。合同核对通过独立只读连接访问付款台账。 |
-| 本地工单集成 | ChatterMate、Vue 3、TypeScript、SQLAlchemy、PostgreSQL、Docker Compose | 复用工单、权限和活动记录。PostgreSQL 保存调查队列和回写记录，Worker 调用分析引擎。 |
+| 能力 | 在工单里可以做什么 |
+| --- | --- |
+| 通用分析与合同核对 | 自定义分析需求，或使用合同付款核对模板。通用分析支持多轮澄清和确认范围。 |
+| 多源取证 | 上传 TXT 或 Markdown。按需查阅公开网页、管理员配置的资料目录和只读数据库。文档支持关键词或混合检索。 |
+| 逐项复核与补证 | 查看每项结论的核实状态和引用。补证后重查受影响的步骤，展示变化前的结论和可复用的结果。 |
+| 失败续跑 | 通过调查编号关联 LangGraph 检查点，恢复中断的步骤。 |
+| 审批与报告 | 下载 Markdown 报告。经授权的经办人按所审阅的报告版本确认，将结论写入工单内部活动。 |
 
-本地 ChatterMate 工作台接入通用分析和合同付款核对。工单队列与 LangGraph 检查点使用同一个调查编号。演示台账中断时，系统保留已核验的合同年费。台账恢复后，从失败的付款查询步骤继续，最终核对出未付余额。ChatterMate 原有的 Agno、Redis 分别用于原生 Agent 与实时通信等基础设施。
+## 集成架构
 
-## 工单分析工作台
+| 模块 | 技术与职责 |
+| --- | --- |
+| ChatterMate 社区版 | Vue 3、TypeScript 和 PostgreSQL。复用工单、组织权限和活动记录，新增调查面板和任务队列。 |
+| Analysis Agent | Python、FastAPI、LangGraph 和 DeepSeek API。负责澄清需求、按依赖规划执行、检索和复核证据。 |
+| 调查队列与检查点 | ChatterMate Worker 通过 FastAPI 调用分析引擎。PostgreSQL 保存调查队列，MySQL 保存 LangGraph 检查点。合同付款台账走独立的只读业务连接。 |
 
-[ChatterMate 工作台源码](ChatterMate/)和分析引擎收录于同一仓库。工作台支持通用分析、合同付款核对、分析范围确认、材料补交、失败续跑和人工回写。[本地运行说明](ChatterMate/CONTRACT_INVESTIGATION.md) · [上游许可](ChatterMate/LICENSE) · [上游署名](ChatterMate/NOTICE)
+工单经办人从 ChatterMate 发起调查。原生客服会话继续由 ChatterMate 管理，独立的调查引擎按工单请求执行。
 
-本地环境配置和迁移完成后，在 Windows 上双击 `ChatterMate/start-local.cmd`，即可启动服务并打开 `http://localhost:3000/workbench`。
+## 本地运行
 
-## 面试演示
+- **完整工单体验**。先按 Windows 本地部署说明配置 Docker、数据库、DeepSeek 和服务桥接。完成后双击 `ChatterMate/start-local.cmd`，从工单详情打开「工单分析（Analysis Agent）」。[本地运行说明](ChatterMate/CONTRACT_INVESTIGATION.md)
 
-[在线体验（无需登录）](https://analysis-agent-demo-u3lh.onrender.com/)
+本仓库根目录包含分析引擎，`ChatterMate/` 包含集成后的社区版源码。保留 ChatterMate 的上游许可及署名。[工作台源码](ChatterMate/) · [上游许可](ChatterMate/LICENSE) · [上游署名](ChatterMate/NOTICE)
 
-公开演示使用虚构维护合同。点击「开始分析」后，可以看到维护年费已核对、服务范围待补证、巡检频率因依赖未完成而暂停。补交示例服务清单后，Agent 继续核对剩余步骤，并提供可下载的 Markdown 报告。[部署和体验说明](docs/public-demo.md)
 
 ## 评测结果
 
@@ -44,13 +48,13 @@
 
 增加 DeepSeek 有限重试和任务级阶段追踪。五个故障注入场景已用真实 MySQL 检查点验收，独立文档集的混合检索通过 7/8 道。[失败恢复与独立评测](evaluation/reliability-2026-11-15.md)
 
-## 快速体验
+## 单独运行分析引擎
 
 在装有 Git 和 Python 3.12 的 Windows 上打开 PowerShell。先确认 `python --version` 显示 Python 3.12。如果 Python 未加入 PATH，可以用 Python 3.12 解释器的完整路径执行创建虚拟环境的命令。离线演示使用内置文档，无需 MySQL 和 DeepSeek API Key。
 
 ```powershell
-git clone https://github.com/m0nesy1130-creator/analysis-agent.git
-Set-Location analysis-agent
+git clone https://github.com/m0nesy1130-creator/chattermate-ticket-investigation.git
+Set-Location chattermate-ticket-investigation
 python -m venv .venv
 & '.\.venv\Scripts\python.exe' -m pip install -r requirements.txt
 & '.\.venv\Scripts\python.exe' -X utf8 -m app.demo
@@ -64,7 +68,7 @@ python -m venv .venv
 & '.\.venv\Scripts\python.exe' -X utf8 -m app.demo --file '.\contract.md' --question '维护年费'
 ```
 
-## 启动网页控制台
+## 分析引擎独立控制台
 
 控制台的离线和 DeepSeek 模式都使用 MySQL 保存任务检查点。已有检查点库和凭据的用户可以直接启动。全新环境可在本机 MySQL 8.4 中用管理员账号执行以下 SQL。先把示例密码换成自己设置的密码。
 

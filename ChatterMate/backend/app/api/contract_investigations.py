@@ -6,7 +6,8 @@ from pathlib import PurePath
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+import httpx
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Response, UploadFile
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -15,7 +16,7 @@ from app.database import get_db
 from app.models.contract_investigation import ContractInvestigation
 from app.models.ticket import TicketStatus
 from app.models.user import User
-from app.services.contract_investigation import BUSY_STATES, bridge_settings, job_view, latest_job, reset_delivery
+from app.services.contract_investigation import BUSY_STATES, bridge_settings, job_view, latest_job, report_version, reset_delivery
 from app.services.ticket import TicketService
 from app.services.ticket_access import check_ticketing_access
 from app.services.ticket_events import emit_ticket_update
@@ -84,6 +85,8 @@ async def start_ticket_analysis(
     file: Annotated[UploadFile | None, File()] = None,
     web_enabled: Annotated[bool, Form()] = False,
     configured_sources: Annotated[bool, Form()] = False,
+    hybrid: Annotated[bool, Form()] = False,
+    project: Annotated[str, Form(max_length=128)] = "",
     user: User = Depends(manage_tickets), db: Session = Depends(get_db),
 ):
     require_integration(user.organization_id)
@@ -93,6 +96,13 @@ async def start_ticket_analysis(
     filename, raw = await read_document(file) if file else ("", b"")
     ticket = ticket_for(db, ticket_id, user, lock=True)
     request = {"question": question, "web_enabled": web_enabled, "configured_sources": configured_sources}
+    project = project.strip()
+    if project and not project.isprintable():
+        raise HTTPException(422, "项目名须为可打印字符。")
+    if project:
+        request["project"] = project
+    if hybrid:
+        request["hybrid"] = True
     previous = db.scalar(select(ContractInvestigation).where(
         ContractInvestigation.ticket_id == ticket.id, ContractInvestigation.request_key == request_key,
     ))
@@ -227,11 +237,48 @@ async def finish_contract_investigation(
     return job_view(job)
 
 
+@router.get("/{ticket_id}/contract-investigation/{run_id}/report")
+async def download_investigation_report(
+    ticket_id: UUID, run_id: UUID, user: User = Depends(view_tickets), db: Session = Depends(get_db),
+):
+    require_integration(user.organization_id)
+    ticket = ticket_for(db, ticket_id, user)
+    job = db.scalar(select(ContractInvestigation).where(
+        ContractInvestigation.id == run_id, ContractInvestigation.ticket_id == ticket.id,
+        ContractInvestigation.organization_id == ticket.organization_id,
+    ))
+    if job is None:
+        raise HTTPException(404, "找不到该工单的调查。")
+    if job.status != "completed":
+        raise HTTPException(409, "调查完成后才能下载报告。")
+    url, token, _ = bridge_settings()
+    try:
+        async with httpx.AsyncClient(timeout=20, trust_env=False) as client:
+            upstream = await client.get(
+                f"{url}/investigations/{run_id}/report", headers={"Authorization": f"Bearer {token}"},
+            )
+            upstream.raise_for_status()
+    except httpx.HTTPError as error:
+        raise HTTPException(502, "暂时无法读取分析报告，请重试。") from error
+    return Response(
+        upstream.content, media_type="text/markdown",
+        headers={
+            "Content-Disposition": f'attachment; filename="analysis-{run_id.hex}.md"',
+            "Cache-Control": "no-store",
+            "X-Content-Type-Options": "nosniff",
+        },
+    )
+
+
 @router.post("/{ticket_id}/contract-investigation/{run_id}/publish")
 async def publish_contract_investigation(
     ticket_id: UUID, run_id: UUID, user: User = Depends(approve_actions), db: Session = Depends(get_db),
+    reviewed_version: Annotated[str | None, Header(alias="X-Report-Version")] = None,
 ):
     ticket, job = current_for(db, ticket_id, run_id, user)
+    version = report_version(job)
+    if reviewed_version != version:
+        raise HTTPException(409, "报告已更新，请刷新工单并重新核对后再提交。")
     if job.published_at is not None:
         return job_view(job)
     snapshot = job.snapshot or {}
@@ -252,6 +299,7 @@ async def publish_contract_investigation(
             f"未付余额 {balance['currency']} {balance['amount']}",
             f"调查编号 {job.id}",
         ]
+    content.append(f"报告版本 {version[:12]}")
     for step in snapshot.get("steps", ()):
         if step.get("claim"):
             refs = ", ".join(step.get("references", ()))

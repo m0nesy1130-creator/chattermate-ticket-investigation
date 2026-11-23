@@ -8,7 +8,7 @@ from secrets import compare_digest
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Response, UploadFile
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .api import _save_upload, _task_session, _task_view
@@ -20,7 +20,7 @@ from .payments import payment_scope
 from .planning import latest_results
 from .tasks import (
     finish_with_current_evidence, initial_state, load_snapshot, pending_kind, resume_with_document, task_graph,
-    resume_with_clarification, TaskInputError,
+    normalize_project, report_from_state, resume_with_clarification, TaskInputError,
 )
 
 
@@ -59,7 +59,8 @@ def bridge_view(run_id: UUID, snapshot):
         for result in results.values()
         for item in result.evidence
     }
-    balance = results.get("s3")
+    balance_step = next((step for step in state.get("plan_steps", ()) if step.kind == "balance"), None)
+    balance = results.get(balance_step.id) if balance_step else None
     return {
         "task_id": task.task_id,
         "status": task.status,
@@ -69,7 +70,16 @@ def bridge_view(run_id: UUID, snapshot):
         "clarification": task.clarification,
         "confirmed_scope": task.confirmed_scope,
         "can_finish": task.can_finish,
-        "steps": [step.model_dump(mode="json") for step in task.steps if step.id != "summary"],
+        "document_revision": state.get("document_revision", 0),
+        "steps": [
+            {
+                **step.model_dump(mode="json"),
+                "material_revision": result.revision if (result := results.get(step.id)) else None,
+                "review_note": result.review.note if result else None,
+                "previous_claim": state.get("prior_step_claims", {}).get(step.id),
+            }
+            for step in task.steps if step.id != "summary"
+        ],
         "evidence": list(evidence.values()),
         "active_step": state.get("active_step") if snapshot.next else None,
         "next_nodes": list(snapshot.next) if not snapshot.interrupts else [],
@@ -83,6 +93,9 @@ def start_analysis(
     question: Annotated[str, Form(min_length=1, max_length=4000)],
     web_enabled: Annotated[bool, Form()] = False,
     configured_sources: Annotated[bool, Form()] = False,
+    hybrid: Annotated[bool, Form()] = False,
+    project: Annotated[str | None, Form(max_length=128)] = None,
+    organization_id: Annotated[UUID | None, Form()] = None,
     file: Annotated[UploadFile | None, File()] = None,
 ):
     question = question.strip()
@@ -93,7 +106,18 @@ def start_analysis(
         raise HTTPException(413, "文件大小超过 2 MiB。")
     if file:
         file.file.seek(0)
-    fingerprint = sha256(f"analysis\0{question}\0{web_enabled}\0{configured_sources}\0".encode() + raw).hexdigest()
+    project_key = None
+    if project is not None:
+        try:
+            project = normalize_project(project)
+        except ValueError as error:
+            raise HTTPException(422, str(error)) from error
+        if organization_id is None:
+            raise HTTPException(422, "项目记忆需要组织标识。")
+        project_key = "chattermate:" + sha256(f"{organization_id.hex}\0{project}".encode()).hexdigest()
+    # Keep the original fingerprint for investigations queued by older workers.
+    options = f"{hybrid}\0{project_key or ''}\0" if hybrid or project_key else ""
+    fingerprint = sha256(f"analysis\0{question}\0{web_enabled}\0{configured_sources}\0{options}".encode() + raw).hexdigest()
     with _task_session(run_id.hex) as (saver, config):
         reader = task_graph("offline", saver)
         existing = reader.get_state(config)
@@ -109,7 +133,7 @@ def start_analysis(
             raise HTTPException(503, "未找到工作台配置的只读查询源。")
         document = _save_upload(run_id.hex, file) if file else ()
         state = initial_state(
-            question, (*document, *evidence), mode="live", hybrid=False, project=None,
+            question, (*document, *evidence), mode="live", hybrid=hybrid, project=project_key,
             clarify=True, multistep=True, adaptive=True, web_enabled=web_enabled,
             directory=directory, query_source=source,
         )
@@ -175,6 +199,15 @@ def start_or_read(
 def get_investigation(run_id: UUID):
     with _task_session(run_id.hex) as (saver, config):
         return bridge_view(run_id, bridge_snapshot(task_graph("offline", saver), config))
+
+
+@app.get("/investigations/{run_id}/report")
+def investigation_report(run_id: UUID):
+    with _task_session(run_id.hex) as (saver, config):
+        snapshot = bridge_snapshot(task_graph("offline", saver), config)
+        if snapshot.interrupts or snapshot.next:
+            raise HTTPException(409, "调查完成后才能下载报告。")
+        return Response(report_from_state(snapshot.values), media_type="text/markdown")
 
 
 @app.post("/investigations/{run_id}/retry")

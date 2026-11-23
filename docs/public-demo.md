@@ -6,7 +6,7 @@
 
 1. 登录 [Render 控制台](https://dashboard.render.com/)，选择 **New → Blueprint**，连接 GitHub 上的 ``analysis-agent`` 仓库和 ``main`` 分支。
 2. 检查配置来自仓库根目录的 ``render.yaml``，服务计划为 **Free**，然后部署。演示不需要额外环境变量或 Secrets。
-3. 部署显示 **Live** 后，用无痕窗口打开 Render 提供的 HTTPS 地址。完成下方的体验步骤后，将这个地址放进 GitHub README 的「面试演示」一节。
+3. 部署显示 **Live** 后，用无痕窗口打开 Render 提供的 HTTPS 地址，并按下方步骤验证。
 
 Render 免费服务闲置后会休眠，首次打开可能要等待约一分钟。[Render 免费服务说明](https://render.com/docs/free)
 

@@ -1,6 +1,8 @@
 """Queue contract investigations and reconcile responses by stable run ID."""
 
+import json
 import os
+from hashlib import sha256
 from datetime import datetime, timedelta, timezone
 from uuid import UUID, uuid4
 
@@ -28,6 +30,12 @@ def bridge_settings():
     )
 
 
+def report_version(job):
+    snapshot = {key: value for key, value in (job.snapshot or {}).items() if key != "receipt"}
+    serialized = json.dumps(snapshot, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return sha256(f"{job.id}:{serialized}".encode("utf-8")).hexdigest()
+
+
 def job_view(job):
     if job is None:
         return None
@@ -41,6 +49,7 @@ def job_view(job):
         "status": job.status,
         "error": job.error,
         "snapshot": snapshot,
+        "report_version": report_version(job) if job.status == "completed" else None,
         "published_at": job.published_at,
     }
 
@@ -131,7 +140,9 @@ def execute_job(client, job):
             raise BridgeError("The saved analysis task was not found. Check the analysis checkpoint database.")
         response = client.post(
             f"/analysis/{job.id}" if job.analysis_request else url,
-            data=job.analysis_request or {"contract_id": job.contract_id, "billing_period": job.billing_period},
+            data={**job.analysis_request, "organization_id": str(job.organization_id)} if job.analysis_request else {
+                "contract_id": job.contract_id, "billing_period": job.billing_period,
+            },
             files={"file": (job.filename, job.document, "text/plain")} if job.document else None,
         )
     else:

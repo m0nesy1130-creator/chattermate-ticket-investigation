@@ -34,6 +34,9 @@ import type { TicketPriority, TicketStatus } from '@/types/ticket'
 
 const route = useRoute()
 const router = useRouter()
+const analysisSection = ref<HTMLElement | null>(null)
+const analysisAvailable = ref(false)
+watch(() => route.params.id, () => { analysisAvailable.value = false })
 const ticketListPath = computed(() => route.path.startsWith('/workbench/') ? '/workbench' : '/tickets')
 const ticketId = computed(() => String(route.params.id))
 
@@ -216,7 +219,15 @@ async function submitResolve() {
 
             <div class="header-actions">
               <button
-                v-if="canManage && !hasActiveRun"
+                v-if="analysisAvailable"
+                type="button"
+                class="action-btn"
+                @click="analysisSection?.scrollIntoView({ block: 'start' })"
+              >
+                工单分析（Analysis Agent）
+              </button>
+              <button
+                v-else-if="canManage && !hasActiveRun"
                 class="action-btn"
                 :disabled="isReopenable"
                 :title="
@@ -346,15 +357,18 @@ async function submitResolve() {
           @send-customer="sendRcaToCustomer"
         />
 
+        <div ref="analysisSection" style="scroll-margin-top: 72px">
         <TicketContractInvestigation
           :key="ticket.id"
-          :initial-question="route.path.startsWith('/workbench/') ? (ticket.description || ticket.title) : undefined"
+          :initial-question="ticket.description || ticket.title"
           :ticket-id="ticket.id"
           :can-manage="canManage"
           :can-approve="canApprove"
           :settled="isReopenable"
           @published="refresh(true)"
+          @availability="analysisAvailable = $event"
         />
+        </div>
 
         <TicketActivityFeed
           :activities="activities"

@@ -13,6 +13,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from app.api import app as console_app
 from app.checkpoints import checkpoint_serializer, mysql_checkpointer
 from app.contract_bridge import app
+from app.tasks import task_graph
 
 
 FILE = ("contract.txt", "合同编号 MT-2026-001\n计费周期 2026\n合同年费 CNY 12000.00\n".encode())
@@ -38,6 +39,26 @@ class ContractModel:
 
 
 class ContractBridgeTest(TestCase):
+    def test_general_options_are_persisted_and_project_keys_are_organization_scoped(self):
+        storage = InMemorySaver(serde=checkpoint_serializer())
+        organizations = [uuid4(), uuid4()]
+        with patch.dict(os.environ, {"ANALYSIS_AGENT_BRIDGE_TOKEN": "test-only"}), (
+            patch("app.api.mysql_checkpointer", lambda _: nullcontext(storage))
+        ), patch("app.deepseek_client.DeepSeekClient.from_environment") as model:
+            model.return_value.complete_json.return_value = {"prompt": "请确认范围", "directions": [], "scope": "核验材料"}
+            client = TestClient(app, headers={"Authorization": "Bearer test-only"})
+            states = []
+            for org in organizations:
+                run = uuid4()
+                data = {"question": "请核验材料", "project": " 试点 ", "hybrid": "true", "organization_id": str(org)}
+                self.assertEqual(client.post(f"/analysis/{run}", data=data).json()["status"], "clarifying")
+                self.assertEqual(client.get(f"/investigations/{run}/report").status_code, 409)
+                self.assertEqual(client.post(f"/analysis/{run}", data={**data, "hybrid": "false"}).status_code, 409)
+                state = task_graph("offline", storage).get_state({"configurable": {"thread_id": run.hex}}).values
+                self.assertTrue(state["hybrid"])
+                states.append(state["project"])
+            self.assertNotEqual(*states)
+
     def test_failure_resume_and_repeated_start_use_same_checkpoint(self):
         run_id = uuid4()
         route = f"/investigations/{run_id}"
@@ -62,6 +83,7 @@ class ContractBridgeTest(TestCase):
             before = client.get(route).json()
             self.assertEqual(before["task_id"], run_id.hex)
             self.assertEqual(before["status"], "incomplete")
+            self.assertEqual(client.get(f"{route}/report").status_code, 409)
             self.assertEqual(before["active_step"], "s2")
             self.assertEqual(before["next_nodes"], ["retrieve_step"])
             self.assertEqual(before["steps"][0]["status"], "supported")
@@ -79,4 +101,8 @@ class ContractBridgeTest(TestCase):
             self.assertEqual(client.post(f"{route}/retry").json(), done)
             self.assertEqual(model.calls, verified_call_count)
             self.assertEqual(payment_rows.call_count, 2)
+            report = client.get(f"{route}/report")
+            self.assertEqual(report.status_code, 200)
+            self.assertIn("7000", report.text.replace(",", ""))
+            self.assertEqual(TestClient(app).get(f"{route}/report").status_code, 401)
             self.assertEqual(TestClient(console_app, base_url="http://127.0.0.1").get(f"/tasks/{run_id}").status_code, 404)

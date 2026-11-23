@@ -36,7 +36,7 @@ describe('ticket contract investigations', () => {
 
   it('shows evidence and reloads activity after a verified result is published', async () => {
     const done = {
-      ...run, status: 'completed',
+      ...run, status: 'completed', report_version: 'version-one',
       snapshot: { ...run.snapshot, review_status: 'supported', balance: { amount: '7000.00', currency: 'CNY' },
         evidence: [{ id: 'L3', source: 'contract.txt', line: 3, record: null, text: '合同年费原文' }] },
     }
@@ -45,10 +45,13 @@ describe('ticket contract investigations', () => {
     const wrapper = mount(TicketContractInvestigation, { props })
     try {
       await flushPromises()
+      await wrapper.get('.reference-button').trigger('click')
+      expect(wrapper.get('details').attributes('open')).toBeDefined()
       expect(wrapper.get('details').text()).toContain('合同年费原文')
       const publish = wrapper.findAll('button').find(button => button.text() === '确认并写入工单')
       await publish?.trigger('click')
       await flushPromises()
+      expect(api.post.mock.calls[0]?.[2]).toEqual({ headers: { 'X-Report-Version': 'version-one' } })
       expect(wrapper.emitted('published')).toHaveLength(1)
       expect(wrapper.text()).toContain('已写入工单活动')
     } finally {

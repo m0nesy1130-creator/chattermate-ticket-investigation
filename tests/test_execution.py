@@ -91,6 +91,20 @@ class ExecutionTest(TestCase):
         self.assertIn("引用：S1-L1", report)
         self.assertIn("全部分析步骤已获得原文直接支持", report)
 
+    def test_relevant_supplement_rechecks_already_verified_result(self):
+        snapshot = load_snapshot(self.graph, self.config)
+        state = resume_with_document(
+            self.graph, self.config, snapshot, input_receipt(snapshot),
+            lambda: evidence_from_text("服务包含定期巡检。\n修订后的年费为 10,000 元。", "补充报价"),
+        )
+
+        results = latest_results(state["step_results"])
+        self.assertEqual(results["s1"].revision, 1)
+        self.assertEqual(results["s2"].revision, 1)
+        self.assertEqual(results["s3"].revision, 1)
+        self.assertEqual(self.model.calls.count(("plan", QUESTION)), 1)
+        self.assertEqual(self.model.calls.count(("review", "每年收费多少？")), 2)
+
     def test_finish_retains_supported_result_and_marks_blocked_dependency(self):
         snapshot = load_snapshot(self.graph, self.config)
         state = finish_with_current_evidence(self.graph, self.config, snapshot, input_receipt(snapshot))
