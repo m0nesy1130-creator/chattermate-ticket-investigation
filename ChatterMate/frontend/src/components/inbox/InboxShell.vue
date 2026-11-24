@@ -342,7 +342,7 @@ useInboxShortcuts({
         @back="backToList"
       />
       <div v-else class="thread-empty">
-        <p>{{ thread.loadingChat.value ? 'Loading the conversation…' : 'Pick a conversation to read it here.' }}</p>
+        <p>{{ thread.loadingChat.value ? '正在加载会话…' : '选择一条会话查看消息。' }}</p>
       </div>
     </div>
 

@@ -163,37 +163,37 @@ onMounted(fetchNotifications)
 <template>
     <div class="notification-drawer" :class="{ open: isOpen }">
         <div class="drawer-header">
-            <h3>Notifications</h3>
+            <h3>通知</h3>
             <div class="header-actions">
                 <button
                     class="refresh-button"
                     @click="fetchNotifications"
                     :disabled="isLoading"
                     :class="{ 'loading': isLoading }"
-                    title="Refresh"
+                    title="刷新"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
                     </svg>
                 </button>
-                <button class="close-button" @click="emit('close')" title="Close">&times;</button>
+                <button class="close-button" @click="emit('close')" title="关闭">&times;</button>
             </div>
         </div>
 
         <div class="drawer-filter">
             <div class="filter-tabs">
-                <button class="filter-tab" :class="{ active: activeFilter === 'all' }" @click="activeFilter = 'all'">All</button>
-                <button class="filter-tab" :class="{ active: activeFilter === 'unread' }" @click="activeFilter = 'unread'">Unread</button>
+                <button class="filter-tab" :class="{ active: activeFilter === 'all' }" @click="activeFilter = 'all'">全部</button>
+                <button class="filter-tab" :class="{ active: activeFilter === 'unread' }" @click="activeFilter = 'unread'">未读</button>
             </div>
             <div class="filter-actions">
-                <button class="mark-all" :disabled="!hasUnread" @click="markAllRead">Mark all read</button>
-                <button class="mark-all" :disabled="!notifications.length" @click="clearAll">Clear all</button>
+                <button class="mark-all" :disabled="!hasUnread" @click="markAllRead">全部标为已读</button>
+                <button class="mark-all" :disabled="!notifications.length" @click="clearAll">全部清除</button>
             </div>
         </div>
 
         <div class="drawer-content">
             <div v-if="isLoading" class="state-message">
-                Loading notifications...
+                正在加载通知…
             </div>
 
             <div v-else-if="error" class="state-message">
@@ -201,7 +201,7 @@ onMounted(fetchNotifications)
             </div>
 
             <div v-else-if="!filteredNotifications.length" class="empty-state">
-                <div class="empty-title">You're all caught up</div>
+                <div class="empty-title">没有待处理通知</div>
                 <div class="empty-sub">No {{ activeFilter === 'unread' ? 'unread ' : '' }}notifications.</div>
             </div>
 
@@ -226,7 +226,7 @@ onMounted(fetchNotifications)
                     <button
                         class="delete-notification"
                         :aria-label="`Delete notification: ${notification.title}`"
-                        title="Delete"
+                        title="删除"
                         @click.stop="deleteNotification(notification.id)"
                     >&times;</button>
                 </div>

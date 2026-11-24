@@ -413,7 +413,7 @@ onMounted(async () => {
 
           <!-- ROLE -->
           <div class="rcards-meta">
-            <span class="rcards-label">Role</span>
+            <span class="rcards-label">角色</span>
             <span class="role-badge2" :class="{ admin: row.is_admin }">
               {{ row.role || '—' }}
             </span>
@@ -458,7 +458,7 @@ onMounted(async () => {
 
           <!-- MENU -->
           <Menu as="div" class="row-menu">
-            <MenuButton class="menu-btn" title="More">
+            <MenuButton class="menu-btn" title="更多">
               <EllipsisVerticalIcon class="h-4 w-4" />
             </MenuButton>
             <MenuItems class="menu-items">
@@ -469,12 +469,12 @@ onMounted(async () => {
               </MenuItem>
               <MenuItem v-if="row.id !== currentUser?.id" v-slot="{ active }">
                 <button :class="['menu-item', { active }]" @click="onResetPasswordRow(row)">
-                  Reset Password
+                  重置密码
                 </button>
               </MenuItem>
               <MenuItem v-if="row.id !== currentUser?.id" v-slot="{ active }">
                 <button :class="['menu-item', { active }]" @click="onDeleteRow(row)">
-                  Delete
+                  删除
                 </button>
               </MenuItem>
             </MenuItems>
@@ -501,7 +501,7 @@ onMounted(async () => {
 
     <!-- Reset Password Modal -->
     <Modal v-if="showResetPasswordModal && selectedUser" persistent @close="showResetPasswordModal = false">
-      <template #title>Reset Password</template>
+      <template #title>重置密码</template>
       <template #content>
         <ResetPasswordForm
           :user="selectedUser"
@@ -522,13 +522,13 @@ onMounted(async () => {
             class="btn btn-danger"
             @click="confirmDeleteUserAndNotify"
           >
-            Delete
+            删除
           </button>
           <button 
             class="btn btn-secondary" 
             @click="showDeleteModal = false"
           >
-            Cancel
+            取消
           </button>
         </div>
       </template>

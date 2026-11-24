@@ -187,12 +187,12 @@ function removeLink(index: number) {
           <p class="hint hint--tight">Links shown in your help center header — point them back to your website.</p>
           <div class="link-rows">
             <div v-for="(link, index) in settings.header_links" :key="index" class="link-row">
-              <input v-model="link.label" class="text-input text-input--label" type="text" placeholder="Label" />
+              <input v-model="link.label" class="text-input text-input--label" type="text" placeholder="标签" />
               <div class="url-input">
                 <span class="url-input__prefix">https://</span>
                 <input v-model="link.url" type="text" placeholder="yoursite.com" />
               </div>
-              <button class="remove-btn" type="button" title="Remove" @click="removeLink(index)">
+              <button class="remove-btn" type="button" title="移除" @click="removeLink(index)">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
               </button>
             </div>
@@ -212,7 +212,7 @@ function removeLink(index: number) {
             </label>
           </div>
           <div class="link-row" :class="{ 'link-row--off': !settings.cta_enabled }">
-            <input class="text-input text-input--label" type="text" placeholder="Label" :disabled="!settings.cta_enabled" :value="settings.cta_text || ''" @input="onText('cta_text', $event)" />
+            <input class="text-input text-input--label" type="text" placeholder="标签" :disabled="!settings.cta_enabled" :value="settings.cta_text || ''" @input="onText('cta_text', $event)" />
             <div class="url-input">
               <span class="url-input__prefix">https://</span>
               <input type="text" placeholder="app.yoursite.com" :disabled="!settings.cta_enabled" :value="settings.cta_url || ''" @input="onText('cta_url', $event)" />
@@ -223,7 +223,7 @@ function removeLink(index: number) {
 
       <!-- live preview -->
       <div class="preview-col">
-        <label class="mono-label">LIVE PREVIEW</label>
+        <label class="mono-label">实时预览</label>
         <HelpCenterPreview :settings="settings" />
         <p class="preview-note">
           Changes apply instantly to your published help center at

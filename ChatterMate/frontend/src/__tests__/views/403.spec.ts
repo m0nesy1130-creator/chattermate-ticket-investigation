@@ -68,7 +68,7 @@ describe('403 View', () => {
 
   it('renders properly', () => {
     expect(wrapper.find('.unauthorized').exists()).toBe(true)
-    expect(wrapper.find('h1').text()).toBe('Access Denied')
+    expect(wrapper.find('h1').text()).toBe('访问受限')
     expect(wrapper.find('p').text()).toBe('You don\'t have permission to access this page.')
   })
 

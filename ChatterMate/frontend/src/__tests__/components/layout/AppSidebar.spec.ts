@@ -57,7 +57,7 @@ const mountSidebar = async (path = '/analytics', props: Record<string, unknown> 
     props: {
       isCollapsed: false,
       user: { id: 'u1', full_name: 'Jordan Lee', email: 'jordan@example.com', is_online: true },
-      role: 'Admin',
+      role: '管理员',
       isOnline: true,
       statusUpdating: false,
       ...props,
@@ -84,9 +84,9 @@ describe('AppSidebar', () => {
   it('lists the workspace under its heading, with settings folded away', async () => {
     const { wrapper } = await mountSidebar()
 
-    expect(wrapper.find('.nav-section-heading').text()).toBe('Workspace')
+    expect(wrapper.find('.nav-section-heading').text()).toBe('工作区')
     expect(linkNames(wrapper).slice(0, 8)).toEqual([
-      'AI Agents', 'Human Agents', 'Inbox', '工单', 'People', 'Knowledge', 'Help center', 'Analytics',
+      'AI 助手', '人工客服', '收件箱', '工单', '联系人', '知识库', '帮助中心', '数据分析',
     ])
     expect(settingsToggle(wrapper).attributes('aria-expanded')).toBe('false')
     expect(wrapper.find('#sidebar-settings-items').isVisible()).toBe(false)
@@ -128,7 +128,7 @@ describe('AppSidebar', () => {
     await flushPromises()
 
     expect(settingsToggle(wrapper).attributes('aria-expanded')).toBe('true')
-    expect(wrapper.find('#sidebar-settings-items a[aria-current="page"]').text()).toBe('Organization')
+    expect(wrapper.find('#sidebar-settings-items a[aria-current="page"]').text()).toBe('组织')
   })
 
   it('reopens on the next settings page after being closed on one', async () => {
@@ -146,8 +146,8 @@ describe('AppSidebar', () => {
     const { wrapper } = await mountSidebar('/settings/organization')
 
     const groupLinks = wrapper.findAll('#sidebar-settings-items a').map((a) => a.text())
-    expect(groupLinks).toContain('Organization')
-    expect(groupLinks).not.toContain('User Settings')
+    expect(groupLinks).toContain('组织')
+    expect(groupLinks).not.toContain('用户设置')
   })
 
   it('has no Settings group for someone with no organization settings', async () => {
@@ -181,8 +181,8 @@ describe('AppSidebar', () => {
       expect(wrapper.find('.nav-label').exists()).toBe(false)
       expect(wrapper.find('.nav-section-heading').exists()).toBe(false)
       const analytics = wrapper.find('a[href="/analytics"]')
-      expect(analytics.attributes('aria-label')).toBe('Analytics')
-      expect(analytics.attributes('title')).toBe('Analytics')
+      expect(analytics.attributes('aria-label')).toBe('数据分析')
+      expect(analytics.attributes('title')).toBe('数据分析')
     })
 
     it('turns counts into dots', async () => {
@@ -212,8 +212,8 @@ describe('AppSidebar', () => {
       const { wrapper } = await mountSidebar()
 
       const trigger = wrapper.find('.account-trigger')
-      expect(trigger.attributes('aria-label')).toBe('Account menu: Jordan Lee, online')
-      expect(trigger.find('.account-meta').text()).toBe('Admin · Online')
+      expect(trigger.attributes('aria-label')).toBe('账户菜单：Jordan Lee，在线')
+      expect(trigger.find('.account-meta').text()).toBe('管理员 · 在线')
     })
 
     it('holds the status switch, the personal pages and log out', async () => {
@@ -221,7 +221,7 @@ describe('AppSidebar', () => {
       const menu = await openMenu(wrapper)
 
       expect(menu.find('[role="menuitemcheckbox"]').attributes('aria-checked')).toBe('true')
-      expect(menu.findAll('[role="menuitem"]').map((i) => i.text())).toEqual(['User Settings', 'Log out'])
+      expect(menu.findAll('[role="menuitem"]').map((i) => i.text())).toEqual(['用户设置', '退出登录'])
     })
 
     it('passes the status switch and log out up, closing the menu', async () => {
@@ -274,7 +274,7 @@ describe('AppSidebar', () => {
 
       await wrapper.find('.account-trigger').trigger('keydown', { key: 'ArrowUp' })
       await flushPromises()
-      expect(document.activeElement?.textContent).toContain('Log out')
+      expect(document.activeElement?.textContent).toContain('退出登录')
 
       await wrapper.find('[role="menu"]').trigger('keydown', { key: 'Tab' })
       expect(wrapper.find('[role="menu"]').exists()).toBe(false)

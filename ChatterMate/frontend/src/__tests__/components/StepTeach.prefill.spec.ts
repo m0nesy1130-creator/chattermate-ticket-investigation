@@ -42,7 +42,7 @@ describe('StepTeach - signup domain prefill', () => {
     vi.clearAllMocks()
     getKnowledgeByAgent.mockResolvedValue(empty)
     getKnowledgeByOrganization.mockResolvedValue(empty)
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
   })
 
   it('stages the signup domain as a source, scheme added', async () => {
@@ -110,7 +110,7 @@ describe('StepTeach - signup domain prefill', () => {
     const wrapper = await mountStep()
     await wrapper.find('input[type="text"]').setValue('docs.company.com')
 
-    const cont = wrapper.findAll('button').find((b: any) => b.text().includes('Continue'))!
+    const cont = wrapper.findAll('button').find((b: any) => b.text().includes('继续'))!
     await cont.trigger('click')
     await flushPromises()
 
@@ -123,7 +123,7 @@ describe('StepTeach - signup domain prefill', () => {
     const wrapper = await mountStep()
     await wrapper.find('input[type="text"]').setValue('not a url')
 
-    const cont = wrapper.findAll('button').find((b: any) => b.text().includes('Continue'))!
+    const cont = wrapper.findAll('button').find((b: any) => b.text().includes('继续'))!
     await cont.trigger('click')
     await flushPromises()
 

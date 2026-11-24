@@ -91,7 +91,7 @@ const cancel = () => {
       <button type="button" class="btn-soft" :disabled="!hasText || saving" @click="add">
         {{ saving ? 'Adding…' : 'Add this text' }}
       </button>
-      <button type="button" class="btn-text" :disabled="saving" @click="cancel">Cancel</button>
+      <button type="button" class="btn-text" :disabled="saving" @click="cancel">取消</button>
     </div>
   </div>
 </template>

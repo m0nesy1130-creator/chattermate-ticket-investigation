@@ -251,7 +251,7 @@ onMounted(fetchConnectors)
 
 <template>
   <div class="db-connectors">
-    <div v-if="isLoading" class="state-note">Loading…</div>
+    <div v-if="isLoading" class="state-note">正在加载…</div>
     <div v-else-if="loadError" class="state-note">{{ loadError }}</div>
 
     <template v-else>
@@ -282,10 +282,10 @@ onMounted(fetchConnectors)
               :checked="connector.enabled"
               @change="toggleEnabled(connector, ($event.target as HTMLInputElement).checked)"
             />
-            Active
+            启用
           </label>
           <button class="small-btn" @click="editTables(connector)">Edit tables</button>
-          <button class="small-btn danger" @click="removeConnector(connector)">Delete</button>
+          <button class="small-btn danger" @click="removeConnector(connector)">删除</button>
         </div>
       </div>
 
@@ -297,7 +297,7 @@ onMounted(fetchConnectors)
         <template v-if="!editingConnector">
           <div class="form-grid">
             <label class="form-field">
-              <span class="field-label">Name</span>
+              <span class="field-label">名称</span>
               <input v-model="form.name" class="field-input" placeholder="Production replica" />
             </label>
             <label class="form-field">
@@ -328,7 +328,7 @@ onMounted(fetchConnectors)
               <input v-model="form.username" class="field-input mono" placeholder="readonly_user" />
             </label>
             <label class="form-field">
-              <span class="field-label">Password</span>
+              <span class="field-label">密码</span>
               <input v-model="form.password" type="password" class="field-input mono" />
             </label>
             <label class="form-field">
@@ -366,7 +366,7 @@ onMounted(fetchConnectors)
                   <span class="field-label">Authentication</span>
                   <select v-model="form.ssh_auth" class="field-input">
                     <option value="key">Private key</option>
-                    <option value="password">Password</option>
+                    <option value="password">密码</option>
                   </select>
                 </label>
                 <label v-if="form.ssh_auth === 'password'" class="form-field wide">
@@ -507,7 +507,7 @@ onMounted(fetchConnectors)
         </div>
 
         <div class="form-actions">
-          <button class="cancel-btn" @click="showForm = false; editingConnector = null">Cancel</button>
+          <button class="cancel-btn" @click="showForm = false; editingConnector = null">取消</button>
           <button
             v-if="discoveredTables"
             class="save-btn"

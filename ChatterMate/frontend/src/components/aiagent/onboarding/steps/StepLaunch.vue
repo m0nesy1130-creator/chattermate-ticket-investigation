@@ -91,7 +91,7 @@ const copySnippet = () => copy(widgetSnippet.value)
     <WidgetInstallStatus :widget-id="widgetId" />
 
     <div class="step-actions">
-      <button type="button" class="btn-ghost" @click="emit('back')">Back</button>
+      <button type="button" class="btn-ghost" @click="emit('back')">返回</button>
       <button type="button" class="btn-accent" @click="emit('finish')">Finish &amp; go to dashboard ✓</button>
     </div>
   </div>

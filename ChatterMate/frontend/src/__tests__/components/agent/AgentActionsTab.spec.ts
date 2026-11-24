@@ -71,7 +71,7 @@ describe('AgentActionsTab', () => {
   it('shows the empty state with the register example', async () => {
     service.list.mockResolvedValue({ actions: [], cap: 30 })
     const wrapper = await mountTab()
-    expect(wrapper.text()).toContain('No actions yet')
+    expect(wrapper.text()).toContain('暂无操作')
     expect(wrapper.text()).toContain('ChatterMate.registerActions')
     expect(wrapper.text()).toContain('0 of 30 actions')
   })
@@ -83,7 +83,7 @@ describe('AgentActionsTab', () => {
     service.list.mockResolvedValue({ actions: [], cap: 3 })
     await wrapper.find('.state.error .link').trigger('click')
     await flushPromises()
-    expect(wrapper.text()).toContain('No actions yet')
+    expect(wrapper.text()).toContain('暂无操作')
   })
 
   it('lists actions with policy and an unregistered warning', async () => {
@@ -150,7 +150,7 @@ describe('AgentActionsTab', () => {
     await wrapper.find('.btn.danger').trigger('click')
     await flushPromises()
     expect(service.remove).toHaveBeenCalledWith('agent-1', 'a1')
-    expect(wrapper.text()).toContain('No actions yet')
+    expect(wrapper.text()).toContain('暂无操作')
   })
 })
 

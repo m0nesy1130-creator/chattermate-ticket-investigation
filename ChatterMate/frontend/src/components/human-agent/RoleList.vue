@@ -260,7 +260,7 @@ onMounted(() => {
             <p class="warning">This action cannot be undone.</p>
             <div class="form-actions">
               <button class="btn btn-secondary" @click="showDeleteModal = false">
-                Cancel
+                取消
               </button>
               <button
                 class="btn btn-danger"

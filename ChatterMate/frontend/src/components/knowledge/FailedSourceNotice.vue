@@ -39,8 +39,8 @@ const addSource = () => router.push({ name: 'knowledge' })
       Your agent hasn't learned anything about your business yet, so its answers will be generic.
     </p>
     <div class="failed-actions">
-      <button type="button" class="failed-dismiss" @click="dismiss">Dismiss</button>
-      <button type="button" class="failed-cta" @click="addSource">Paste text or upload a PDF</button>
+      <button type="button" class="failed-dismiss" @click="dismiss">关闭提示</button>
+      <button type="button" class="failed-cta" @click="addSource">粘贴文本或上传 PDF</button>
     </div>
   </div>
 </template>

@@ -52,17 +52,17 @@ function formatTime(iso?: string | null): string {
     <div v-if="isExpanded" class="evidence-body">
       <template v-if="event.tool_input">
         <div class="block-label-row">
-          <span class="block-label">Query</span>
-          <button class="copy-btn" @click="copyQuery">Copy</button>
+          <span class="block-label">查询</span>
+          <button class="copy-btn" @click="copyQuery">复制</button>
         </div>
         <pre class="code-block">{{ event.tool_input }}</pre>
       </template>
       <template v-if="event.error">
-        <div class="block-label">Error</div>
+        <div class="block-label">错误</div>
         <pre class="code-block error">{{ event.error }}</pre>
       </template>
       <template v-else-if="event.tool_result">
-        <div class="block-label">Result</div>
+        <div class="block-label">结果</div>
         <pre class="code-block">{{ event.tool_result }}</pre>
       </template>
     </div>

@@ -296,7 +296,7 @@ const formatMessage = (content: string) => sanitizeHtml(marked(content) as strin
             <input
               v-model="input"
               type="text"
-              placeholder="Type a message…"
+              placeholder="输入消息…"
               aria-label="Message your agent"
               :disabled="connecting || !!setupError"
             />
@@ -304,7 +304,7 @@ const formatMessage = (content: string) => sanitizeHtml(marked(content) as strin
               type="submit"
               class="send-button"
               :disabled="connecting || loading || !!setupError"
-              aria-label="Send"
+              aria-label="发送"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.2"
@@ -317,7 +317,7 @@ const formatMessage = (content: string) => sanitizeHtml(marked(content) as strin
     </div>
 
     <div class="step-actions">
-      <button type="button" class="btn-ghost" @click="emit('back')">Back</button>
+      <button type="button" class="btn-ghost" @click="emit('back')">返回</button>
       <button type="button" class="btn-accent" @click="emit('next')">
         Looks good <span class="arrow">→</span>
       </button>

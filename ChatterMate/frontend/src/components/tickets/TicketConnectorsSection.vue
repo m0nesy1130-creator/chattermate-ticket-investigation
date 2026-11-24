@@ -297,7 +297,7 @@ onMounted(fetchConnectors)
       <div v-if="editingId !== null" class="form-title">Editing {{ form.name || 'connector' }}</div>
       <div class="form-grid">
         <label class="form-field">
-          <span class="field-label">Name</span>
+          <span class="field-label">名称</span>
           <input v-model="form.name" class="field-input" placeholder="Grafana production" />
         </label>
         <label class="form-field">
@@ -360,7 +360,7 @@ onMounted(fetchConnectors)
         </div>
       </div>
       <div class="form-actions">
-        <button class="cancel-btn" @click="cancelForm">Cancel</button>
+        <button class="cancel-btn" @click="cancelForm">取消</button>
         <button class="connect-btn" :disabled="isSaving || !form.name.trim()" @click="saveConnector">
           <template v-if="editingId !== null">{{ isSaving ? 'Saving…' : 'Save changes' }}</template>
           <template v-else>{{ isSaving ? 'Connecting…' : 'Connect' }}</template>
@@ -393,8 +393,8 @@ onMounted(fetchConnectors)
           <span class="use-label">Use in investigations</span>
         </label>
         <div class="row-actions">
-          <button class="row-btn" @click="startEdit(connector)">Edit</button>
-          <button class="row-btn danger" @click="requestDelete(connector)">Delete</button>
+          <button class="row-btn" @click="startEdit(connector)">编辑</button>
+          <button class="row-btn danger" @click="requestDelete(connector)">删除</button>
         </div>
       </div>
     </div>
@@ -417,7 +417,7 @@ onMounted(fetchConnectors)
           </li>
         </ul>
         <div class="form-actions">
-          <button class="cancel-btn" @click="deleteTarget = null">Cancel</button>
+          <button class="cancel-btn" @click="deleteTarget = null">取消</button>
           <button class="danger-btn" :disabled="isDeleting" @click="deleteConnector">
             {{ isDeleting ? 'Deleting…' : 'Delete connector' }}
           </button>

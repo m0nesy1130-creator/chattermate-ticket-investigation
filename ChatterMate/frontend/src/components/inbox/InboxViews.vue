@@ -48,14 +48,14 @@ const countLabel = (item: InboxViewItem) => (item.count ? formatBadgeCount(item.
 <template>
   <nav class="views" aria-label="Inbox views">
     <div class="views-head">
-      <h1>Inbox</h1>
+      <h1>收件箱</h1>
       <span class="head-actions">
         <button
           v-if="canStartConversation"
           type="button"
           class="icon-btn"
-          aria-label="New conversation"
-          title="New conversation"
+          aria-label="新建会话"
+          title="新建会话"
           @click="emit('new-conversation')"
         >
           <span aria-hidden="true" v-html="navIconSvg('plus', 14)"></span>

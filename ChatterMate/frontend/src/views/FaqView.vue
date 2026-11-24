@@ -33,7 +33,7 @@ const liveUrl = computed(() => workspaceRef.value?.settings?.live_url || null)
     <div class="faq-view">
       <div class="page-header">
         <div>
-          <h1 class="page-header__title">Help center</h1>
+          <h1 class="page-header__title">帮助中心</h1>
           <p class="page-header__subtitle">
             Turn your knowledge base into a public help center. Generate FAQs automatically, review
             them, then publish.

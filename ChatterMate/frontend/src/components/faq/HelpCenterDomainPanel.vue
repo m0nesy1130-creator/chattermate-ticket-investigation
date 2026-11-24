@@ -119,7 +119,7 @@ async function copy(text: string) {
           <a v-if="phase === 'connected'" :href="liveUrl" target="_blank" rel="noopener" class="domain-current__name domain-current__name--link">{{ currentDomain }}</a>
           <span v-else class="domain-current__name">{{ currentDomain }}</span>
         </div>
-        <button class="link-btn" type="button" :disabled="busy" @click="$emit('remove-domain')">Remove</button>
+        <button class="link-btn" type="button" :disabled="busy" @click="$emit('remove-domain')">移除</button>
       </div>
 
       <template v-if="phase === 'pending'">
@@ -140,7 +140,7 @@ async function copy(text: string) {
               <span class="record__label">Name / Host</span>
               <div class="record__value">
                 <code>{{ record.host }}</code>
-                <button class="copy-btn" type="button" title="Copy" @click="copy(record.host)">
+                <button class="copy-btn" type="button" title="复制" @click="copy(record.host)">
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
                 </button>
               </div>
@@ -149,7 +149,7 @@ async function copy(text: string) {
               <span class="record__label">Value</span>
               <div class="record__value">
                 <code>{{ record.value }}</code>
-                <button class="copy-btn" type="button" title="Copy" @click="copy(record.value)">
+                <button class="copy-btn" type="button" title="复制" @click="copy(record.value)">
                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
                 </button>
               </div>

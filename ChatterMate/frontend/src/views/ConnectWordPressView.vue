@@ -136,7 +136,7 @@ onMounted(() => {
         <p class="connect-lead">
           Open ChatterMate in your WordPress admin and click <strong>Connect with ChatterMate</strong> again.
         </p>
-        <router-link class="connect-button connect-button--secondary" to="/">Go to the dashboard</router-link>
+        <router-link class="connect-button connect-button--secondary" to="/">返回工作台</router-link>
       </template>
 
       <template v-else>
@@ -146,17 +146,17 @@ onMounted(() => {
           admin at <strong>{{ request.returnUrl.host }}</strong>.
         </p>
 
-        <p v-if="loading" class="connect-muted" role="status">Loading your agents…</p>
+        <p v-if="loading" class="connect-muted" role="status">正在加载助手…</p>
         <p v-else-if="loadError" class="connect-error" role="alert">{{ loadError }}</p>
 
         <template v-else-if="!widgets.length">
           <p class="connect-lead">You don't have an AI agent with a widget yet. Create one, then come back to this page.</p>
-          <router-link class="connect-button" to="/ai-agents">Create an AI agent</router-link>
+          <router-link class="connect-button" to="/ai-agents">创建 AI 助手</router-link>
         </template>
 
         <template v-else>
           <fieldset class="connect-agents">
-            <legend>AI agent</legend>
+            <legend>AI 助手</legend>
             <label v-for="widget in widgets" :key="widget.id" class="connect-agent">
               <input v-model="selectedId" type="radio" name="widget" :value="widget.id" />
               <span>
@@ -188,7 +188,7 @@ onMounted(() => {
               {{ connecting ? 'Connecting…' : 'Connect' }}
             </button>
             <button type="button" class="connect-button connect-button--secondary" :disabled="connecting" @click="cancel">
-              Cancel
+              取消
             </button>
           </div>
         </template>

@@ -216,8 +216,8 @@ const handleFinish = async () => {
 <template>
   <div class="onboarding">
     <header class="onb-header">
-      <h1 class="onb-title">Let's get your first agent live</h1>
-      <p class="onb-sub">Four quick steps. No code, no model setup — we'll handle the AI.</p>
+      <h1 class="onb-title">配置你的第一个 AI 助手</h1>
+      <p class="onb-sub">四步完成创建、配置、试用和上线。</p>
     </header>
 
     <!-- Stepper -->

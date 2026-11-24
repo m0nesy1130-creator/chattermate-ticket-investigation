@@ -79,7 +79,7 @@ const canSave = computed(() => props.content.trim().length > 0 && !props.saving)
         <span class="editor__status-dot"></span>Editing — re-embeds on save
       </span>
       <div class="editor__buttons">
-        <button class="btn btn--ghost" type="button" :disabled="saving" @click="emit('cancel')">Cancel</button>
+        <button class="btn btn--ghost" type="button" :disabled="saving" @click="emit('cancel')">取消</button>
         <button class="btn btn--primary" type="button" :disabled="!canSave" @click="emit('save')">
           {{ saving ? 'Saving…' : submitLabel }}
         </button>

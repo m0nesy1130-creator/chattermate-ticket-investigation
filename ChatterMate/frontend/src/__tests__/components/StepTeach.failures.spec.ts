@@ -41,14 +41,14 @@ const mountStep = async () => {
 }
 
 const clickContinue = async (wrapper: any) => {
-  const cont = wrapper.findAll('button').find((b: any) => b.text().includes('Continue'))!
+  const cont = wrapper.findAll('button').find((b: any) => b.text().includes('继续'))!
   await cont.trigger('click')
   await flushPromises()
 }
 
 const typeAndAdd = async (wrapper: any, url: string) => {
   await wrapper.find('input[type="text"]').setValue(url)
-  await wrapper.findAll('button').find((b: any) => b.text() === 'Add')!.trigger('click')
+  await wrapper.findAll('button').find((b: any) => b.text() === '添加')!.trigger('click')
 }
 
 const staged = (wrapper: any) =>
@@ -88,7 +88,7 @@ describe('StepTeach - only advances when the sources were accepted', () => {
   })
 
   it('advances once the add is accepted', async () => {
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
     const wrapper = await mountStep()
 
     await clickContinue(wrapper)
@@ -115,7 +115,7 @@ describe('StepTeach - plan source cap', () => {
     getKnowledgeByOrganization.mockResolvedValue(empty)
     getAgentQueueItems.mockResolvedValue({ queue_items: [] })
     getOrganization.mockResolvedValue({ id: 'org-1', domain: 'teeckbox.com' })
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
   })
 
   it('on a one-source plan, a typed URL replaces the staged signup domain', async () => {
@@ -188,7 +188,7 @@ describe('StepTeach - a website that fails fast', () => {
     getKnowledgeByOrganization.mockResolvedValue(empty)
     getOrganization.mockResolvedValue({ id: 'org-1', domain: 'erfanpv.com' })
     planLimits.mockReturnValue({ maxKnowledgeSources: 0 })
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
   })
 
   const failedItem = {
@@ -204,7 +204,7 @@ describe('StepTeach - a website that fails fast', () => {
 
     expect(wrapper.emitted('next')).toBeFalsy()
     expect(wrapper.find('.crawl-failure').text()).toContain("We couldn't read https://erfanpv.com. This site could not be found")
-    expect(wrapper.find('.btn-accent').text()).toContain('Continue without it')
+    expect(wrapper.find('.btn-accent').text()).toContain('跳过并继续')
 
     await wrapper.findAll('button').find((b: any) => b.text().includes('Paste some text instead'))!.trigger('click')
     addText.mockResolvedValue({ message: 'ok' })
@@ -222,7 +222,7 @@ describe('StepTeach - a website that fails fast', () => {
     await clickContinue(wrapper)
     const picker = vi.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => {})
 
-    await wrapper.find('.crawl-failure').findAll('button').find((b: any) => b.text() === 'Upload a PDF')!.trigger('click')
+    await wrapper.find('.crawl-failure').findAll('button').find((b: any) => b.text() === '上传 PDF')!.trigger('click')
 
     expect(picker).toHaveBeenCalled()
     picker.mockRestore()
@@ -245,7 +245,7 @@ describe('StepTeach - a website that fails fast', () => {
 
     expect(wrapper.find('.btn-accent').text()).toContain('Reading your site')
     expect(wrapper.find('.btn-accent').attributes('disabled')).toBeDefined()
-    for (const label of ['Add', 'Upload PDF', 'Back']) {
+    for (const label of ['添加', '上传 PDF', '返回']) {
       expect(wrapper.findAll('button').find((b: any) => b.text() === label)!.attributes('disabled')).toBeDefined()
     }
     expect(wrapper.find('input[type="text"]').attributes('disabled')).toBeDefined()

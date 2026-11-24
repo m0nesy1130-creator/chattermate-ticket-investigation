@@ -196,7 +196,7 @@ function submit() {
         <div>{{ hint }}</div>
       </div>
       <div class="import-actions">
-        <button class="btn-cancel" type="button" @click="$emit('close')">Cancel</button>
+        <button class="btn-cancel" type="button" @click="$emit('close')">取消</button>
         <button class="btn-import" type="button" :disabled="!canSubmit" @click="submit">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="M8 11l4 4 4-4" /><path d="M5 21h14" /></svg>
           {{ submitting ? 'Importing…' : mode === 'articles' ? 'Import articles' : mode === 'pdf' ? 'Import PDF' : 'Import FAQs' }}

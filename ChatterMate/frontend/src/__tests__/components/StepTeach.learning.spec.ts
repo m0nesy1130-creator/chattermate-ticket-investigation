@@ -331,7 +331,7 @@ describe('StepTeach while sources are read', () => {
       getAgentQueueItems.mockResolvedValue(queue(row(1, 'processing')))
       await mountStep(follow)
       await wrapper.find('input[type="text"]').setValue('https://shop.pedalco.example.com')
-      await wrapper.findAll('button').find((b) => b.text() === 'Add')!.trigger('click')
+      await wrapper.findAll('button').find((b) => b.text() === '添加')!.trigger('click')
       await flushPromises()
 
       await finishReading()

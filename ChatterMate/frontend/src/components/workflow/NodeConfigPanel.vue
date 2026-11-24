@@ -215,7 +215,7 @@ const handleObjectChange = (fieldKey: string, value: string) => {
             </div>
 
             <div class="form-group">
-              <label for="node-description">Description</label>
+              <label for="node-description">描述</label>
               <textarea
                 id="node-description"
                 v-model="formData.description"
@@ -345,7 +345,7 @@ const handleObjectChange = (fieldKey: string, value: string) => {
                       class="form-select"
                     >
                       <option value="text">Text</option>
-                      <option value="email">Email</option>
+                      <option value="email">邮箱</option>
                       <option value="number">Number</option>
                       <option value="select">Select</option>
                       <option value="checkbox">Checkbox</option>
@@ -378,10 +378,10 @@ const handleObjectChange = (fieldKey: string, value: string) => {
         </button>
         <div class="footer-actions">
           <button type="button" class="btn btn-secondary" @click="handleCancel">
-            Cancel
+            取消
           </button>
           <button type="submit" class="btn btn-primary" @click="handleSave">
-            Save Changes
+            保存更改
           </button>
         </div>
       </div>

@@ -126,7 +126,7 @@ const formatDate = (dateString: string) => {
               </svg>
             </div>
           </div>
-          <h2>Widget Apps</h2>
+          <h2>组件应用</h2>
           <div class="locked-badge">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="badge-icon">
               <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
@@ -191,7 +191,7 @@ const formatDate = (dateString: string) => {
       <!-- Header -->
       <header class="page-header">
         <div class="page-header-text">
-          <h1>Widget Apps</h1>
+          <h1>组件应用</h1>
           <p class="subtitle">
             Generate secure API keys to authenticate your chat widgets.
             <span v-if="hasAnyApps" class="subtitle-count">{{ apps.length }} {{ apps.length === 1 ? 'app' : 'apps' }}</span>
@@ -223,7 +223,7 @@ const formatDate = (dateString: string) => {
     <!-- Error state -->
     <div v-else-if="error" class="error-state">
       <p>{{ error }}</p>
-      <button class="btn btn-secondary" @click="fetchApps">Retry</button>
+      <button class="btn btn-secondary" @click="fetchApps">重试</button>
     </div>
 
     <!-- Empty state (only when no apps at all) -->
@@ -276,7 +276,7 @@ const formatDate = (dateString: string) => {
         <div class="cell-actions">
           <button
             class="action-btn"
-            title="Edit"
+            title="编辑"
             @click="handleEditApp(app)"
           >
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -339,10 +339,10 @@ const formatDate = (dateString: string) => {
           <p class="warning">This will invalidate the API key immediately.</p>
           <div class="modal-actions">
             <button class="btn btn-danger" @click="confirmDeleteApp">
-              Delete
+              删除
             </button>
             <button class="btn btn-secondary" @click="showDeleteModal = false">
-              Cancel
+              取消
             </button>
           </div>
         </div>

@@ -45,7 +45,7 @@ const handleCreateAgent = async () => {
         <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="create-agent-title">
             <div class="modal-header">
                 <h3 id="create-agent-title">Create New Agent</h3>
-                <button type="button" class="close-button" aria-label="Close" @click="$emit('close')">&times;</button>
+                <button type="button" class="close-button" aria-label="关闭" @click="$emit('close')">&times;</button>
             </div>
             <div class="modal-body">
                 <form @submit.prevent="handleCreateAgent">
@@ -116,7 +116,7 @@ const handleCreateAgent = async () => {
                             @click="$emit('close')"
                             :disabled="isCreating"
                         >
-                            Cancel
+                            取消
                         </button>
                         <button 
                             type="submit" 

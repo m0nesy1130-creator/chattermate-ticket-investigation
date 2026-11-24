@@ -221,7 +221,7 @@ onMounted(() => {
                 @click="startEdit(tool)"
                 title="Edit this connector"
               >
-                Edit
+                编辑
               </button>
               <button
                 class="test-button"
@@ -235,7 +235,7 @@ onMounted(() => {
                 @click="confirmDelete(tool.id)"
                 title="Delete the connector for the whole organization"
               >
-                Delete
+                删除
               </button>
             </div>
           </div>
@@ -297,7 +297,7 @@ onMounted(() => {
                 >
               </div>
               <div class="form-group">
-                <label for="tool-description">Description</label>
+                <label for="tool-description">描述</label>
                 <input 
                   id="tool-description"
                   v-model="createForm.description" 
@@ -367,7 +367,7 @@ onMounted(() => {
                     placeholder="Add argument"
                     @keyup.enter="handleAddArg"
                   >
-                  <button type="button" @click="handleAddArg">Add</button>
+                  <button type="button" @click="handleAddArg">添加</button>
                 </div>
                 <div v-if="createForm.args && createForm.args.length" class="list-items">
                   <div v-for="(arg, index) in createForm.args" :key="index" class="list-item">
@@ -395,7 +395,7 @@ onMounted(() => {
                     placeholder="Variable value"
                     @keyup.enter="handleAddEnvVar"
                   >
-                  <button type="button" @click="handleAddEnvVar">Add</button>
+                  <button type="button" @click="handleAddEnvVar">添加</button>
                 </div>
                 <div v-if="createForm.env_vars && Object.keys(createForm.env_vars).length" class="list-items">
                   <div v-for="(value, key) in createForm.env_vars" :key="key" class="list-item">
@@ -454,7 +454,7 @@ onMounted(() => {
                     placeholder="Header value"
                     @keyup.enter="handleAddHeader"
                   >
-                  <button type="button" @click="handleAddHeader">Add</button>
+                  <button type="button" @click="handleAddHeader">添加</button>
                 </div>
                 <div v-if="createForm.headers && Object.keys(createForm.headers).length" class="list-items">
                   <div v-for="(value, key) in createForm.headers" :key="key" class="list-item">
@@ -491,7 +491,7 @@ onMounted(() => {
 
         <div class="modal-footer">
           <button type="button" class="secondary-button" @click="closeToolModal">
-            Cancel
+            取消
           </button>
           <button 
             type="button" 
@@ -527,7 +527,7 @@ onMounted(() => {
             <div class="list-header">
               <div class="header-cell name-cell">Tool</div>
               <div class="header-cell type-cell">Type</div>
-              <div class="header-cell actions-cell">Action</div>
+              <div class="header-cell actions-cell">操作</div>
             </div>
 
             <div v-for="tool in availableMCPTools" :key="tool.id" class="tool-row">
@@ -602,7 +602,7 @@ onMounted(() => {
         
         <div class="modal-footer">
           <button type="button" class="secondary-button" @click="cancelDelete">
-            Cancel
+            取消
           </button>
           <button type="button" class="danger-button" @click="deleteMCPTool">
             Delete Connector

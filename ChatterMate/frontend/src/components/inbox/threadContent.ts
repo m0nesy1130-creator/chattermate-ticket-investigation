@@ -68,8 +68,8 @@ export function dayLabel(at: string | Date, now: Date = new Date()): string {
   const day = new Date(at)
   const startOf = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()
   const days = Math.round((startOf(now) - startOf(day)) / 86_400_000)
-  if (days === 0) return 'Today'
-  if (days === 1) return 'Yesterday'
+  if (days === 0) return '今天'
+  if (days === 1) return '昨天'
   return day.toLocaleDateString(undefined, {
     weekday: days < 7 ? 'long' : undefined,
     day: 'numeric',

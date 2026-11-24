@@ -57,7 +57,7 @@ onMounted(() => {
       </button>
     </div>
 
-    <select v-model="filters.priority" class="filter-select" aria-label="Filter by priority">
+    <select v-model="filters.priority" class="filter-select" aria-label="按优先级筛选">
       <option value="all">优先级 · 全部</option>
       <option value="urgent">紧急</option>
       <option value="high">高</option>
@@ -65,7 +65,7 @@ onMounted(() => {
       <option value="low">低</option>
     </select>
 
-    <select v-model="filters.assignee" class="filter-select" aria-label="Filter by assignee">
+    <select v-model="filters.assignee" class="filter-select" aria-label="按经办人筛选">
       <option value="all">经办人 · 全部</option>
       <option value="unassigned">未分配 / AI</option>
       <option v-for="user in users" :key="user.id" :value="user.id">
@@ -90,7 +90,7 @@ onMounted(() => {
       <input v-model="filters.search" class="search-input" placeholder="搜索工单…" />
     </div>
 
-    <select v-model="filters.sort" class="filter-select" aria-label="Sort tickets">
+    <select v-model="filters.sort" class="filter-select" aria-label="工单排序">
       <option value="updated">按更新时间排序</option>
       <option value="created">最新创建</option>
       <option value="priority">优先级</option>

@@ -145,7 +145,7 @@ function closeCropper() {
           />
         </div>
         <div class="crop-actions">
-          <button class="btn-cancel" type="button" @click="closeCropper">Cancel</button>
+          <button class="btn-cancel" type="button" @click="closeCropper">取消</button>
           <button class="btn-save" type="button" :disabled="saving" @click="confirmCrop">
             {{ saving ? 'Saving…' : `Save ${kind}` }}
           </button>

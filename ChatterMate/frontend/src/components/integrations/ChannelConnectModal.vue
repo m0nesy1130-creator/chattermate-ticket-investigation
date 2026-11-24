@@ -208,7 +208,7 @@ const saveAgent = async () => {
           />
         </div>
         <div class="cc-actions">
-          <button class="cc-btn cc-btn-secondary" @click="emit('close')">Cancel</button>
+          <button class="cc-btn cc-btn-secondary" @click="emit('close')">取消</button>
           <button class="cc-btn cc-btn-primary" :disabled="connecting" @click="connect">
             {{ connecting ? 'Connecting…' : 'Connect' }}
           </button>

@@ -145,8 +145,8 @@ onMounted(fetchGroups)
 
         <!-- Hidden edit/delete affordances preserved on the card via context actions -->
         <div class="card-actions">
-          <button class="card-action" title="Edit team" @click="handleEditGroup(group)">Edit</button>
-          <button class="card-action delete" title="Delete team" @click="handleDeleteGroup(group)">Delete</button>
+          <button class="card-action" title="Edit team" @click="handleEditGroup(group)">编辑</button>
+          <button class="card-action delete" title="Delete team" @click="handleDeleteGroup(group)">删除</button>
         </div>
       </div>
 
@@ -218,10 +218,10 @@ onMounted(fetchGroups)
           <p class="warning">This action cannot be undone.</p>
           <div class="form-actions">
             <button class="btn btn-secondary" @click="showDeleteModal = false">
-              Cancel
+              取消
             </button>
             <button class="btn btn-danger" @click="onDeleteConfirm">
-              Delete
+              删除
             </button>
           </div>
         </div>

@@ -127,7 +127,7 @@ function submit() {
       </p>
 
       <div class="picker-actions">
-        <button class="btn-cancel" type="button" @click="$emit('close')">Cancel</button>
+        <button class="btn-cancel" type="button" @click="$emit('close')">取消</button>
         <button class="btn-generate" type="button" :disabled="!canGenerate" @click="submit">
           {{ submitting ? 'Starting…' : `Generate from ${selected.size} source${selected.size === 1 ? '' : 's'}` }}
         </button>

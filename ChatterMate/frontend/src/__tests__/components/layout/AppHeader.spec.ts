@@ -30,8 +30,8 @@ vi.mock('@/composables/useEnterpriseFeatures', () => ({
 const mountHeader = (props: Record<string, unknown> = {}) =>
   mount(AppHeader, {
     props: {
-      pageTitle: 'Analytics',
-      section: 'Workspace',
+      pageTitle: '数据分析',
+      section: '工作区',
       isOnline: true,
       statusUpdating: false,
       unreadCount: 0,
@@ -45,12 +45,12 @@ describe('AppHeader', () => {
     const wrapper = mountHeader()
 
     const crumbs = wrapper.findAll('.breadcrumb .crumb').map((c) => c.text())
-    expect(crumbs).toEqual(['Workspace', 'Analytics'])
-    expect(wrapper.find('[aria-current="page"]').text()).toBe('Analytics')
+    expect(crumbs).toEqual(['工作区', '数据分析'])
+    expect(wrapper.find('[aria-current="page"]').text()).toBe('数据分析')
   })
 
   it('shows just the page when it belongs to no section, and nothing without a title', () => {
-    expect(mountHeader({ section: undefined }).findAll('.crumb').map((c) => c.text())).toEqual(['Analytics'])
+    expect(mountHeader({ section: undefined }).findAll('.crumb').map((c) => c.text())).toEqual(['数据分析'])
     expect(mountHeader({ pageTitle: undefined }).find('.breadcrumb').exists()).toBe(false)
   })
 
@@ -58,9 +58,9 @@ describe('AppHeader', () => {
     const wrapper = mountHeader()
     const pill = wrapper.find('.status-pill')
 
-    expect(pill.text()).toBe('Online')
+    expect(pill.text()).toBe('在线')
     expect(pill.attributes('aria-pressed')).toBe('true')
-    expect(pill.attributes('aria-label')).toBe('Status: Online. Go offline')
+    expect(pill.attributes('aria-label')).toBe('状态：在线 · 下线')
     await pill.trigger('click')
     expect(wrapper.emitted('toggle-status')).toHaveLength(1)
   })
@@ -68,8 +68,8 @@ describe('AppHeader', () => {
   it('reads Offline and blocks a second change while one is in flight', () => {
     const pill = mountHeader({ isOnline: false, statusUpdating: true }).find('.status-pill')
 
-    expect(pill.text()).toBe('Offline')
-    expect(pill.attributes('aria-label')).toBe('Status: Offline. Go online')
+    expect(pill.text()).toBe('离线')
+    expect(pill.attributes('aria-label')).toBe('状态：离线 · 上线')
     expect(pill.attributes('disabled')).toBeDefined()
   })
 
@@ -77,21 +77,21 @@ describe('AppHeader', () => {
     const wrapper = mountHeader({ unreadCount: 140 })
 
     expect(wrapper.find('.notification-badge').text()).toBe('99+')
-    expect(wrapper.find('.notification-button').attributes('aria-label')).toBe('Notifications, 140 unread')
+    expect(wrapper.find('.notification-button').attributes('aria-label')).toBe('通知，140 条未读')
   })
 
   it('has no badge with nothing unread', () => {
     const wrapper = mountHeader()
 
     expect(wrapper.find('.notification-badge').exists()).toBe(false)
-    expect(wrapper.find('.notification-button').attributes('aria-label')).toBe('Notifications')
+    expect(wrapper.find('.notification-button').attributes('aria-label')).toBe('通知')
   })
 
   it('names the current theme and the next one on the toggle', async () => {
     const wrapper = mountHeader({ themeMode: 'light' })
-    const toggle = wrapper.findAll('.icon-btn').find((b) => b.attributes('aria-label')?.startsWith('Theme'))!
+    const toggle = wrapper.findAll('.icon-btn').find((b) => b.attributes('aria-label')?.startsWith('主题'))!
 
-    expect(toggle.attributes('aria-label')).toBe('Theme: Light. Switch to System')
+    expect(toggle.attributes('aria-label')).toBe('主题：浅色，切换到系统')
     await toggle.trigger('click')
     expect(wrapper.emitted('toggle-theme')).toHaveLength(1)
   })

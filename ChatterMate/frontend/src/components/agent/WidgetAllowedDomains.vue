@@ -40,7 +40,7 @@ const { domains, draft, loaded, loading, saving, error, add, remove } = useWidge
         :disabled="!loaded || saving"
       >
       <button class="allowed-domains-add" type="submit" :disabled="!loaded || saving || !draft.trim()">
-        Add
+        添加
       </button>
     </form>
     <p class="allowed-domains-hint">

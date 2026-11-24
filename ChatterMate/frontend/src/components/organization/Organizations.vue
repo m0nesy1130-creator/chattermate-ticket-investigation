@@ -92,7 +92,7 @@ onMounted(async () => {
     <div v-else class="org-page">
       <!-- Page header -->
       <header class="org-header">
-        <h1 class="org-title">Organization</h1>
+        <h1 class="org-title">组织</h1>
         <p class="org-subtitle">Your workspace profile, hours of operation and team overview.</p>
       </header>
 
@@ -127,7 +127,7 @@ onMounted(async () => {
         <!-- PROFILE -->
         <section class="card">
           <div class="card-head">
-            <h3 class="card-title">Profile</h3>
+            <h3 class="card-title">个人资料</h3>
             <p class="card-desc">How your workspace appears to your team and customers.</p>
           </div>
 
@@ -141,7 +141,7 @@ onMounted(async () => {
               >
             </div>
             <div class="field">
-              <label>Website</label>
+              <label>网站</label>
               <input
                 type="text"
                 class="mono"
@@ -153,7 +153,7 @@ onMounted(async () => {
           </div>
 
           <div class="field">
-            <label>Timezone</label>
+            <label>时区</label>
             <select class="select" v-model="formData.timezone">
               <option
                 v-for="tz in timezones"
@@ -178,7 +178,7 @@ onMounted(async () => {
               <button type="button" class="preset" @click="applyPreset('weekday')">Weekdays 9–5</button>
               <button type="button" class="preset" @click="applyPreset('everyday')">Every day 9–6</button>
               <button type="button" class="preset" @click="applyPreset('always')">24/7</button>
-              <button type="button" class="preset preset-ghost" @click="applyPreset('clear')">Clear all</button>
+              <button type="button" class="preset preset-ghost" @click="applyPreset('clear')">全部清除</button>
             </div>
           </div>
 
@@ -236,7 +236,7 @@ onMounted(async () => {
               <div class="danger-row-title">Delete organization</div>
               <div class="danger-row-desc">Permanently remove this workspace and all its data.</div>
             </div>
-            <button type="button" class="danger-btn delete" @click="onDeleteOrganization">Delete</button>
+            <button type="button" class="danger-btn delete" @click="onDeleteOrganization">删除</button>
           </div>
         </section>
 

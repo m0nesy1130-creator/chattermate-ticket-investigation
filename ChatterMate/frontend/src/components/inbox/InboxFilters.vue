@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
       type="button"
       class="filter-btn"
       :class="{ on: active }"
-      :aria-label="active ? `Filters, ${active} on` : 'Filters'"
+      :aria-label="active ? `Filters, ${active} on` : '筛选'"
       :aria-expanded="open"
       aria-controls="inbox-filters"
       @click="open = !open"
@@ -83,9 +83,9 @@ onBeforeUnmount(() => {
       <span aria-hidden="true" v-html="navIconSvg('filter', 14)"></span>
       <span v-if="active" class="badge" aria-hidden="true">{{ active }}</span>
     </button>
-    <div v-if="open" id="inbox-filters" class="panel" role="group" aria-label="Filters">
+    <div v-if="open" id="inbox-filters" class="panel" role="group" aria-label="筛选">
       <label class="field">
-        <span>AI agent</span>
+        <span>AI 助手</span>
         <select :value="filters.agentId" @change="set('agentId', ($event.target as HTMLSelectElement).value)">
           <option value="">Any agent</option>
           <option v-for="agent in agents" :key="agent.id" :value="agent.id">{{ agent.label }}</option>
@@ -98,7 +98,7 @@ onBeforeUnmount(() => {
           <option v-for="teammate in teammates" :key="teammate.id" :value="teammate.id">{{ teammate.label }}</option>
         </select>
       </label>
-      <button type="button" class="clear" :disabled="!active" @click="clear">Clear filters</button>
+      <button type="button" class="clear" :disabled="!active" @click="clear">清除筛选</button>
     </div>
   </div>
 </template>

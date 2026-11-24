@@ -36,7 +36,7 @@ limitations under the License.
           :class="{ active: activeTab === 'human' }"
           @click="activeTab = 'human'"
         >
-          Human Agents
+          人工客服
         </button>
       </div>
 

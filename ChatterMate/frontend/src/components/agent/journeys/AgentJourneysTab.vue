@@ -103,7 +103,7 @@ const statusLabel = (journey: Journey) => ({ live: 'Live', paused: 'Paused', dra
       </div>
 
       <p v-if="loading" class="state">Loading journeys…</p>
-      <div v-else-if="loadError" class="state error">{{ loadError }} <button type="button" class="link" @click="load">Try again</button></div>
+      <div v-else-if="loadError" class="state error">{{ loadError }} <button type="button" class="link" @click="load">重试</button></div>
       <div v-else-if="!journeys.length" class="empty">
         <h4>No journeys yet</h4>
         <p>Start from a template or build one from scratch.</p>
@@ -115,8 +115,8 @@ const statusLabel = (journey: Journey) => ({ live: 'Live', paused: 'Paused', dra
       </div>
       <div v-else class="table" role="table" aria-label="Journeys">
         <div class="trow head" role="row">
-          <span role="columnheader">Journey</span><span role="columnheader">Status</span><span role="columnheader">Audience</span>
-          <span role="columnheader">Starts when</span><span role="columnheader">Steps</span><span role="columnheader"><span class="sr-only">Actions</span></span>
+          <span role="columnheader">Journey</span><span role="columnheader">状态</span><span role="columnheader">Audience</span>
+          <span role="columnheader">Starts when</span><span role="columnheader">Steps</span><span role="columnheader"><span class="sr-only">操作</span></span>
         </div>
         <div v-for="(journey, i) in journeys" :key="journey.id" class="trow" role="row">
           <span role="cell">
@@ -157,8 +157,8 @@ const statusLabel = (journey: Journey) => ({ live: 'Live', paused: 'Paused', dra
     <BaseModal v-if="pendingDelete" title="Delete journey?" @close="pendingDelete = null">
       <p class="modal-text">{{ pendingDelete.name }} stops for every user, and its funnel is lost.</p>
       <template #actions>
-        <button type="button" class="btn ghost" @click="pendingDelete = null">Cancel</button>
-        <button type="button" class="btn danger" @click="confirmDelete">Delete</button>
+        <button type="button" class="btn ghost" @click="pendingDelete = null">取消</button>
+        <button type="button" class="btn danger" @click="confirmDelete">删除</button>
       </template>
     </BaseModal>
   </section>

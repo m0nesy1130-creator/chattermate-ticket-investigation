@@ -169,7 +169,7 @@ onMounted(load)
   <div class="lead-capture-tab" v-if="!loading">
     <div class="lc-header">
       <div>
-        <h3 class="lc-title">Lead capture</h3>
+        <h3 class="lc-title">线索收集</h3>
         <p class="lc-sub">When on, the agent collects contact details in conversation — it helps first, then asks at the natural moment. No forms.</p>
       </div>
       <button class="lc-save" :disabled="saving" @click="save">{{ saving ? 'Saving…' : 'Save changes' }}</button>
@@ -182,7 +182,7 @@ onMounted(load)
         <section class="lc-card">
           <div class="lc-toggle-row">
             <div>
-              <div class="lc-toggle-title">Enable lead capture</div>
+              <div class="lc-toggle-title">启用线索收集</div>
               <div class="lc-toggle-desc">The agent decides when to ask (like transfer-to-human) and captures details conversationally.</div>
             </div>
             <button class="lc-switch" :class="{ on: enabled }" @click="enabled = !enabled" :aria-pressed="enabled">
@@ -194,7 +194,7 @@ onMounted(load)
         <template v-if="enabled">
           <!-- What to collect -->
           <section class="lc-card">
-            <h4 class="lc-card-title">What to collect</h4>
+            <h4 class="lc-card-title">收集字段</h4>
             <p class="lc-card-sub">The agent asks for these in conversation and reports them as structured data. Add your own too.</p>
             <div class="lc-chips">
               <button
@@ -225,7 +225,7 @@ onMounted(load)
                   @click="toggleRequired(cf.key)"
                   :title="cf.required ? 'Required — click to make optional' : 'Optional — click to make required'"
                 >{{ cf.required ? 'required' : 'optional' }}</span>
-                <button class="lc-chip-x" title="Remove" @click="removeCustomField(cf.key)">✕</button>
+                <button class="lc-chip-x" title="移除" @click="removeCustomField(cf.key)">✕</button>
               </span>
             </div>
             <p class="lc-chip-hint">Tap <b>optional / required</b> on a field to control whether the agent insists on it before recording a lead. Email is always required.</p>
@@ -238,17 +238,17 @@ onMounted(load)
 
           <!-- Behaviour: consent + guidance -->
           <section class="lc-card">
-            <h4 class="lc-card-title">How it asks</h4>
+            <h4 class="lc-card-title">询问方式</h4>
             <div class="lc-toggle-row bordered">
               <div>
-                <div class="lc-toggle-title">Require consent <span class="lc-badge">GDPR</span></div>
+                <div class="lc-toggle-title">需要用户同意 <span class="lc-badge">GDPR</span></div>
                 <div class="lc-toggle-desc">The agent must get an explicit “yes” before a lead is recorded. Recommended.</div>
               </div>
               <button class="lc-switch" :class="{ on: requireConsent }" @click="requireConsent = !requireConsent" :aria-pressed="requireConsent">
                 <span class="lc-knob"></span>
               </button>
             </div>
-            <label class="lc-guidance-label">Guidance <span class="lc-optional">optional</span></label>
+            <label class="lc-guidance-label">指引 <span class="lc-optional">optional</span></label>
             <textarea
               class="lc-input lc-textarea"
               v-model="guidance"
@@ -259,10 +259,10 @@ onMounted(load)
 
           <!-- When a lead qualifies (CRM sync live; routing coming soon) -->
           <section class="lc-card">
-            <h4 class="lc-card-title">When a lead qualifies</h4>
+            <h4 class="lc-card-title">线索符合条件时</h4>
             <p class="lc-card-sub">Push qualified leads straight into your CRM. Assignment and Slack alerts arrive in an upcoming release.</p>
             <div class="lc-route-row">
-              <span>Sync to CRM</span>
+              <span>同步到 CRM</span>
               <select class="lc-input lc-input-sm" v-model="crmSyncTarget">
                 <option value="none">Don't sync</option>
                 <option value="hubspot">HubSpot</option>
@@ -275,15 +275,15 @@ onMounted(load)
               <RouterLink to="/settings/integrations">connect it in Integrations</RouterLink>.
             </p>
             <div class="lc-route-row">
-              <span>Assign to <span class="lc-soon">Coming soon</span></span>
+              <span>Assign to <span class="lc-soon">即将推出</span></span>
               <select class="lc-input lc-input-sm" v-model="assignmentMode" disabled>
                 <option value="none">No one — log only</option>
-                <option value="sales_team">Sales team</option>
-                <option value="round_robin">Round-robin</option>
+                <option value="sales_team">销售团队</option>
+                <option value="round_robin">轮流分配</option>
               </select>
             </div>
             <div class="lc-route-row">
-              <span>Notify in Slack <span class="lc-soon">Coming soon</span></span>
+              <span>Notify in Slack <span class="lc-soon">即将推出</span></span>
               <input type="checkbox" v-model="slackNotifyEnabled" disabled />
             </div>
           </section>
@@ -297,15 +297,15 @@ onMounted(load)
       <!-- RIGHT: live preview (conversational) -->
       <div class="lc-right">
         <div class="lc-preview-head">
-          <span class="lc-preview-tag">LIVE PREVIEW</span>
+          <span class="lc-preview-tag">实时预览</span>
           <span class="lc-preview-mode">{{ enabled ? 'In conversation' : 'Answers only' }}</span>
         </div>
         <div class="lc-pv-widget">
           <div class="lc-pv-topbar">
             <span class="lc-pv-logo"><i></i><i></i><i></i></span>
             <span>
-              <span class="lc-pv-name">Sales Assistant</span>
-              <span class="lc-pv-online"><i></i>Online now</span>
+              <span class="lc-pv-name">销售助手</span>
+              <span class="lc-pv-online"><i></i>当前在线</span>
             </span>
           </div>
           <div class="lc-pv-body">
@@ -321,7 +321,7 @@ onMounted(load)
             <div v-else class="lc-pv-tagline">capture off · answers only</div>
           </div>
           <div class="lc-pv-inputbar">
-            <span class="lc-pv-typebox">Type a message…</span>
+            <span class="lc-pv-typebox">输入消息…</span>
             <span class="lc-pv-send">↑</span>
           </div>
         </div>
@@ -336,7 +336,7 @@ onMounted(load)
       </div>
     </div>
   </div>
-  <div v-else class="lc-loading">Loading lead capture settings…</div>
+  <div v-else class="lc-loading">正在加载线索收集设置…</div>
 </template>
 
 <style scoped>

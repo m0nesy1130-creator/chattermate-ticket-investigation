@@ -77,10 +77,10 @@ function submitReject(reason: string) {
       </div>
 
       <div class="proposal-body">
-        <div class="block-label">Proposed resolution</div>
+        <div class="block-label">建议处理方案</div>
         <p class="proposal-text">{{ proposal.summary }}</p>
         <template v-if="proposal.customer_message">
-          <div class="block-label">Message to the customer</div>
+          <div class="block-label">发给客户的消息</div>
           <p class="proposal-text customer">{{ proposal.customer_message }}</p>
         </template>
         <button v-if="bestHypothesis" class="reasoning-link" @click="jumpToHypothesis">
@@ -127,7 +127,7 @@ function submitReject(reason: string) {
       <div class="banner-head">
         <font-awesome-icon :icon="['fas', 'circle-check']" class="banner-icon approved" />
         <div>
-          <div class="banner-title">Proposal approved</div>
+          <div class="banner-title">建议已批准</div>
           <div class="banner-sub">
             <template v-if="proposal.decided_by_name">By {{ proposal.decided_by_name }} — </template>
             the ticket was resolved and the customer notified. Any infrastructure change is
@@ -141,7 +141,7 @@ function submitReject(reason: string) {
       <div class="banner-head">
         <font-awesome-icon :icon="['fas', 'circle-xmark']" class="banner-icon rejected" />
         <div>
-          <div class="banner-title">Proposal rejected</div>
+          <div class="banner-title">建议已驳回</div>
           <div class="banner-sub">
             <template v-if="proposal.decided_by_name">By {{ proposal.decided_by_name }}. </template>
             <template v-if="proposal.reject_reason">“{{ proposal.reject_reason }}”</template>

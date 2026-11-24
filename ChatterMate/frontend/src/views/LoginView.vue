@@ -294,8 +294,8 @@ const handleVerifyAndResetPassword = async () => {
                 </div>
 
                 <header class="auth-head">
-                    <h1 class="auth-title">Welcome back</h1>
-                    <p class="auth-sub">Sign in to continue to your dashboard</p>
+                    <h1 class="auth-title">欢迎回来</h1>
+                    <p class="auth-sub">登录后进入工作台</p>
                 </header>
 
                 <div class="auth-body" :class="{ 'is-pending': !ssoConfigLoaded }">
@@ -318,38 +318,38 @@ const handleVerifyAndResetPassword = async () => {
                     </template>
 
                     <div v-if="showPasswordForm" class="password-block" :class="{ 'is-revealed': passwordFormOpened }">
-                        <div v-if="ssoFirst" class="auth-divider" aria-hidden="true"><span>or</span></div>
+                        <div v-if="ssoFirst" class="auth-divider" aria-hidden="true"><span>或</span></div>
                         <form @submit.prevent="handleLogin" class="auth-form">
                             <div class="field">
-                                <label for="email">Email</label>
+                                <label for="email">邮箱</label>
                                 <input id="email" ref="emailInput" v-model="email" type="email" required placeholder="you@company.com" autocomplete="email" />
                             </div>
 
                             <div class="field">
                                 <div class="field-row">
-                                    <label for="password">Password</label>
-                                    <a v-if="hasEnterpriseModule" href="#" @click.prevent="openForgotPasswordModal" class="forgot-link">Forgot password?</a>
+                                    <label for="password">密码</label>
+                                    <a v-if="hasEnterpriseModule" href="#" @click.prevent="openForgotPasswordModal" class="forgot-link">忘记密码？</a>
                                 </div>
                                 <input id="password" v-model="password" type="password" required placeholder="••••••••" autocomplete="current-password" />
                             </div>
 
                             <button type="submit" class="auth-submit" :disabled="busy">
                                 <span v-if="isLoading">{{ router.currentRoute.value.query.embedded === 'true' ? 'Connecting…' : 'Signing in…' }}</span>
-                                <span v-else>Sign In</span>
+                                <span v-else>登录</span>
                             </button>
                         </form>
                     </div>
 
                     <!-- Password-first: the providers follow the form -->
                     <template v-if="ssoAvailable && !ssoFirst">
-                        <div class="auth-divider" aria-hidden="true"><span>or</span></div>
+                        <div class="auth-divider" aria-hidden="true"><span>或</span></div>
                         <SsoButtons :providers="ssoProviders" :loading-key="ssoRedirecting" :disabled="busy" layout="row" @select="startSso" />
                     </template>
                 </div>
 
                 <p v-if="hasEnterpriseModule" class="signup-prompt">
                     Don't have an account?
-                    <a href="#" @click.prevent="navigateToSignup" class="signup-link">Sign up</a>
+                    <a href="#" @click.prevent="navigateToSignup" class="signup-link">注册</a>
                 </p>
 
                 <div class="install-hint-slot">
@@ -378,7 +378,7 @@ const handleVerifyAndResetPassword = async () => {
                     open source · MCP-native
                 </div>
 
-                <h2>Support that <em>learns itself.</em></h2>
+                <h2>持续学习的<em>智能客服</em></h2>
                 <p class="brand-lede">Reads your knowledge base, answers in any chat design, hands off to humans, and even answers other AI agents over open MCP.</p>
 
                 <ul class="feature-list">
@@ -394,7 +394,7 @@ const handleVerifyAndResetPassword = async () => {
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>{{ forgotPasswordStep === 1 ? 'Reset Password' : 'Verify & Reset' }}</h2>
-                    <button class="close-btn" @click="closeForgotPasswordModal" aria-label="Close">×</button>
+                    <button class="close-btn" @click="closeForgotPasswordModal" aria-label="关闭">×</button>
                 </div>
 
                 <div class="modal-body">
@@ -403,14 +403,14 @@ const handleVerifyAndResetPassword = async () => {
                         <p class="step-description">Enter your email address and we'll send you a verification code to reset your password.</p>
                         
                         <div class="form-group">
-                            <label for="forgot-email">Email Address</label>
+                            <label for="forgot-email">电子邮箱</label>
                             <div class="input-wrapper">
                                 <input 
                                     id="forgot-email" 
                                     v-model="forgotPasswordEmail" 
                                     type="email" 
                                     required 
-                                    placeholder="Enter your email"
+                                    placeholder="请输入邮箱"
                                     :disabled="isForgotPasswordLoading"
                                 />
                             </div>
@@ -438,14 +438,14 @@ const handleVerifyAndResetPassword = async () => {
                         <p class="step-description">Enter the verification code sent to your email and your new password.</p>
                         
                         <div class="form-group">
-                            <label for="forgot-otp">Verification Code</label>
+                            <label for="forgot-otp">验证码</label>
                             <div class="input-wrapper">
                                 <input 
                                     id="forgot-otp" 
                                     v-model="forgotPasswordOtp" 
                                     type="text" 
                                     required 
-                                    placeholder="Enter 6-digit code"
+                                    placeholder="请输入 6 位验证码"
                                     maxlength="6"
                                     :disabled="isForgotPasswordLoading"
                                 />
@@ -453,14 +453,14 @@ const handleVerifyAndResetPassword = async () => {
                         </div>
 
                         <div class="form-group">
-                            <label for="new-password">New Password</label>
+                            <label for="new-password">新密码</label>
                             <div class="input-wrapper">
                                 <input 
                                     id="new-password" 
                                     v-model="newPassword" 
                                     type="password" 
                                     required 
-                                    placeholder="Enter new password"
+                                    placeholder="请输入新密码"
                                     :disabled="isForgotPasswordLoading"
                                 />
                             </div>
@@ -468,23 +468,23 @@ const handleVerifyAndResetPassword = async () => {
                                 <p class="requirements-title">Password must include:</p>
                                 <ul>
                                     <li :class="{ valid: passwordValidation.hasMinLength }">At least 8 characters</li>
-                                    <li :class="{ valid: passwordValidation.hasUpperCase }">Contains an uppercase letter</li>
-                                    <li :class="{ valid: passwordValidation.hasLowerCase }">Contains a lowercase letter</li>
-                                    <li :class="{ valid: passwordValidation.hasNumber }">Contains a number</li>
+                                    <li :class="{ valid: passwordValidation.hasUpperCase }">包含大写字母</li>
+                                    <li :class="{ valid: passwordValidation.hasLowerCase }">包含小写字母</li>
+                                    <li :class="{ valid: passwordValidation.hasNumber }">包含数字</li>
                                     <li :class="{ valid: passwordValidation.hasSpecialChar }">Contains a special character (!@#$%^&*)</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
+                            <label for="confirm-password">确认密码</label>
                             <div class="input-wrapper">
                                 <input 
                                     id="confirm-password" 
                                     v-model="confirmPassword" 
                                     type="password" 
                                     required 
-                                    placeholder="Confirm new password"
+                                    placeholder="请再次输入新密码"
                                     :disabled="isForgotPasswordLoading"
                                 />
                             </div>
@@ -504,7 +504,7 @@ const handleVerifyAndResetPassword = async () => {
                                 @click="goBackToEmailStep"
                                 :disabled="isForgotPasswordLoading"
                             >
-                                Back
+                                返回
                             </button>
                             <button 
                                 class="modal-submit-btn" 

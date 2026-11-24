@@ -30,7 +30,7 @@ defineEmits<{
     <button
         type="button"
         class="toggle-btn"
-        :aria-label="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+        :aria-label="isCollapsed ? '展开侧栏' : '折叠侧栏'"
         :aria-expanded="!isCollapsed"
         @click="$emit('toggle')"
         v-html="navIconSvg('panelLeft', 16)"

@@ -210,7 +210,7 @@ const MAX_AVATARS = 3
 
       <div v-if="sources.length === 0" class="tree__empty">
         <template v-if="query">No pages match “{{ query }}”.</template>
-        <template v-else>No knowledge sources yet.</template>
+        <template v-else>暂无知识来源。</template>
       </div>
     </div>
   </div>

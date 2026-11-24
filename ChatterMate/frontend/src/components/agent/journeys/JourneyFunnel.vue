@@ -90,7 +90,7 @@ async function downloadCsv() {
     <p v-if="error" class="error">{{ error }}</p>
     <template v-else-if="funnel">
       <div class="kpis">
-        <div class="kpi" role="group" aria-label="Started"><span>Started</span><b>{{ funnel.started }}</b></div>
+        <div class="kpi" role="group" aria-label="开始时间"><span>开始时间</span><b>{{ funnel.started }}</b></div>
         <div class="kpi" role="group" aria-label="Finished all steps"><span>Finished all steps</span><b>{{ funnel.finished }}</b><small>{{ percent(funnel.finished, funnel.started) }}% of started</small></div>
         <div class="kpi" role="group" aria-label="Goal reached"><span>Goal reached</span><b>{{ funnel.goal_reached }}</b><small>{{ journey.goal_event || 'no goal set' }}</small></div>
         <div class="kpi" role="group" aria-label="Median time to finish"><span>Median time to finish</span><b>{{ formatDuration(funnel.median_seconds_to_finish) }}</b></div>
@@ -98,7 +98,7 @@ async function downloadCsv() {
 
       <table class="table">
         <thead>
-          <tr><th>Step</th><th>Reached / done</th><th class="num">Reached</th><th class="num">Done</th><th class="num">Drop-off</th><th class="num">Median time</th><th></th></tr>
+          <tr><th>Step</th><th>Reached / done</th><th class="num">Reached</th><th class="num">完成</th><th class="num">Drop-off</th><th class="num">Median time</th><th></th></tr>
         </thead>
         <tbody>
           <tr v-for="step in funnel.steps" :key="step.step_id" :class="{ worst: step.step_id === worst }">

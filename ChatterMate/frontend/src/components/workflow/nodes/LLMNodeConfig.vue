@@ -284,7 +284,7 @@ const toggleSection = (section: string) => {
     <!-- AI Prompt Modal -->
     <div v-if="showAIPrompt" class="ai-prompt-modal">
       <div class="ai-prompt-content">
-        <h5>Generate Instructions with AI</h5>
+        <h5>用 AI 生成指令</h5>
         <textarea 
           v-model="aiPrompt"
           placeholder="Describe what you want this AI node to do. For example: 'Create instructions for a customer support assistant that helps with order tracking'"
@@ -299,7 +299,7 @@ const toggleSection = (section: string) => {
             :disabled="aiLoading"
             type="button"
           >
-            Cancel
+            取消
           </button>
           <button 
             class="generate-ai-button" 

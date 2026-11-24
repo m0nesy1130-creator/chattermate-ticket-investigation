@@ -378,7 +378,7 @@ describe('LoginView', () => {
     try {
       await wrapper.find('.sso-btn').trigger('click')
       expect(wrapper.find('.sso-btn').text()).toBe('Redirecting to Google…')
-      expect(wrapper.find('.auth-submit').text()).toBe('Sign In')
+      expect(wrapper.find('.auth-submit').text()).toBe('登录')
       expect(wrapper.find('.auth-submit').attributes('disabled')).toBeDefined()
     } finally {
       Object.defineProperty(window, 'location', { value: original, writable: true, configurable: true })

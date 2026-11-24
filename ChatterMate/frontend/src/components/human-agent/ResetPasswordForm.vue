@@ -84,7 +84,7 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-group">
-      <label for="newPassword">New Password</label>
+      <label for="newPassword">新密码</label>
       <input
         id="newPassword"
         v-model="password"
@@ -113,7 +113,7 @@ const handleSubmit = () => {
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" @click="emit('cancel')">
-        Cancel
+        取消
       </button>
       <button type="submit" class="btn btn-primary" :disabled="props.submitting">
         {{ props.submitting ? 'Resetting...' : 'Reset Password' }}

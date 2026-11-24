@@ -167,7 +167,7 @@ defineExpose({ focus: () => input.value?.focus() })
             :disabled="!canReply && !canTakeOver"
             :title="canReply ? undefined : 'Take the chat over to reply'"
             @click="chooseReply"
-          >Reply</button>
+          >回复</button>
           <button type="button" role="tab" class="tab" :aria-selected="isNote" @click="mode = 'note'">Note</button>
         </div>
         <span class="caption">
@@ -181,7 +181,7 @@ defineExpose({ focus: () => input.value?.focus() })
           v-model="message"
           rows="2"
           class="input"
-          :placeholder="isNote ? 'Write a note for your team' : 'Type a message or paste a screenshot'"
+          :placeholder="isNote ? '给团队写一条备注' : '输入消息或粘贴截图'"
           :aria-label="isNote ? 'Note for your team' : 'Reply to the customer'"
           :disabled="!isNote && !canSend"
           :aria-expanded="suggestions.length > 0"
@@ -218,15 +218,15 @@ defineExpose({ focus: () => input.value?.focus() })
             <button
               type="button"
               class="send"
-              :aria-label="isNote ? 'Add note' : 'Send'"
+              :aria-label="isNote ? '添加备注' : '发送'"
               :disabled="sendDisabled"
               @click="submit"
-            >{{ isNote ? 'Add note' : 'Send' }}</button>
+            >{{ isNote ? '添加备注' : '发送' }}</button>
             <ActionMenu
               v-if="!isNote && canSend && (hasText || hasFiles)"
               label="More send options"
               side="above"
-              :items="[{ id: 'send-and-close', label: 'Send and close' }]"
+              :items="[{ id: 'send-and-close', label: '发送并关闭' }]"
               trigger-class="send-more"
               @select="emit('send-and-close')"
             >

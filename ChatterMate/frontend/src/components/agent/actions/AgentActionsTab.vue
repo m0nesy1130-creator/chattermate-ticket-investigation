@@ -80,10 +80,10 @@ onMounted(load)
 </script>
 
 <template>
-  <section class="agent-tab actions-tab" aria-label="Actions">
+  <section class="agent-tab actions-tab" aria-label="操作">
     <div class="tab-head">
       <div>
-        <h3 class="tab-title">Actions</h3>
+        <h3 class="tab-title">操作</h3>
         <p class="tab-sub">Things this agent can do in your app for the signed-in user. Your page supplies the code for each one.</p>
       </div>
       <button v-if="canManage" class="btn accent" :disabled="atCap || loading" @click="editing = 'new'">
@@ -91,27 +91,27 @@ onMounted(load)
       </button>
     </div>
 
-    <p v-if="loading" class="state">Loading actions…</p>
+    <p v-if="loading" class="state">正在加载操作…</p>
     <div v-else-if="loadError" class="state error">
-      {{ loadError }} <button class="link" @click="load">Try again</button>
+      {{ loadError }} <button class="link" @click="load">重试</button>
     </div>
 
     <div v-else class="actions-grid" :class="{ editing: editing }">
       <section>
         <div v-if="actions.length === 0" class="empty">
-          <h4>No actions yet</h4>
+          <h4>暂无操作</h4>
           <p>Add an action, then register its code on your page:</p>
           <pre class="code">{{ REGISTER_EXAMPLE }}</pre>
         </div>
 
-        <div v-else class="table" role="table" aria-label="Actions">
+        <div v-else class="table" role="table" aria-label="操作">
           <div class="row head" role="row">
-            <span role="columnheader">Name</span>
-            <span role="columnheader">Label</span>
+            <span role="columnheader">名称</span>
+            <span role="columnheader">标签</span>
             <span role="columnheader">Asks first</span>
             <span role="columnheader">Seen</span>
             <span role="columnheader">On</span>
-            <span role="columnheader"><span class="sr-only">Delete</span></span>
+            <span role="columnheader"><span class="sr-only">删除</span></span>
           </div>
           <div
             v-for="action in actions"
@@ -165,8 +165,8 @@ onMounted(load)
         <span class="mono">{{ pendingDelete.name }}</span> will stop working on every page right away.
       </p>
       <template #actions>
-        <button class="btn ghost" @click="pendingDelete = null">Cancel</button>
-        <button class="btn danger" @click="confirmDelete">Delete</button>
+        <button class="btn ghost" @click="pendingDelete = null">取消</button>
+        <button class="btn danger" @click="confirmDelete">删除</button>
       </template>
     </BaseModal>
   </section>

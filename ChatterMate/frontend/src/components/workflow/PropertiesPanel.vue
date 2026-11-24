@@ -994,7 +994,7 @@ const handleDelete = () => {
             <line x1="14" y1="11" x2="14" y2="17"></line>
           </svg>
         </button>
-        <button class="header-icon-btn close-btn" @click="handleClose" title="Close">
+        <button class="header-icon-btn close-btn" @click="handleClose" title="关闭">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -1036,7 +1036,7 @@ const handleDelete = () => {
             </div>
 
             <div class="form-group">
-              <label for="node-description">Description</label>
+              <label for="node-description">描述</label>
               <textarea
                 id="node-description"
                 v-model="nodeForm.description"

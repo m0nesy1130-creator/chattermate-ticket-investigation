@@ -61,7 +61,7 @@ const handleSubmit = () => {
 <template>
   <form @submit.prevent="handleSubmit" class="widget-app-form">
     <div class="form-group">
-      <label for="name">Name <span class="required">*</span></label>
+      <label for="name">名称 <span class="required">*</span></label>
       <input
         id="name"
         v-model="name"
@@ -74,7 +74,7 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-group">
-      <label for="description">Description</label>
+      <label for="description">描述</label>
       <textarea
         id="description"
         v-model="description"
@@ -89,7 +89,7 @@ const handleSubmit = () => {
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" @click="emit('cancel')">
-        Cancel
+        取消
       </button>
       <button type="submit" class="btn btn-primary">
         {{ app ? 'Update app' : 'Create app' }}

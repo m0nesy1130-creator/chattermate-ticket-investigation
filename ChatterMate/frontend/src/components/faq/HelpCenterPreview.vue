@@ -66,7 +66,7 @@ const heroStyle = computed(() => ({
       <div class="preview__search">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#9AA0AD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
         <span class="preview__search-hint">Search for answers…</span>
-        <span class="preview__search-btn">Search</span>
+        <span class="preview__search-btn">搜索</span>
       </div>
     </div>
   </div>

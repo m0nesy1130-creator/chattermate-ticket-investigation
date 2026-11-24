@@ -396,7 +396,7 @@ onUnmounted(stopPolling)
 
           <div v-if="faqs.length && groupedFaqs.size === 0" class="faq-noresults">
             <p>No FAQs match your filters.</p>
-            <button v-if="hasActiveFilters" class="faq-noresults__clear" type="button" @click="resetFilters">Clear filters</button>
+            <button v-if="hasActiveFilters" class="faq-noresults__clear" type="button" @click="resetFilters">清除筛选</button>
           </div>
 
           <div v-else-if="groupedFaqs.size" class="faq-list">
@@ -488,7 +488,7 @@ onUnmounted(stopPolling)
       <span class="bulkbar__count">{{ selectedIds.size }} selected</span>
       <button class="bulkbar__btn" type="button" @click="bulkSetStatus('published')">Publish</button>
       <button class="bulkbar__btn" type="button" @click="bulkSetStatus('draft')">Unpublish</button>
-      <button class="bulkbar__btn bulkbar__btn--danger" type="button" @click="askBulkDelete">Delete</button>
+      <button class="bulkbar__btn bulkbar__btn--danger" type="button" @click="askBulkDelete">删除</button>
       <button class="bulkbar__clear" type="button" aria-label="Clear selection" @click="clearSelection">✕</button>
     </div>
 
@@ -498,7 +498,7 @@ onUnmounted(stopPolling)
         <p class="confirm__msg">{{ confirmState.message }}</p>
         <p v-if="confirmState.disabledReason" class="confirm__blocked">{{ confirmState.disabledReason }}</p>
         <div class="confirm__actions">
-          <button class="confirm__cancel" type="button" :disabled="confirmBusy" @click="confirmState = null">Cancel</button>
+          <button class="confirm__cancel" type="button" :disabled="confirmBusy" @click="confirmState = null">取消</button>
           <button
             class="confirm__go"
             :class="confirmState.intent === 'primary' ? 'confirm__go--primary' : 'confirm__go--danger'"

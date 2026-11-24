@@ -60,21 +60,21 @@ const submit = () => {
   <BaseModal title="Edit agent" width="480px" @close="emit('close')">
     <form id="agent-edit-form" class="ae-form" @submit.prevent="submit">
       <label class="ae-field">
-        <span class="ae-label">Name</span>
+        <span class="ae-label">名称</span>
         <input v-model="draftName" class="ae-input" :maxlength="NAME_MAX" data-autofocus placeholder="What visitors see, e.g. Ava">
       </label>
       <label class="ae-field">
-        <span class="ae-label">Role</span>
+        <span class="ae-label">角色</span>
         <input v-model="draftRole" class="ae-input" :maxlength="NAME_MAX" required placeholder="e.g. Sales &amp; Product Guide">
       </label>
       <label class="ae-field">
-        <span class="ae-label">Description</span>
+        <span class="ae-label">描述</span>
         <textarea v-model="draftDescription" class="ae-input ae-textarea" rows="3" :maxlength="DESCRIPTION_MAX" placeholder="What this agent is for"></textarea>
       </label>
     </form>
     <template #actions>
-      <button type="button" class="btn btn-ghost" @click="emit('close')">Cancel</button>
-      <button type="submit" form="agent-edit-form" class="btn btn-primary" :disabled="saving || !draftRole.trim()">Save</button>
+      <button type="button" class="btn btn-ghost" @click="emit('close')">取消</button>
+      <button type="submit" form="agent-edit-form" class="btn btn-primary" :disabled="saving || !draftRole.trim()">保存</button>
     </template>
   </BaseModal>
 </template>

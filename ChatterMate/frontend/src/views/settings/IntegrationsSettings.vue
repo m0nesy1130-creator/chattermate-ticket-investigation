@@ -669,7 +669,7 @@ onMounted(async () => {
       <!-- Page header + search -->
       <div class="int-page-header">
         <div class="int-page-titles">
-          <h1 class="int-title">Integrations</h1>
+          <h1 class="int-title">集成</h1>
           <p class="int-subtitle">Connect ChatterMate with the tools your team already uses.</p>
         </div>
         <div class="int-search">
@@ -683,7 +683,7 @@ onMounted(async () => {
             name="integration-search"
             autocomplete="off"
             aria-label="Search integrations"
-            placeholder="Search integrations…"
+            placeholder="搜索集成…"
           />
         </div>
       </div>
@@ -721,14 +721,14 @@ onMounted(async () => {
               class="status-badge connected"
             >
               <span class="status-dot"></span>
-              Connected
+              已连接
             </span>
             <span
               v-else-if="!integration.comingSoon"
               class="status-badge not-connected"
             >
               <span class="status-dot"></span>
-              Not connected
+              未连接
             </span>
             <span
               v-else
@@ -764,7 +764,7 @@ onMounted(async () => {
             disabled
           >
             <span class="loading-spinner"></span>
-            Loading…
+            正在加载…
           </button>
 
           <!-- Connected: Manage + Disconnect -->
@@ -778,7 +778,7 @@ onMounted(async () => {
               {{ integration.extraActionLabel }}
             </button>
             <button class="int-btn int-btn-disconnect" @click="showDisconnectConfirmation(integration.id)">
-              Disconnect
+              断开连接
             </button>
           </div>
 
@@ -788,7 +788,7 @@ onMounted(async () => {
             class="int-btn int-btn-soon"
             disabled
           >
-            Coming soon
+            即将推出
           </button>
 
           <!-- Not connected: Connect / Install -->
@@ -816,7 +816,7 @@ onMounted(async () => {
   <div v-if="showDisconnectConfirm" class="disconnect-modal">
     <div class="disconnect-modal-content">
       <div class="disconnect-modal-header">
-        <h3>Disconnect Integration</h3>
+        <h3>断开集成</h3>
         <button class="close-modal-btn" @click="cancelDisconnect">
           <span>×</span>
         </button>
@@ -883,7 +883,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="disconnect-modal-actions">
-        <button class="btn-cancel" @click="cancelDisconnect">Cancel</button>
+        <button class="btn-cancel" @click="cancelDisconnect">取消</button>
         <button 
           v-if="disconnectingIntegration === 'jira'" 
           class="btn-disconnect" 

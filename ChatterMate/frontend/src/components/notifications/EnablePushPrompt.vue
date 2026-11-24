@@ -76,7 +76,7 @@ const enable = () => {
           Add ChatterMate to your Home Screen first — on iPhone, push notifications only work
           from an installed app. Tap the share icon, then "Add to Home Screen".
         </div>
-        <button type="button" class="secondary-btn" @click="snooze">Got it</button>
+        <button type="button" class="secondary-btn" @click="snooze">知道了</button>
       </template>
 
       <template v-else>

@@ -244,9 +244,9 @@ const updateFormData = (field: keyof FormNodeData, value: any) => {
                   class="field-select"
                 >
                   <option value="text">Text</option>
-                  <option value="email">Email</option>
+                  <option value="email">邮箱</option>
                   <option value="number">Number</option>
-                  <option value="tel">Phone</option>
+                  <option value="tel">电话</option>
                   <option value="textarea">Textarea</option>
                   <option value="select">Select</option>
                   <option value="checkbox">Checkbox</option>
@@ -254,7 +254,7 @@ const updateFormData = (field: keyof FormNodeData, value: any) => {
                 </select>
               </div>
               <div class="field-col">
-                <label class="field-label">Required</label>
+                <label class="field-label">必填</label>
                 <label class="checkbox-label">
                   <input
                     :checked="field.required"

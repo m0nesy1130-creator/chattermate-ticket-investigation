@@ -65,7 +65,7 @@ vi.mock('@/services/user', () => ({
       last_seen: new Date().toISOString()
     }),
     getUserName: () => 'Test User',
-    getUserRole: () => 'Admin',
+    getUserRole: () => '管理员',
     setCurrentUser: vi.fn()
   }
 }))
@@ -138,12 +138,12 @@ describe('DashboardLayout', () => {
     expect(sidebar.props('inboxCount')).toBe(3)
     expect(sidebar.props('ticketsCount')).toBe(2)
     expect(sidebar.props('user')).toMatchObject({ full_name: 'Test User' })
-    expect(sidebar.props('role')).toBe('Admin')
+    expect(sidebar.props('role')).toBe('管理员')
     expect(sidebar.props('isOnline')).toBe(true)
   })
 
   it('names the current page in the header breadcrumb', () => {
-    expect(wrapper.find('.breadcrumb [aria-current="page"]').text()).toBe('Analytics')
+    expect(wrapper.find('.breadcrumb [aria-current="page"]').text()).toBe('数据分析')
   })
 
   it('shows the unread notification count on the bell', () => {
@@ -153,13 +153,13 @@ describe('DashboardLayout', () => {
   it('goes offline from the header pill once the server accepts it', async () => {
     vi.mocked(updateUserStatus).mockResolvedValue(undefined)
     const pill = wrapper.find('.status-pill')
-    expect(pill.text()).toBe('Online')
+    expect(pill.text()).toBe('在线')
 
     await pill.trigger('click')
     await flushPromises()
 
     expect(updateUserStatus).toHaveBeenCalledWith('1', false)
-    expect(wrapper.find('.status-pill').text()).toBe('Offline')
+    expect(wrapper.find('.status-pill').text()).toBe('离线')
     expect(wrapper.findComponent({ name: 'AppSidebar' }).props('isOnline')).toBe(false)
   })
 
@@ -170,7 +170,7 @@ describe('DashboardLayout', () => {
     await wrapper.find('.status-pill').trigger('click')
     await flushPromises()
 
-    expect(wrapper.find('.status-pill').text()).toBe('Online')
+    expect(wrapper.find('.status-pill').text()).toBe('在线')
     expect(toast.error).toHaveBeenCalled()
   })
 
@@ -189,19 +189,19 @@ describe('DashboardLayout - tab title', () => {
 
   it('names the page in the browser tab', async () => {
     await mountAt('/analytics')
-    expect(document.title).toBe('Analytics · ChatterMate')
+    expect(document.title).toBe('数据分析 · ChatterMate')
   })
 
   it('prefixes the Inbox with the chats waiting for a human', async () => {
     await mountAt('/conversations')
-    expect(document.title).toBe('(3) Inbox · ChatterMate')
+    expect(document.title).toBe('(3) 收件箱 · ChatterMate')
   })
 
   it('follows navigation and resets when the dashboard closes', async () => {
     const { wrapper, router } = await mountAt('/analytics')
     await router.push('/conversations')
     await flushPromises()
-    expect(document.title).toBe('(3) Inbox · ChatterMate')
+    expect(document.title).toBe('(3) 收件箱 · ChatterMate')
 
     wrapper.unmount()
     expect(document.title).toBe('ChatterMate')

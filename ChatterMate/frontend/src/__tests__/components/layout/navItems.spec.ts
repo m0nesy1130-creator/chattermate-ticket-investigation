@@ -146,7 +146,7 @@ describe('useNavItems', () => {
 
   it('keeps the sidebar section headings in the More sheet', () => {
     const { moreNavGroups } = useNavItems()
-    expect(moreNavGroups.value.map((g) => g.section)).toEqual(['Workspace', 'Settings'])
+    expect(moreNavGroups.value.map((g) => g.section)).toEqual(['工作区', '设置'])
     // No empty groups — a section fully covered by the bottom nav is dropped
     moreNavGroups.value.forEach((g) => expect(g.items.length).toBeGreaterThan(0))
   })
@@ -159,10 +159,10 @@ describe('useNavItems', () => {
     asUser(['manage_knowledge'])
 
     const { moreNavGroups } = useNavItems()
-    const settings = moreNavGroups.value.find((g) => g.section === 'Settings')
+    const settings = moreNavGroups.value.find((g) => g.section === '设置')
 
     expect(settings?.items.map((i) => i.to)).toEqual(['/settings/user'])
-    expect(moreNavGroups.value.find((g) => g.section === 'Workspace')?.items.map((i) => i.to))
+    expect(moreNavGroups.value.find((g) => g.section === '工作区')?.items.map((i) => i.to))
       .not.toContain('/settings/user')
   })
 
@@ -172,8 +172,8 @@ describe('useNavItems', () => {
     const { moreNavGroups, navItems } = useNavItems()
 
     // Only User Settings survives, so Workspace disappears entirely
-    expect(moreNavGroups.value.map((g) => g.section)).toEqual(['Settings'])
-    expect(navItems.value.filter((i) => i.section).map((i) => i.section)).toEqual(['Settings'])
+    expect(moreNavGroups.value.map((g) => g.section)).toEqual(['设置'])
+    expect(navItems.value.filter((i) => i.section).map((i) => i.section)).toEqual(['设置'])
   })
 
   // The desktop sidebar moves personal pages into its account menu; the More
@@ -192,7 +192,7 @@ describe('useNavItems', () => {
 
     const { sidebarGroups, accountItems } = useNavItems()
 
-    expect(sidebarGroups.value.map((g) => g.section)).toEqual(['Workspace'])
+    expect(sidebarGroups.value.map((g) => g.section)).toEqual(['工作区'])
     expect(accountItems.value.map((i) => i.to)).toEqual(['/settings/user'])
   })
 
@@ -206,10 +206,10 @@ describe('useNavItems', () => {
   it('names the section a page belongs to, for the breadcrumb', () => {
     const { sectionFor } = useNavItems()
 
-    expect(sectionFor('/analytics')).toBe('Workspace')
-    expect(sectionFor('/tickets/123')).toBe('Workspace')
-    expect(sectionFor('/settings/organization')).toBe('Settings')
-    expect(sectionFor('/settings/user')).toBe('Account')
+    expect(sectionFor('/analytics')).toBe('工作区')
+    expect(sectionFor('/tickets/123')).toBe('工作区')
+    expect(sectionFor('/settings/organization')).toBe('设置')
+    expect(sectionFor('/settings/user')).toBe('账户')
     expect(sectionFor('/nowhere')).toBeUndefined()
   })
 

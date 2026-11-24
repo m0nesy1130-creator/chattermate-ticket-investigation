@@ -239,7 +239,7 @@ onBeforeUnmount(() => clearTimeout(searchTimer))
     </div>
 
     <template #actions>
-      <button class="modal-btn" @click="emit('close')">Cancel</button>
+      <button class="modal-btn" @click="emit('close')">取消</button>
       <button
         class="modal-btn modal-btn-primary"
         :disabled="!canSend"

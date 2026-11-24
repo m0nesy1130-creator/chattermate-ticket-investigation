@@ -145,20 +145,20 @@ function saveAll() {
   <DashboardLayout>
   <div class="ticketing-settings">
     <div class="page-header">
-      <h1 class="page-title">Ticketing settings</h1>
+      <h1 class="page-title">工单设置</h1>
       <p class="page-subtitle">
         Set exactly what the AI is allowed to do — every action is gated by the autonomy level
         you choose.
       </p>
     </div>
 
-    <div v-if="isLoading" class="state-msg">Loading…</div>
+    <div v-if="isLoading" class="state-msg">正在加载…</div>
     <div v-else-if="planGated || error" class="state-msg">{{ error }}</div>
 
     <template v-else-if="settings">
       <!-- AUTONOMY -->
       <section class="section">
-        <h2 class="section-title">Autonomy level</h2>
+        <h2 class="section-title">自动化级别</h2>
         <p class="section-hint">
           The AI never exceeds this level. Higher levels still log every action for audit.
         </p>
@@ -178,7 +178,7 @@ function saveAll() {
                 <span class="radio-dot"></span>
               </span>
               <span class="tier">{{ card.tier }}</span>
-              <span v-if="card.disabled" class="soon-tag">Coming soon</span>
+              <span v-if="card.disabled" class="soon-tag">即将推出</span>
             </div>
             <div class="card-title">{{ card.title }}</div>
             <div class="caps">
@@ -210,7 +210,7 @@ function saveAll() {
 
       <!-- SLA -->
       <section class="section">
-        <h2 class="section-title">SLA targets</h2>
+        <h2 class="section-title">服务时限目标</h2>
         <div class="sla-table">
           <div class="sla-head">
             <span>Priority</span><span>First response (min)</span><span>Resolution (min)</span>
@@ -229,7 +229,7 @@ function saveAll() {
       <!-- CUSTOMER COMMS -->
       <section class="section">
         <div class="section-head-row">
-          <h2 class="section-title">Customer communications</h2>
+          <h2 class="section-title">客户沟通</h2>
           <label class="toggle-row inline">
             <input
               type="checkbox"
@@ -248,13 +248,13 @@ function saveAll() {
           <div class="template-card">
             <div class="card-label">Template · Ticket created</div>
             <textarea v-model="createdTemplate" class="template-input"></textarea>
-            <div class="card-label">Preview</div>
+            <div class="card-label">预览</div>
             <div class="template-preview">{{ preview(createdTemplate) }}</div>
           </div>
           <div class="template-card">
             <div class="card-label">Template · Ticket resolved</div>
             <textarea v-model="resolvedTemplate" class="template-input"></textarea>
-            <div class="card-label">Preview</div>
+            <div class="card-label">预览</div>
             <div class="template-preview">{{ preview(resolvedTemplate) }}</div>
           </div>
         </div>
@@ -270,7 +270,7 @@ function saveAll() {
       <!-- CONNECTORS -->
       <section class="section">
         <div class="section-head-row">
-          <h2 class="section-title">Investigation connectors</h2>
+          <h2 class="section-title">调查工具连接</h2>
           <span class="mcp-tag">via MCP</span>
         </div>
         <p class="section-hint">
@@ -286,7 +286,7 @@ function saveAll() {
       <!-- GUARDRAILED DATABASE ACCESS -->
       <section class="section">
         <div class="section-head-row">
-          <h2 class="section-title">Database connector</h2>
+          <h2 class="section-title">数据库连接</h2>
           <span class="lock-chip">
             <font-awesome-icon :icon="['fas', 'lock']" />
             Read-only — the AI can never write
@@ -303,14 +303,14 @@ function saveAll() {
       <!-- ALERT WEBHOOK -->
       <section class="section">
         <div class="section-head-row">
-          <h2 class="section-title">Alert webhook intake</h2>
+          <h2 class="section-title">告警 Webhook 接入</h2>
           <label class="toggle-row inline">
             <input
               type="checkbox"
               :checked="settings.alert_webhook_enabled"
               @change="save({ alert_webhook_enabled: ($event.target as HTMLInputElement).checked })"
             />
-            Enabled
+            已启用
           </label>
         </div>
         <p class="section-hint">
@@ -320,21 +320,21 @@ function saveAll() {
         </p>
         <div v-if="webhookUrl" class="webhook-row">
           <code class="webhook-url">{{ webhookUrl }}</code>
-          <button class="copy-webhook" @click="copyWebhookUrl">Copy</button>
+          <button class="copy-webhook" @click="copyWebhookUrl">复制</button>
         </div>
       </section>
 
       <!-- JIRA ESCALATION -->
       <section class="section">
         <div class="section-head-row">
-          <h2 class="section-title">Jira escalation</h2>
+          <h2 class="section-title">升级至 Jira</h2>
           <label class="toggle-row inline">
             <input
               type="checkbox"
               :checked="settings.jira_escalation_enabled"
               @change="save({ jira_escalation_enabled: ($event.target as HTMLInputElement).checked })"
             />
-            Enabled
+            已启用
           </label>
         </div>
         <p class="section-hint">

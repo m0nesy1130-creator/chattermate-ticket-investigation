@@ -77,7 +77,7 @@ function onKeydown(event: KeyboardEvent) {
     ></textarea>
     <span class="editor-actions">
       <span class="editor-hint">Enter to save · Esc to cancel</span>
-      <button type="button" class="editor-btn" @click="emit('done')">Cancel</button>
+      <button type="button" class="editor-btn" @click="emit('done')">取消</button>
       <button type="submit" class="editor-btn primary" :disabled="saving || !changed">{{ saving ? 'Saving…' : 'Save' }}</button>
     </span>
   </form>

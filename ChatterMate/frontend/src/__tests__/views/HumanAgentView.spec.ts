@@ -66,7 +66,7 @@ describe('HumanAgentView', () => {
     const tabButtons = wrapper.findAll('.tab-pill')
     expect(tabButtons).toHaveLength(3)
     // Labels may include an optional count badge, so match on the label text.
-    expect(tabButtons[0].text()).toContain('People')
+    expect(tabButtons[0].text()).toContain('联系人')
     expect(tabButtons[1].text()).toContain('Teams')
     expect(tabButtons[2].text()).toContain('Roles')
   })

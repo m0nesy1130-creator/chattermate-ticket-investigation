@@ -27,7 +27,7 @@ const landingRoute = resolveLandingRoute()
 <template>
   <DashboardLayout>
     <div class="unauthorized">
-      <h1>Access Denied</h1>
+      <h1>访问受限</h1>
       <p>You don't have permission to access this page.</p>
       <router-link :to="landingRoute" class="back-link">
         Go to a page you can open

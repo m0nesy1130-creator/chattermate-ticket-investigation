@@ -64,7 +64,7 @@ const contact = computed(() => {
 /** Integrator-supplied fields (POST /generate-token custom_data), labelled */
 const customerFacts = computed(() => {
   const facts: DetailsFact[] = []
-  if (props.chat.customer.phone) facts.push({ label: 'Phone', value: props.chat.customer.phone })
+  if (props.chat.customer.phone) facts.push({ label: '电话', value: props.chat.customer.phone })
   const metaData = props.chat.customer.meta_data
   if (metaData && typeof metaData === 'object') {
     for (const [key, value] of Object.entries(metaData)) {
@@ -78,24 +78,24 @@ const customerFacts = computed(() => {
   return facts
 })
 
-const STATUS_LABELS: Record<string, string> = { ai: 'AI answering', waiting: 'Waiting for a human', human: 'With a person', closed: 'Closed' }
+const STATUS_LABELS: Record<string, string> = { ai: 'AI answering', waiting: 'Waiting for a human', human: 'With a person', closed: '已关闭' }
 
 const conversationFacts = computed(() => {
   const handler = chatHandler(props.chat, currentUserId)
   const facts: DetailsFact[] = [
-    { label: 'Status', value: STATUS_LABELS[handler.kind], tone: handler.kind },
-    { label: 'AI agent', value: props.chat.agent.display_name || props.chat.agent.name },
+    { label: '状态', value: STATUS_LABELS[handler.kind], tone: handler.kind },
+    { label: 'AI 助手', value: props.chat.agent.display_name || props.chat.agent.name },
   ]
-  if (handler.kind === 'human') facts.push({ label: 'Handled by', value: handler.label })
-  facts.push({ label: 'Channel', value: channelLabel(props.chat.channel) })
+  if (handler.kind === 'human') facts.push({ label: '处理人', value: handler.label })
+  facts.push({ label: '渠道', value: channelLabel(props.chat.channel) })
   const reason = transferReasonLabel(props.chat.transfer_reason)
-  if (reason) facts.push({ label: 'Handover', value: reason })
+  if (reason) facts.push({ label: '转接', value: reason })
   if (props.chat.sentiment_label) {
     const label = props.chat.sentiment_label
-    facts.push({ label: 'Sentiment', value: label.charAt(0).toUpperCase() + label.slice(1), tone: label })
+    facts.push({ label: '情绪', value: label.charAt(0).toUpperCase() + label.slice(1), tone: label })
   }
   const started = formatShortDate(props.chat.created_at)
-  if (started) facts.push({ label: 'Started', value: started })
+  if (started) facts.push({ label: '开始时间', value: started })
   return facts
 })
 
@@ -134,7 +134,7 @@ function jumpToHandover() {
           aria-controls="details-conversation"
           @click="conversationOpen = !conversationOpen"
         >
-          Conversation
+          会话
           <span class="chevron" :class="{ open: conversationOpen }" aria-hidden="true" v-html="navIconSvg('chevronDown', 12)"></span>
         </button>
       </h3>

@@ -209,6 +209,6 @@ describe('TicketInvestigationPanel guided re-run', () => {
     const denied = mountPanel({}, { canReinvestigate: true, canEditSettings: false })
     await denied.find('.rerun-btn').trigger('click')
     expect(denied.find('.rerun-scope a').exists()).toBe(false)
-    expect(denied.find('.rerun-scope').text()).toContain('Ticketing settings')
+    expect(denied.find('.rerun-scope').text()).toContain('工单设置')
   })
 })

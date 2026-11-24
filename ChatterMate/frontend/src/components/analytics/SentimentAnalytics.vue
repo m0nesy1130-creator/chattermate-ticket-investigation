@@ -99,10 +99,10 @@ limitations under the License.
           <thead>
             <tr>
               <th>Session</th>
-              <th>Sentiment</th>
+              <th>情绪</th>
               <th>Score</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>状态</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>

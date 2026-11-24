@@ -375,7 +375,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
       </div>
 
       <header class="page-header">
-        <h1 class="page-title">AI Configuration</h1>
+        <h1 class="page-title">AI 配置</h1>
         <p class="page-subtitle">Your agents already run on ChatterMate AI. Switch to your own model any time — this is optional.</p>
       </header>
 
@@ -418,7 +418,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
                 <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
               </svg>
             </span>
-            <span class="tab-label">Advanced — Bring Your Own Model</span>
+            <span class="tab-label">高级 · 接入自己的模型</span>
             <span v-if="hasEnterpriseModule && isCustomModelsLocked" class="lock-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -572,13 +572,13 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
             <!-- Custom Models Form (when unlocked) -->
             <div v-else>
               <form @submit.prevent="handleSubmit" class="setup-form">
-                <h4 class="setup-title">Bring your own model</h4>
+                <h4 class="setup-title">接入自己的模型</h4>
                 <p class="setup-description">
                   {{ hasExistingConfig ? 'Update your AI provider settings' : 'Connect a provider with your own API key. Full control, your rates.' }}
                 </p>
 
                 <div class="form-group">
-                  <label>AI Provider</label>
+                  <label>模型供应商</label>
                   <div class="provider-grid" role="radiogroup">
                     <button
                       v-for="provider in providers"
@@ -614,7 +614,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
                 </div>
 
                 <div class="form-group">
-                  <label for="model">Model Name</label>
+                  <label for="model">模型名称</label>
                   <select
                     id="model"
                     v-model="modelDropdown"
@@ -622,7 +622,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
                     class="form-control"
                     :disabled="!setupConfig.provider || modelOptions.length === 0"
                   >
-                    <option value="" disabled>Select Model</option>
+                    <option value="" disabled>选择模型</option>
                     <option
                       v-for="model in modelOptions"
                       :key="model.value"
@@ -649,7 +649,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
                 </div>
 
                 <div v-if="showApiKey" class="form-group">
-                  <label for="apiKey">API Key</label>
+                  <label for="apiKey">API 密钥</label>
                   <input
                     id="apiKey"
                     type="password"
@@ -659,7 +659,7 @@ const usingChatterMate = computed(() => savedProvider.value === 'chattermate')
                     class="form-control form-control-mono"
                   />
                   <p class="key-hint">
-                    Your API key will be encrypted and stored securely.<template v-if="selectedProvider?.api_key_url">&nbsp;&nbsp;<a
+                    API 密钥将加密保存。<template v-if="selectedProvider?.api_key_url">&nbsp;&nbsp;<a
                       :href="selectedProvider.api_key_url"
                       target="_blank"
                       rel="noopener noreferrer"

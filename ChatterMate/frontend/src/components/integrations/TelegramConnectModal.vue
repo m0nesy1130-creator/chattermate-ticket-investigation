@@ -91,7 +91,7 @@ const saveAgent = async () => {
       <!-- Step 1: bot token -->
       <div v-if="!account" class="tg-modal-body">
         <ol class="tg-steps">
-          <li>Open <strong>@BotFather</strong> in Telegram and send <code>/newbot</code></li>
+          <li>待处理 <strong>@BotFather</strong> in Telegram and send <code>/newbot</code></li>
           <li>Follow the prompts to name your bot</li>
           <li>Copy the bot token and paste it below</li>
         </ol>
@@ -107,7 +107,7 @@ const saveAgent = async () => {
           @keyup.enter="connect"
         />
         <div class="tg-actions">
-          <button class="tg-btn tg-btn-secondary" @click="emit('close')">Cancel</button>
+          <button class="tg-btn tg-btn-secondary" @click="emit('close')">取消</button>
           <button class="tg-btn tg-btn-primary" :disabled="connecting" @click="connect">
             {{ connecting ? 'Connecting…' : 'Connect' }}
           </button>
@@ -120,7 +120,7 @@ const saveAgent = async () => {
           <strong>{{ account.display_name }}</strong> is connected.
           Choose which AI agent answers its messages:
         </p>
-        <label class="tg-label" for="tg-agent">AI agent</label>
+        <label class="tg-label" for="tg-agent">AI 助手</label>
         <select id="tg-agent" v-model="selectedAgentId" class="tg-input">
           <option v-for="agent in agents" :key="String(agent.id)" :value="String(agent.id)">
             {{ agent.display_name || agent.name }}

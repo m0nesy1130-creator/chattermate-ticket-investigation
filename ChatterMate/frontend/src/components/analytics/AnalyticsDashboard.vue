@@ -125,7 +125,7 @@ limitations under the License.
           :class="{ active: activeTab === 'sentiment' }"
           @click="activeTab = 'sentiment'"
         >
-          Sentiment
+          情绪
         </button>
       </div>
     </div>

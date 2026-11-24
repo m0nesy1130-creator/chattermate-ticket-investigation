@@ -1,4 +1,4 @@
-# ChatterMate 工单深度调查
+# TicketResolve 工单调查 Agent
 
 Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能。经办人在原有工单详情页发起分析、上传材料和确认范围，系统按计划调查并生成带证据的结论，审核后将结果写回同一张工单的内部活动。
 
@@ -14,6 +14,8 @@ Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能�
 | 失败续跑 | 通过调查编号关联 LangGraph 检查点，恢复中断的步骤。 |
 | 审批与报告 | 下载 Markdown 报告。经授权的经办人按所审阅的报告版本确认，将结论写入工单内部活动。 |
 
+常用管理界面提供简体中文，包括工单、收件箱、助手、知识库和设置。部分高级配置及第三方提示仍可能使用英文。
+
 ## 集成架构
 
 | 模块 | 技术与职责 |
@@ -21,6 +23,8 @@ Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能�
 | ChatterMate 社区版 | Vue 3、TypeScript 和 PostgreSQL。复用工单、组织权限和活动记录，新增调查面板和任务队列。 |
 | Analysis Agent | Python、FastAPI、LangGraph 和 DeepSeek API。负责澄清需求、按依赖规划执行、检索和复核证据。 |
 | 调查队列与检查点 | ChatterMate Worker 通过 FastAPI 调用分析引擎。PostgreSQL 保存调查队列，MySQL 保存 LangGraph 检查点。合同付款台账走独立的只读业务连接。 |
+
+分析引擎采用 Plan-and-Execute，以 LangGraph 固定步骤依赖并调度执行，自适应取证在步骤内结合 ReAct 风格工具调用与复核反馈继续补查，人工补证和审批通过 HITL 参与。
 
 工单经办人从 ChatterMate 发起调查。原生客服会话继续由 ChatterMate 管理，独立的调查引擎按工单请求执行。
 

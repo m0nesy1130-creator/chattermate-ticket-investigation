@@ -37,7 +37,7 @@ limitations under the License.
               <th>Total Chats</th>
               <th>Last Interaction</th>
               <th>Avg. Rating</th>
-              <th>Actions</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody>

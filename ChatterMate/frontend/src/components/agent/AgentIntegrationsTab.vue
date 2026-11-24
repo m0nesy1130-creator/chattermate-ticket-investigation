@@ -292,7 +292,7 @@ onMounted(async () => {
 <template>
   <div class="integrations-tab">
     <section class="detail-section">
-      <h3 class="section-title">Integrations</h3>
+      <h3 class="section-title">集成</h3>
       <p class="section-description">
         Let this agent take action in the tools you already use.
       </p>
@@ -347,7 +347,7 @@ onMounted(async () => {
             to="/settings/integrations"
             class="connect-btn"
           >
-            Connect
+            连接
           </router-link>
           <router-link
             v-else
@@ -360,7 +360,7 @@ onMounted(async () => {
         <!-- Jira Ticket Creation Toggle -->
         <div v-if="jiraConnected" class="ticket-toggle">
           <div class="toggle-header">
-            <h5 class="toggle-title">Create Jira Tickets</h5>
+            <h5 class="toggle-title">创建 Jira 工单</h5>
             <label class="switch" v-tooltip="ticketTooltipContent">
               <input type="checkbox" 
                 :checked="createTicketEnabled"
@@ -390,7 +390,7 @@ onMounted(async () => {
           <!-- Jira Project Selection -->
           <div v-if="createTicketEnabled && jiraConnected" class="jira-config">
             <div class="form-group">
-              <label for="jira-project">Jira Project</label>
+              <label for="jira-project">Jira 项目</label>
               <div v-if="loadingProjects" class="loading-indicator">Loading projects...</div>
               <select 
                 v-else
@@ -399,7 +399,7 @@ onMounted(async () => {
                 @change="handleProjectChange"
                 :disabled="loadingProjects"
               >
-                <option value="">Select a project</option>
+                <option value="">请选择项目</option>
                 <option 
                   v-for="project in jiraProjects" 
                   :key="project.id" 
@@ -411,7 +411,7 @@ onMounted(async () => {
             </div>
             
             <div class="form-group">
-              <label for="issue-type">Issue Type</label>
+              <label for="issue-type">问题类型</label>
               <div v-if="loadingIssueTypes" class="loading-indicator">Loading issue types...</div>
               <select 
                 v-else
@@ -420,7 +420,7 @@ onMounted(async () => {
                 @change="handleIssueTypeChange"
                 :disabled="!localSelectedProject || loadingIssueTypes"
               >
-                <option value="">Select an issue type</option>
+                <option value="">请选择问题类型</option>
                 <option 
                   v-for="issueType in jiraIssueTypes" 
                   :key="issueType.id" 
@@ -436,7 +436,7 @@ onMounted(async () => {
               @click="saveJiraConfig"
               :disabled="!localSelectedProject || !localSelectedIssueType"
             >
-              Save Configuration
+              保存配置
             </button>
           </div>
         </div>
@@ -457,7 +457,7 @@ onMounted(async () => {
             to="/settings/integrations"
             class="connect-btn"
           >
-            Connect
+            连接
           </router-link>
           <router-link
             v-else
@@ -469,7 +469,7 @@ onMounted(async () => {
         </div>
         <div v-if="shopifyConnected" class="ticket-toggle">
           <div class="toggle-header">
-            <h5 class="toggle-title">Enable Shopify Features</h5>
+            <h5 class="toggle-title">启用 Shopify 功能</h5>
             <div class="toggle-with-loader">
               <div class="toggle-loader" v-if="shopifyToggleInProgress">
                 <span class="loader-dot"></span>

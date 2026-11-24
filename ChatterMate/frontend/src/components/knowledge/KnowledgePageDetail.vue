@@ -88,7 +88,7 @@ const updatedLabel = computed(() => {
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
             </svg>
-            Edit
+            编辑
           </button>
           <button class="btn btn--danger" type="button" :disabled="deleting" title="Delete page"
             @click="$emit('delete')">
@@ -123,7 +123,7 @@ const updatedLabel = computed(() => {
     <div class="doc">
       <p v-for="(para, i) in paragraphs" :key="i">{{ para }}</p>
       <div v-if="paragraphs.length === 0" class="doc__empty">
-        This page has no content yet. Click <strong>Edit</strong> to add some.
+        This page has no content yet. Click <strong>编辑</strong> to add some.
       </div>
     </div>
   </div>

@@ -289,14 +289,14 @@ const handleProfilePicClick = () => {
 <template>
   <div class="settings-page">
     <div class="settings-head">
-      <h1>User Settings</h1>
+      <h1>用户设置</h1>
       <p>Manage your personal profile, password and notifications.</p>
     </div>
 
     <form @submit.prevent="updateProfile" class="settings-form">
       <!-- Profile card -->
       <div class="settings-card">
-        <h3 class="card-title">Profile</h3>
+        <h3 class="card-title">个人资料</h3>
 
         <div class="profile-row">
           <div class="profile-pic-wrapper" @click="handleProfilePicClick">
@@ -338,15 +338,15 @@ const handleProfilePicClick = () => {
 
         <div class="field-grid">
           <div class="form-group">
-            <label>Full name</label>
+            <label>姓名</label>
             <input
               type="text"
               v-model="formData.full_name"
-              placeholder="Your full name"
+              placeholder="请输入姓名"
             >
           </div>
           <div class="form-group">
-            <label>Email</label>
+            <label>邮箱</label>
             <input
               type="email"
               v-model="formData.email"
@@ -358,7 +358,7 @@ const handleProfilePicClick = () => {
         </div>
 
         <div class="role-row">
-          <span class="role-label">Role</span>
+          <span class="role-label">角色</span>
           <span class="role-badge">{{ user?.role?.name || 'User' }}</span>
           <span class="role-note">Contact an admin to change your role.</span>
         </div>
@@ -366,11 +366,11 @@ const handleProfilePicClick = () => {
 
       <!-- Change password card -->
       <div class="settings-card">
-        <h3 class="card-title">Change password</h3>
+        <h3 class="card-title">修改密码</h3>
         <p class="card-subtitle">Use at least 8 characters with a mix of letters and numbers.</p>
 
         <div class="form-group">
-          <label>Current password</label>
+          <label>当前密码</label>
           <input
             type="password"
             v-model="formData.current_password"
@@ -385,16 +385,16 @@ const handleProfilePicClick = () => {
               type="password"
               v-model="formData.new_password"
               @input="handlePasswordInput(formData.new_password)"
-              placeholder="Enter new password"
+              placeholder="请输入新密码"
               minlength="8"
             >
           </div>
           <div class="form-group">
-            <label>Confirm new password</label>
+            <label>请再次输入新密码</label>
             <input
               type="password"
               v-model="formData.confirm_password"
-              placeholder="Confirm new password"
+              placeholder="请再次输入新密码"
             >
           </div>
         </div>
@@ -425,7 +425,7 @@ const handleProfilePicClick = () => {
 
     <!-- Notifications: saved on toggle, so deliberately outside the profile form -->
     <div class="settings-card notifications-card">
-      <h3 class="card-title">Notifications</h3>
+      <h3 class="card-title">通知</h3>
       <p class="card-subtitle">Choose which chat events send you a push notification.</p>
 
       <div v-if="!hasPushPermission" class="permission-notice">
@@ -433,7 +433,7 @@ const handleProfilePicClick = () => {
         <span class="permission-text">
           Your browser isn't allowed to show notifications yet, so nothing below will reach you.
         </span>
-        <button type="button" class="upload-button" @click="enableNotifications">Enable</button>
+        <button type="button" class="upload-button" @click="enableNotifications">启用</button>
       </div>
 
       <div v-if="notificationsLoading" class="notification-hint">Loading your preferences…</div>

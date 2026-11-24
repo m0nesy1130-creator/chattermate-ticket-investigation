@@ -308,7 +308,7 @@ const getOrbStyle = (agent: Agent): Record<string, string> => {
                     </div>
                 </div>
                 <div class="resume-actions">
-                    <button class="resume-dismiss" @click="dismissBanner">Dismiss</button>
+                    <button class="resume-dismiss" @click="dismissBanner">关闭提示</button>
                     <button
                         v-if="canManageAgents"
                         class="resume-cta"
@@ -341,7 +341,7 @@ const getOrbStyle = (agent: Agent): Record<string, string> => {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                         <path d="M12 5v14M5 12h14"/>
                     </svg>
-                    Create Agent
+                    创建助手
                     <font-awesome-icon v-if="hasEnterpriseModule && isAgentCreationLocked" icon="fa-solid fa-lock" class="lock-icon" />
                 </button>
             </div>
@@ -428,7 +428,7 @@ const getOrbStyle = (agent: Agent): Record<string, string> => {
                         <span class="badge-integration">Web</span>
                         <span v-if="agent.use_workflow" class="badge-workflow">
                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-                            Workflow
+                            工作流
                         </span>
                     </div>
 
@@ -483,11 +483,11 @@ const getOrbStyle = (agent: Agent): Record<string, string> => {
             <!-- Empty state: no agents at all -->
             <div v-else-if="agents.length === 0" class="empty-state">
                 <div class="empty-orb"></div>
-                <h3>No agents yet</h3>
+                <h3>暂无助手</h3>
                 <p>Create your first AI agent to start handling conversations automatically.</p>
                 <button v-if="canManageAgents" class="create-agent-button" @click="handleCreateAgent">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-                    Create Agent
+                    创建助手
                 </button>
             </div>
         </div>

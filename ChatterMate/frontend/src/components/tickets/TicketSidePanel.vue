@@ -110,7 +110,7 @@ function pickAssignee(userId: string | null) {
           <div class="assignee-sub">{{ assigneeName ? 'Human agent' : 'Unassigned — AI handles' }}</div>
         </div>
         <button v-if="canManage" class="change-btn" @click="isPickingAssignee = !isPickingAssignee">
-          Change
+          更改
         </button>
       </div>
       <div v-if="isPickingAssignee" class="assignee-picker">

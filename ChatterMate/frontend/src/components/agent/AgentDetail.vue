@@ -744,7 +744,7 @@ onMounted(async () => {
                             <div v-if="showOrbAvatar" class="agent-orb-avatar" :class="{ 'opacity-50': isUploading }" :style="orbStyle"></div>
                             <img v-else :src="photoUrl" :alt="agentData.name" :class="{ 'opacity-50': isUploading }">
                             <div class="upload-overlay" v-if="!isUploading">
-                                <span>Change</span>
+                                <span>更改</span>
                             </div>
                             <div class="upload-overlay" v-else>
                                 <span>...</span>
@@ -756,7 +756,7 @@ onMounted(async () => {
 
                         <!-- Preset avatar picker -->
                         <div v-if="showAvatarPicker" class="avatar-picker" @click.stop>
-                            <div class="avatar-picker-title">Choose a picture</div>
+                            <div class="avatar-picker-title">选择图片</div>
                             <div class="avatar-picker-grid">
                                 <button
                                     v-for="(url, i) in presetAvatars"
@@ -839,7 +839,7 @@ onMounted(async () => {
                                             <circle cx="12" cy="12" r="3"/>
                                             <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m15.5-3.5L19 4l-1.5 1.5M6.5 17.5L5 19l1.5 1.5m0-11L5 5l1.5 1.5m11 11L19 19l-1.5-1.5"/>
                                         </svg>
-                                        <span class="mode-label">AI Mode</span>
+                                        <span class="mode-label">AI 模式</span>
                                     </button>
                                     <button 
                                         class="mode-button" 
@@ -857,7 +857,7 @@ onMounted(async () => {
                                             <path d="M6 9v3a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9"/>
                                             <path d="M12 15v-3"/>
                                         </svg>
-                                        <span class="mode-label">Workflow</span>
+                                        <span class="mode-label">工作流</span>
                                         <font-awesome-icon v-if="hasEnterpriseModule && isWorkflowLocked" icon="fa-solid fa-lock" class="lock-icon" />
                                     </button>
                                 </div>
@@ -912,14 +912,14 @@ onMounted(async () => {
                             :class="{ 'active': activeTab === 'knowledge' }"
                             @click="switchTab('knowledge')"
                         >
-                            Knowledge
+                            知识库
                         </button>
                         <button 
                             class="tab-button" 
                             :class="{ 'active': activeTab === 'integrations' }"
                             @click="switchTab('integrations')"
                         >
-                            Integrations
+                            集成
                         </button>
                         <button
                             class="tab-button"
@@ -944,7 +944,7 @@ onMounted(async () => {
                             :class="{ 'active': activeTab === 'actions' }"
                             @click="switchTab('actions')"
                         >
-                            Actions
+                            操作
                         </button>
                         <button
                             class="tab-button"
@@ -1004,7 +1004,7 @@ onMounted(async () => {
                         <div v-if="activeTab === 'preview'" class="tab-content">
                             <div class="preview-container">
                                 <div class="preview-header">
-                                    <h3 class="section-title">Chat Preview</h3>
+                                    <h3 class="section-title">会话预览</h3>
                                     <p class="section-description">
                                         This is how your chat widget will appear to users. The preview shows the exact interface they will interact with.
                                     </p>
@@ -1018,7 +1018,7 @@ onMounted(async () => {
                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         </div>
-                                        <h4 class="preview-unavailable-title">Preview Unavailable</h4>
+                                        <h4 class="preview-unavailable-title">无法预览</h4>
                                         <p class="preview-unavailable-description">
                                             This agent requires Widget App authentication. The preview cannot be shown because token authentication is enabled.
                                         </p>
@@ -1161,15 +1161,15 @@ onMounted(async () => {
                                 </div>
                                 <div class="customization-preview">
                                     <div class="preview-toolbar">
-                                        <div class="preview-switch" role="radiogroup" aria-label="Preview">
+                                        <div class="preview-switch" role="radiogroup" aria-label="预览">
                                             <button type="button" role="radio" class="preview-switch-option"
                                                 :class="{ active: customizationPreviewMode === 'chat' }"
                                                 :aria-checked="customizationPreviewMode === 'chat'"
-                                                @click="customizationPreviewMode = 'chat'">Chat</button>
+                                                @click="customizationPreviewMode = 'chat'">对话</button>
                                             <button type="button" role="radio" class="preview-switch-option"
                                                 :class="{ active: customizationPreviewMode === 'launcher' }"
                                                 :aria-checked="customizationPreviewMode === 'launcher'"
-                                                @click="customizationPreviewMode = 'launcher'">Launcher</button>
+                                                @click="customizationPreviewMode = 'launcher'">启动按钮</button>
                                         </div>
                                         <div v-if="customizationPreviewMode === 'launcher'" class="preview-switch"
                                             role="radiogroup" aria-label="Site background">
@@ -1219,7 +1219,7 @@ onMounted(async () => {
                         <button @click="handleCrop" :disabled="isUploading">
                             {{ isUploading ? 'Uploading...' : 'Save' }}
                         </button>
-                        <button @click="cancelCrop">Cancel</button>
+                        <button @click="cancelCrop">取消</button>
                     </div>
                 </div>
             </div>
@@ -1229,41 +1229,41 @@ onMounted(async () => {
         <div v-if="showTips" class="tips-dialog-overlay">
             <div class="tips-dialog">
                 <div class="tips-dialog-header">
-                    <h3>Knowledge Management Tips</h3>
+                    <h3>知识管理提示</h3>
                     <button class="close-button" @click="closeTips">×</button>
                 </div>
                 <div class="tips-dialog-content">
                     <div class="tip-item">
                         <div class="tip-icon">📄</div>
                         <div class="tip-content">
-                            <h4>PDF Documents</h4>
+                            <h4>PDF 文档</h4>
                             <p>Upload PDF files to give your agent access to document content. Best for manuals, reports, and structured documents.</p>
                         </div>
                     </div>
                     <div class="tip-item">
                         <div class="tip-icon">🔗</div>
                         <div class="tip-content">
-                            <h4>Web Pages</h4>
+                            <h4>网页</h4>
                             <p>Add URLs for web content you want the agent to reference. Great for dynamic information that updates regularly.</p>
                         </div>
                     </div>
                     <div class="tip-item">
                         <div class="tip-icon">🔄</div>
                         <div class="tip-content">
-                            <h4>Link Existing Sources</h4>
+                            <h4>关联已有资料</h4>
                             <p>Reuse knowledge sources across multiple agents to maintain consistency in responses.</p>
                         </div>
                     </div>
                     <div class="tip-item">
                         <div class="tip-icon">⚙️</div>
                         <div class="tip-content">
-                            <h4>Processing Time</h4>
+                            <h4>处理时间</h4>
                             <p>Knowledge sources are processed asynchronously. Allow a few minutes for large documents to be fully indexed.</p>
                         </div>
                     </div>
                 </div>
                 <div class="tips-dialog-footer">
-                    <button class="close-tips-button" @click="closeTips">Got it</button>
+                    <button class="close-tips-button" @click="closeTips">知道了</button>
                 </div>
             </div>
         </div>

@@ -67,9 +67,9 @@ export function rowChips(conv: RowCandidate, currentUserId: string | null, now: 
     const waited = since ? elapsedLabel(since, now) : ''
     chips.push({ kind: 'waiting', late, text: [`Waiting ${waited}`.trim(), late ? 'late' : ''].filter(Boolean).join(' · ') })
   } else {
-    chips.push({ kind: 'closed', text: 'Closed' })
+    chips.push({ kind: 'closed', text: '已关闭' })
   }
-  if (conv.sentiment_label === 'negative') chips.push({ kind: 'negative', text: 'Negative' })
+  if (conv.sentiment_label === 'negative') chips.push({ kind: 'negative', text: '负面' })
   if (conv.snoozed_until && new Date(conv.snoozed_until) > now) {
     const until = new Date(conv.snoozed_until)
     const sameDay = until.toDateString() === now.toDateString()

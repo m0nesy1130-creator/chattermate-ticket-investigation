@@ -155,7 +155,7 @@ onMounted(() => {
           <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
         </svg>
       </div>
-      <div class="pv-locked-badge">Pro feature</div>
+      <div class="pv-locked-badge">专业版功能</div>
       <h2 class="pv-locked-title">People &amp; Lead Management</h2>
       <p class="pv-locked-desc">
         See every visitor, lead and customer your agents capture — deduplicated into one
@@ -166,24 +166,24 @@ onMounted(() => {
         <li>AI-qualified lead summaries and captured attributes</li>
         <li>Automatic visitor → lead → customer lifecycle</li>
       </ul>
-      <button class="pv-locked-btn" @click="goToUpgrade">See plans</button>
+      <button class="pv-locked-btn" @click="goToUpgrade">查看套餐</button>
     </div>
   </div>
 
   <div v-else class="people-view">
     <div class="pv-header">
       <div>
-        <h1 class="pv-title">People</h1>
+        <h1 class="pv-title">联系人</h1>
         <p class="pv-sub">Every lead your agents capture, deduplicated into one profile.</p>
       </div>
     </div>
 
     <!-- KPI strip -->
     <div class="pv-kpis" v-if="stats">
-      <div class="pv-kpi"><div class="pv-kpi-label">TOTAL PEOPLE</div><div class="pv-kpi-value">{{ stats.total_people }}</div></div>
+      <div class="pv-kpi"><div class="pv-kpi-label">联系人总数</div><div class="pv-kpi-value">{{ stats.total_people }}</div></div>
       <div class="pv-kpi"><div class="pv-kpi-label">NEW LEADS · 7D</div><div class="pv-kpi-value accent">{{ stats.new_leads_7d }}</div></div>
-      <div class="pv-kpi"><div class="pv-kpi-label">CUSTOMERS</div><div class="pv-kpi-value">{{ stats.customers }}</div></div>
-      <div class="pv-kpi"><div class="pv-kpi-label">SYNCED TO CRM</div><div class="pv-kpi-value muted">{{ stats.synced_to_crm }}</div></div>
+      <div class="pv-kpi"><div class="pv-kpi-label">客户</div><div class="pv-kpi-value">{{ stats.customers }}</div></div>
+      <div class="pv-kpi"><div class="pv-kpi-label">已同步到 CRM</div><div class="pv-kpi-value muted">{{ stats.synced_to_crm }}</div></div>
     </div>
 
     <!-- toolbar -->
@@ -199,7 +199,7 @@ onMounted(() => {
           Signed in<span v-if="stats?.signed_in" class="pv-tab-count">{{ stats.signed_in }}</span>
         </button>
       </div>
-      <input class="pv-search" v-model="search" placeholder="Search name, email or company…" />
+      <input class="pv-search" v-model="search" placeholder="搜索姓名、邮箱或公司…" />
     </div>
 
     <!-- table -->
@@ -243,7 +243,7 @@ onMounted(() => {
       <div v-if="!loading && items.length === 0" class="pv-empty">
         {{ view === 'signed_in' ? 'No signed-in users yet. They show here once your app identifies them to the chat.' : 'No people match this filter.' }}
       </div>
-      <div v-if="loading" class="pv-empty">Loading…</div>
+      <div v-if="loading" class="pv-empty">正在加载…</div>
       <div class="pv-foot">
         <span>{{ total }} people</span>
         <span class="pv-pager">

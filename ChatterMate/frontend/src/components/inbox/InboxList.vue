@@ -117,7 +117,7 @@ defineExpose({ focusSearch })
   <section class="list" aria-labelledby="inbox-list-title">
     <div class="list-head">
       <div class="head-row">
-        <button v-if="showNavButton" type="button" class="icon-btn" aria-label="Open navigation" @click="emit('open-nav')">
+        <button v-if="showNavButton" type="button" class="icon-btn" aria-label="打开导航" @click="emit('open-nav')">
           <span aria-hidden="true" v-html="navIconSvg('panelLeft', 16)"></span>
         </button>
         <h2 id="inbox-list-title" class="title">
@@ -125,10 +125,10 @@ defineExpose({ focusSearch })
           <span v-if="view.count !== null && !narrowed" class="title-count">{{ view.count }}</span>
         </h2>
         <label class="sort">
-          <span class="visually-hidden">Sort</span>
+          <span class="visually-hidden">排序</span>
           <select v-model="sort" class="sort-select">
-            <option value="newest">Newest</option>
-            <option value="waiting_longest">Waiting longest</option>
+            <option value="newest">最新优先</option>
+            <option value="waiting_longest">等待最久优先</option>
           </select>
           <span class="sort-chevron" aria-hidden="true" v-html="navIconSvg('chevronDown', 12)"></span>
         </label>
@@ -146,9 +146,9 @@ defineExpose({ focusSearch })
         <span aria-hidden="true" v-html="navIconSvg('panelLeft', 14)"></span>
       </button>
       <label class="view-picker">
-        <span class="visually-hidden">View</span>
+        <span class="visually-hidden">视图</span>
         <select :value="view.id" @change="onPickView">
-          <optgroup v-for="(group, index) in groups" :key="group.heading ?? index" :label="group.heading ?? 'Inbox'">
+          <optgroup v-for="(group, index) in groups" :key="group.heading ?? index" :label="group.heading ?? '收件箱'">
             <option v-for="item in group.items" :key="item.id" :value="item.id">
               {{ item.count ? `${item.label} (${item.count})` : item.label }}
             </option>
@@ -162,8 +162,8 @@ defineExpose({ focusSearch })
         v-if="canStartConversation"
         type="button"
         class="icon-btn"
-        aria-label="New conversation"
-        title="New conversation"
+        aria-label="新建会话"
+        title="新建会话"
         @click="emit('new-conversation')"
       >
         <span aria-hidden="true" v-html="navIconSvg('plus', 14)"></span>
@@ -176,9 +176,9 @@ defineExpose({ focusSearch })
           ref="searchInput"
           v-model="search"
           type="search"
-          placeholder="Search customers or orders"
+          placeholder="搜索客户或订单"
           title="Search by name, email, phone or order number"
-          aria-label="Search conversations"
+          aria-label="搜索会话"
           aria-keyshortcuts="/"
         />
         <kbd aria-hidden="true">/</kbd>
@@ -195,7 +195,7 @@ defineExpose({ focusSearch })
     <div ref="rowsEl" class="rows" aria-live="polite" :aria-busy="loading">
       <p v-if="error" class="state">
         {{ error }}
-        <button type="button" class="link-btn" @click="emit('retry')">Try again</button>
+        <button type="button" class="link-btn" @click="emit('retry')">重试</button>
       </p>
       <p v-else-if="loading && !conversations.length" class="state">Loading conversations…</p>
       <p v-else-if="!conversations.length" class="state">
@@ -219,9 +219,9 @@ defineExpose({ focusSearch })
     </div>
 
     <p class="shortcuts" aria-hidden="true">
-      <span><kbd>J</kbd> / <kbd>K</kbd> move</span>
-      <span><kbd>E</kbd> close</span>
-      <span><kbd>?</kbd> shortcuts</span>
+      <span><kbd>J</kbd> / <kbd>K</kbd> 切换会话</span>
+      <span><kbd>E</kbd> 关闭会话</span>
+      <span><kbd>?</kbd> 快捷键</span>
     </p>
   </section>
 </template>

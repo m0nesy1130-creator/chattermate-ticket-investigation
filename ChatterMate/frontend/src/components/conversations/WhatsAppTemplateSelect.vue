@@ -170,7 +170,7 @@ onMounted(async () => {
     </div>
 
     <div v-if="selected" class="tps-result">
-      <span class="tps-field-label">Preview</span>
+      <span class="tps-field-label">预览</span>
       <p class="tps-result-text">{{ preview }}</p>
     </div>
   </div>

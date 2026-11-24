@@ -172,13 +172,13 @@ function replace(replacedId: number) {
 
 <template>
   <div class="scrim" @click.self="emit('close')">
-    <div class="modal" role="dialog" aria-modal="true" aria-label="Add knowledge source">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="添加知识来源">
       <div class="modal__head">
         <div>
-          <h3 class="modal__title">Add knowledge source</h3>
+          <h3 class="modal__title">添加知识来源</h3>
           <p class="modal__sub">Pick a source type — we crawl and index it in the background.</p>
         </div>
-        <button class="icon-btn" type="button" aria-label="Close" @click="emit('close')">
+        <button class="icon-btn" type="button" aria-label="关闭" @click="emit('close')">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
@@ -201,10 +201,10 @@ function replace(replacedId: number) {
       <div class="body">
         <!-- website -->
         <template v-if="kind === 'website'">
-          <label class="field-label" for="kb-add-url">PAGE URL</label>
+          <label class="field-label" for="kb-add-url">网页地址</label>
           <input id="kb-add-url" v-model="url" class="text-input" type="text"
             placeholder="https://docs.yourcompany.com/help" @keyup.enter="submit" />
-          <label class="field-label">CRAWL SCOPE</label>
+          <label class="field-label">抓取范围</label>
           <div class="scope">
             <button v-for="opt in scopes" :key="opt.key" type="button" class="scope__opt"
               :class="{ 'scope__opt--active': scope === opt.key }" @click="scope = opt.key">
@@ -222,7 +222,7 @@ function replace(replacedId: number) {
 
         <!-- sitemap -->
         <template v-else-if="kind === 'sitemap'">
-          <label class="field-label" for="kb-add-sitemap">SITEMAP URL</label>
+          <label class="field-label" for="kb-add-sitemap">站点地图地址</label>
           <input id="kb-add-sitemap" v-model="url" class="text-input" type="text"
             placeholder="https://yourcompany.com/sitemap.xml" @keyup.enter="submit" />
           <div class="note note--teal">
@@ -243,7 +243,7 @@ function replace(replacedId: number) {
             <input ref="fileInput" type="file" accept="application/pdf" multiple class="hidden-file"
               @change="onFilesSelected" />
             <span v-if="files.length" class="drop__name">{{ files.map((f) => f.name).join(', ') }}</span>
-            <span v-else class="drop__name">Drop a PDF or click to browse</span>
+            <span v-else class="drop__name">拖入 PDF 或点击选择</span>
             <span class="drop__hint">PDF files · up to 25 MB each</span>
           </div>
           <div class="note note--coral">
@@ -253,20 +253,20 @@ function replace(replacedId: number) {
 
         <!-- text -->
         <template v-else>
-          <label class="field-label" for="kb-add-title">TITLE</label>
+          <label class="field-label" for="kb-add-title">标题</label>
           <input id="kb-add-title" v-model="title" class="text-input" type="text" placeholder="e.g. Refund policy" />
-          <label class="field-label" for="kb-add-content">CONTENT</label>
+          <label class="field-label" for="kb-add-content">内容</label>
           <textarea id="kb-add-content" v-model="content" class="textarea"
             placeholder="Paste or type the content your agents should learn…"></textarea>
         </template>
 
         <!-- Agents answer only from sources linked to them -->
         <template v-if="mustPickAgent">
-          <label class="field-label" for="kb-add-agent">WHICH AGENT ANSWERS FROM IT</label>
+          <label class="field-label" for="kb-add-agent">使用此资料的助手</label>
           <select id="kb-add-agent" v-model="agentChoice" class="text-input">
-            <option value="" disabled>Choose an agent</option>
+            <option value="" disabled>请选择助手</option>
             <option v-for="agent in agents" :key="agent.id" :value="agent.id">{{ agent.name }}</option>
-            <option :value="NO_AGENT">None for now</option>
+            <option :value="NO_AGENT">暂不选择</option>
           </select>
           <p v-if="agentChoice === NO_AGENT" class="scope__hint">
             No agent will use it until you link it from an agent’s Knowledge tab.
@@ -293,7 +293,7 @@ function replace(replacedId: number) {
           <template v-else>Added instantly — no crawling needed.</template>
         </span>
         <div class="foot__actions">
-          <button class="btn btn--ghost" type="button" :disabled="submitting" @click="emit('close')">Cancel</button>
+          <button class="btn btn--ghost" type="button" :disabled="submitting" @click="emit('close')">取消</button>
           <button class="btn btn--primary" type="button" :disabled="!canSubmit" @click="submit">
             {{ submitting ? 'Adding…' : submitLabel }}
           </button>

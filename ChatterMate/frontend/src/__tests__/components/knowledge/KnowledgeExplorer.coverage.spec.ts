@@ -59,7 +59,7 @@ type Wrapper = Awaited<ReturnType<typeof mountExplorer>>
 const warning = (wrapper: Wrapper) => wrapper.find('.banner--warn')
 
 const addSite = async (wrapper: Wrapper, url = 'https://reportagebeyondeg.com') => {
-  await wrapper.findAll('button').find((b) => b.text() === 'Add source')!.trigger('click')
+  await wrapper.findAll('button').find((b) => b.text() === '添加资料')!.trigger('click')
   await wrapper.find('#kb-add-url').setValue(url)
 }
 const clickAdd = async (wrapper: Wrapper) => {

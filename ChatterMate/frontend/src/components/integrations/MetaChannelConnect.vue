@@ -238,7 +238,7 @@ const saveAgent = async () => {
           />
         </div>
         <div class="meta-actions">
-          <button class="meta-btn meta-btn-secondary" @click="emit('close')">Cancel</button>
+          <button class="meta-btn meta-btn-secondary" @click="emit('close')">取消</button>
           <button class="meta-btn meta-btn-primary" :disabled="connecting" @click="connect">
             {{ connecting ? 'Connecting…' : 'Connect' }}
           </button>
@@ -257,7 +257,7 @@ const saveAgent = async () => {
         </p>
         <MetaOwnAppWebhook v-if="account.webhook_url && account.webhook_verify_token" :account="account" />
         <p class="meta-intro">Choose which AI agent answers its messages:</p>
-        <label class="meta-label" for="meta-agent">AI agent</label>
+        <label class="meta-label" for="meta-agent">AI 助手</label>
         <select id="meta-agent" v-model="selectedAgentId" class="meta-input">
           <option v-for="agent in agents" :key="String(agent.id)" :value="String(agent.id)">
             {{ agent.display_name || agent.name }}

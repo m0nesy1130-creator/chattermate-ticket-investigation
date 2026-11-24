@@ -176,7 +176,7 @@ onMounted(() => { load(); loadWhatsAppAccounts(); loadCrm() })
         <button class="pdd-close" @click="emit('close')">✕</button>
       </div>
 
-      <div v-if="loading" class="pdd-loading">Loading…</div>
+      <div v-if="loading" class="pdd-loading">正在加载…</div>
 
       <div v-else-if="person" class="pdd-body">
         <div class="pdd-stagerow">
@@ -189,7 +189,7 @@ onMounted(() => { load(); loadWhatsAppAccounts(); loadCrm() })
           <!-- No CRM connected for the org -->
           <template v-if="!crmConnected">
             <span class="pdd-sync-text">No CRM connected.</span>
-            <button class="pdd-sync-btn" @click="goToIntegrations">Connect</button>
+            <button class="pdd-sync-btn" @click="goToIntegrations">连接</button>
           </template>
           <!-- Already synced -->
           <template v-else-if="crmSynced.length">
@@ -247,26 +247,26 @@ onMounted(() => { load(); loadWhatsAppAccounts(); loadCrm() })
             type="button"
             class="pdd-edit-link"
             @click="startEdit"
-          >Edit</button>
+          >编辑</button>
         </div>
         <div v-if="editing" class="pdd-edit">
           <label class="pdd-edit-field">
-            <span>Name</span>
+            <span>名称</span>
             <input v-model="editName" placeholder="Priya" autocomplete="off" />
           </label>
           <label class="pdd-edit-field">
-            <span>Phone</span>
+            <span>电话</span>
             <input v-model="editPhone" placeholder="+91 12345 67890" autocomplete="off" />
           </label>
           <div class="pdd-edit-actions">
-            <button type="button" class="pdd-edit-btn" @click="editing = false">Cancel</button>
+            <button type="button" class="pdd-edit-btn" @click="editing = false">取消</button>
             <button type="button" class="pdd-edit-btn primary" :disabled="saving" @click="saveEdit">
               {{ saving ? 'Saving…' : 'Save' }}
             </button>
           </div>
         </div>
         <div v-else class="pdd-attrs">
-          <div class="pdd-attr"><span class="pdd-attr-k">Phone</span><span class="pdd-attr-v">{{ person.phone || '—' }}</span></div>
+          <div class="pdd-attr"><span class="pdd-attr-k">电话</span><span class="pdd-attr-v">{{ person.phone || '—' }}</span></div>
         </div>
 
         <!-- AI qualification summary -->

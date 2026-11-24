@@ -67,7 +67,7 @@ function remove(index: number) {
           <option v-for="kind in kindOptions()" :key="kind.value" :value="kind.value">{{ kind.label }}</option>
         </select>
         <select v-if="picksAction(condition)" :id="`${idPrefix}-value-${index}`" class="input mono" :value="condition.value"
-          aria-label="Action" @change="update(index, { value: ($event.target as HTMLSelectElement).value })">
+          aria-label="操作" @change="update(index, { value: ($event.target as HTMLSelectElement).value })">
           <option value="" disabled>Pick an action</option>
           <option v-for="name in actionNames" :key="name" :value="name">{{ name }}</option>
         </select>

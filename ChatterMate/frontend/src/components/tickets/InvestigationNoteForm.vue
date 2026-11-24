@@ -61,7 +61,7 @@ const submit = () => emit('submit', note.value.trim())
     ></textarea>
     <slot />
     <div class="note-actions">
-      <button type="button" class="cancel-btn" @click="emit('cancel')">Cancel</button>
+      <button type="button" class="cancel-btn" @click="emit('cancel')">取消</button>
       <button
         type="button"
         class="submit-btn"

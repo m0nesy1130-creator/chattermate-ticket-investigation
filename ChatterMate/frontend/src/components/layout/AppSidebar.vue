@@ -97,7 +97,7 @@ const onSettingsClick = () => {
             <SidebarToggle :isCollapsed="isCollapsed" @toggle="emit('toggle')" />
         </div>
 
-        <nav class="sidebar-nav" aria-label="Main navigation">
+        <nav class="sidebar-nav" aria-label="主导航">
             <section v-for="group in workspaceGroups" :key="group.section" class="nav-group">
                 <h2 v-if="!isCollapsed" class="nav-section nav-section-heading">{{ group.section }}</h2>
                 <SidebarNavLink

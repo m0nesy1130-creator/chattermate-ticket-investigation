@@ -41,7 +41,7 @@ const onOverlayClick = () => {
         <h3 :id="titleId" class="modal-title">
           <slot name="title"></slot>
         </h3>
-        <button class="close-button" aria-label="Close" @click="$emit('close')">&times;</button>
+        <button class="close-button" aria-label="关闭" @click="$emit('close')">&times;</button>
       </div>
       <div class="modal-body">
         <slot name="content"></slot>

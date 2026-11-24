@@ -274,12 +274,12 @@ const closeKnowledgeModal = () => {
             <div v-if="totalPages > 1" class="pagination">
                 <button :disabled="currentPage === 1" @click="handlePageChange(currentPage - 1)"
                     class="pagination-button">
-                    Previous
+                    上一步
                 </button>
                 <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
                 <button :disabled="currentPage === totalPages" @click="handlePageChange(currentPage + 1)"
                     class="pagination-button">
-                    Next
+                    下一步
                 </button>
             </div>
         </div>
@@ -343,7 +343,7 @@ const closeKnowledgeModal = () => {
             <div class="knowledge-grid-header">
                 <div class="header-cell">Source</div>
                 <div class="header-cell">Type</div>
-                <div class="header-cell">Status</div>
+                <div class="header-cell">状态</div>
                 <div class="header-cell"></div>
             </div>
 
@@ -364,7 +364,7 @@ const closeKnowledgeModal = () => {
                     </div>
                     <div class="grid-cell remove-cell">
                         <button class="remove-button" @click="confirmDelete(item.id)" title="Remove knowledge source">
-                            Remove
+                            移除
                         </button>
                     </div>
                 </div>
@@ -411,7 +411,7 @@ const closeKnowledgeModal = () => {
                 <div v-if="activeTab === 'url'" class="tab-content">
                     <div class="url-input-group">
                         <input type="url" v-model="newUrl" placeholder="Enter URL" @keyup.enter="handleUrlAdd">
-                        <button @click="handleUrlAdd">Add</button>
+                        <button @click="handleUrlAdd">添加</button>
                     </div>
 
                     <div v-if="urlFormError" class="error-message">
@@ -463,7 +463,7 @@ const closeKnowledgeModal = () => {
                     <div class="knowledge-grid-header">
                         <div class="header-cell source-cell">Source</div>
                         <div class="header-cell type-cell">Type</div>
-                        <div class="header-cell action-cell">Action</div>
+                        <div class="header-cell action-cell">操作</div>
                     </div>
 
                     <template v-for="item in orgKnowledgeItems" :key="item.id">
@@ -485,14 +485,14 @@ const closeKnowledgeModal = () => {
                     <div v-if="orgTotalPages > 1" class="pagination">
                         <button :disabled="orgCurrentPage === 1" @click="handleOrgPageChange(orgCurrentPage - 1)"
                             class="pagination-button">
-                            Previous
+                            上一步
                         </button>
                         <span class="page-info">
                             Page {{ orgCurrentPage }} of {{ orgTotalPages }}
                         </span>
                         <button :disabled="orgCurrentPage === orgTotalPages"
                             @click="handleOrgPageChange(orgCurrentPage + 1)" class="pagination-button">
-                            Next
+                            下一步
                         </button>
                     </div>
                 </div>
@@ -509,8 +509,8 @@ const closeKnowledgeModal = () => {
                 <div class="confirm-content">
                     <p>Are you sure you want to delete this knowledge source? This action cannot be undone.</p>
                     <div class="confirm-actions">
-                        <button class="cancel-button" @click="cancelDelete">Cancel</button>
-                        <button class="delete-button" @click="handleDelete">Delete</button>
+                        <button class="cancel-button" @click="cancelDelete">取消</button>
+                        <button class="delete-button" @click="handleDelete">删除</button>
                     </div>
                 </div>
             </div>
@@ -545,8 +545,8 @@ const closeKnowledgeModal = () => {
                             <thead>
                                 <tr>
                                     <th class="col-url">Subpage Name</th>
-                                    <th class="col-content">Content</th>
-                                    <th class="col-actions">Actions</th>
+                                    <th class="col-content">内容</th>
+                                    <th class="col-actions">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -602,7 +602,7 @@ const closeKnowledgeModal = () => {
                 </div>
 
                 <div class="modal-footer">
-                    <button class="cancel-button" @click="cancelEditSubpage">Cancel</button>
+                    <button class="cancel-button" @click="cancelEditSubpage">取消</button>
                     <button class="save-button" @click="saveEditedSubpage" :disabled="isSavingContent">
                         {{ isSavingContent ? 'Saving...' : 'Save' }}
                     </button>
@@ -623,8 +623,8 @@ const closeKnowledgeModal = () => {
                 </div>
 
                 <div class="modal-footer">
-                    <button class="cancel-button" @click="cancelDeleteSubpage">Cancel</button>
-                    <button class="delete-button" @click="deleteSubpage">Delete</button>
+                    <button class="cancel-button" @click="cancelDeleteSubpage">取消</button>
+                    <button class="delete-button" @click="deleteSubpage">删除</button>
                 </div>
             </div>
         </div>
@@ -647,14 +647,14 @@ const closeKnowledgeModal = () => {
                             placeholder="Enter unique subpage name..." />
                     </div>
                     <div class="form-group">
-                        <label for="subpage-content">Content</label>
+                        <label for="subpage-content">内容</label>
                         <textarea id="subpage-content" v-model="newSubpageContent" class="subpage-edit-textarea"
                             placeholder="Enter subpage content..."></textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button class="cancel-button" @click="cancelAddSubpage">Cancel</button>
+                    <button class="cancel-button" @click="cancelAddSubpage">取消</button>
                     <button class="save-button" @click="addNewSubpage"
                         :disabled="!newSubpageName.trim() || !newSubpageContent.trim()">
                         Add Subpage

@@ -215,7 +215,7 @@ onUnmounted(() => {
         <button class="btn btn--primary" type="button" @click="openAdd">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"
             stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-          Add source
+          添加资料
         </button>
       </div>
     </header>
@@ -244,7 +244,7 @@ onUnmounted(() => {
 
     <div v-if="ex.error.value" class="banner" role="alert">
       {{ ex.error.value }}
-      <button class="banner__close" type="button" aria-label="Dismiss" @click="ex.error.value = null">×</button>
+      <button class="banner__close" type="button" aria-label="关闭提示" @click="ex.error.value = null">×</button>
     </div>
 
     <div class="grid">
@@ -293,7 +293,7 @@ onUnmounted(() => {
         />
         <div v-else class="empty">
           <div class="empty__orb"></div>
-          <div class="empty__title">Select a page to review</div>
+          <div class="empty__title">请选择要查看的页面</div>
           <p class="empty__text">
             Pick any extracted page on the left to read its content, edit it, or remove it — or add a source of your own.
           </p>
@@ -306,7 +306,7 @@ onUnmounted(() => {
         <h3 class="confirm__title">{{ confirmState.title }}</h3>
         <p class="confirm__msg">{{ confirmState.message }}</p>
         <div class="confirm__actions">
-          <button class="btn btn--ghost" type="button" :disabled="ex.isDeleting.value" @click="confirmState = null">Cancel</button>
+          <button class="btn btn--ghost" type="button" :disabled="ex.isDeleting.value" @click="confirmState = null">取消</button>
           <button class="btn btn--danger-solid" type="button" :disabled="ex.isDeleting.value" @click="runConfirm">
             {{ ex.isDeleting.value ? confirmState.busyLabel : confirmState.actionLabel }}
           </button>

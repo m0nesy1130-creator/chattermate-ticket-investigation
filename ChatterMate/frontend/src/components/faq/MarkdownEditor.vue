@@ -130,7 +130,7 @@ async function onFile(event: Event) {
       </div>
       <div class="md-modes">
         <button type="button" class="md-mode" :class="{ 'md-mode--on': mode === 'write' }" @click="mode = 'write'">Write</button>
-        <button type="button" class="md-mode" :class="{ 'md-mode--on': mode === 'preview' }" @click="mode = 'preview'">Preview</button>
+        <button type="button" class="md-mode" :class="{ 'md-mode--on': mode === 'preview' }" @click="mode = 'preview'">预览</button>
       </div>
     </div>
 

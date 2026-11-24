@@ -72,7 +72,7 @@ const variant = computed(() => {
       {{ aiCapable ? `${agentName} is paused while you handle this chat` : 'You are handling this chat' }}
     </span>
     <button v-if="aiCapable && canManage" type="button" class="btn" :disabled="busy" @click="emit('release')">
-      Hand back to AI
+      交回 AI
     </button>
   </div>
 
@@ -98,7 +98,7 @@ const variant = computed(() => {
     <span class="icon" aria-hidden="true" v-html="navIconSvg('sparkle', 14)"></span>
     <span class="text">{{ agentName }} is answering this chat</span>
     <button v-if="canManage" type="button" class="btn" :disabled="busy" @click="emit('route-to-team')">
-      Hand to my team
+      移交给我的团队
     </button>
     <button v-if="canManage" type="button" class="btn primary" :disabled="busy" @click="emit('take-over')">
       Take over chat

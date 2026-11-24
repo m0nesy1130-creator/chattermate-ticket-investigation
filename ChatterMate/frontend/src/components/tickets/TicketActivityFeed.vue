@@ -105,7 +105,7 @@ function avatarText(activity: TicketActivity): string {
       <div class="composer-actions">
         <label v-if="canMessageCustomer" class="visibility-toggle">
           <input v-model="customerVisible" type="checkbox" />
-          Send to customer
+          发送给客户
         </label>
         <span v-else class="no-customer-note">内部备注 · 未关联客户</span>
         <button class="post-btn" :disabled="!draft.trim() || isSaving" @click="submit">

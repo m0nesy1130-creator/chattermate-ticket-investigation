@@ -40,7 +40,7 @@ const handleSubmit = () => {
 <template>
   <form @submit.prevent="handleSubmit" class="group-form">
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">名称</label>
       <input
         id="name"
         v-model="formData.name"
@@ -51,7 +51,7 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-group">
-      <label for="description">Description</label>
+      <label for="description">描述</label>
       <textarea
         id="description"
         v-model="formData.description"
@@ -62,7 +62,7 @@ const handleSubmit = () => {
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" @click="emit('cancel')">
-        Cancel
+        取消
       </button>
       <button type="submit" class="btn btn-primary">
         {{ props.group ? 'Update' : 'Create' }}

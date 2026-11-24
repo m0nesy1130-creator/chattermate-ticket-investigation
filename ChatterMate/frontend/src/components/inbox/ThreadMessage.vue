@@ -147,7 +147,7 @@ const attachments = computed<Attachment[]>(() => props.message.attachments ?? []
         <span v-if="message.attributes?.delivery_status" class="delivery-failed">Not delivered</span>
         <router-link v-if="side === 'ai' && correctionLink" :to="correctionLink" class="correct">Correct this answer</router-link>
         <span v-if="edited" class="edited">Edited</span>
-        <button v-if="editable && saveEdit && !editing" type="button" class="edit-btn" @click="editing = true">Edit</button>
+        <button v-if="editable && saveEdit && !editing" type="button" class="edit-btn" @click="editing = true">编辑</button>
       </span>
     </div>
   </div>

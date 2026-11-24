@@ -103,12 +103,12 @@ const assigneeLabel = computed(() =>
         v-if="canClose"
         type="button"
         class="btn close-btn"
-        aria-label="Close conversation"
+        aria-label="关闭会话"
         aria-keyshortcuts="E"
         @click="emit('close-chat')"
       >
         <span aria-hidden="true" v-html="navIconSvg('check', 14)"></span>
-        <span class="btn-text">Close</span>
+        <span class="btn-text">关闭</span>
       </button>
 
       <ActionMenu

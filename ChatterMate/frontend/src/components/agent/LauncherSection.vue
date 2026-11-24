@@ -162,7 +162,7 @@ const onFile = (event: Event) => {
           <span class="logo-thumb"><img :src="settings.logoUrl.value ?? undefined" alt=""></span>
           <span class="logo-name">{{ settings.logoName.value }}</span>
           <button type="button" class="font-chip logo-action" @click="chooseFile">Replace</button>
-          <button type="button" class="font-chip logo-action" @click="settings.removeLogo()">Remove</button>
+          <button type="button" class="font-chip logo-action" @click="settings.removeLogo()">移除</button>
         </div>
         <div v-else class="logo-empty">
           <button type="button" class="font-chip" @click="chooseFile">Upload logo</button>
@@ -172,7 +172,7 @@ const onFile = (event: Event) => {
         <p v-if="settings.logoError.value" class="logo-error" role="alert">{{ settings.logoError.value }}</p>
 
         <div v-if="hasLogo" class="launcher-row">
-          <span id="launcher-background" class="placement-label">Background</span>
+          <span id="launcher-background" class="placement-label">背景</span>
           <div class="font-chips" role="radiogroup" aria-labelledby="launcher-background">
             <button
               v-for="option in BACKGROUNDS"

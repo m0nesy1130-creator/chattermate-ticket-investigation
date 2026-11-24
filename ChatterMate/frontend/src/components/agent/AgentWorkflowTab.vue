@@ -233,7 +233,7 @@ onMounted(() => {
       <div v-else-if="showCreateForm" class="create-form-container">
         <div class="form-header">
           <h4 class="form-title">Create new workflow</h4>
-          <button class="close-form-button" @click="cancelCreateForm" aria-label="Close">
+          <button class="close-form-button" @click="cancelCreateForm" aria-label="关闭">
             ✕
           </button>
         </div>
@@ -253,7 +253,7 @@ onMounted(() => {
           </div>
 
           <div class="form-group">
-            <label for="workflow-description" class="form-label">Description</label>
+            <label for="workflow-description" class="form-label">描述</label>
             <textarea
               id="workflow-description"
               v-model="workflowDescription"
@@ -271,7 +271,7 @@ onMounted(() => {
               @click="cancelCreateForm"
               :disabled="createWorkflowLoading"
             >
-              Cancel
+              取消
             </button>
             <button
               type="submit"
@@ -289,7 +289,7 @@ onMounted(() => {
       <div v-else-if="showEditForm" class="create-form-container">
         <div class="form-header">
           <h4 class="form-title">Rename workflow</h4>
-          <button class="close-form-button" @click="cancelEditForm" aria-label="Close">
+          <button class="close-form-button" @click="cancelEditForm" aria-label="关闭">
             ✕
           </button>
         </div>
@@ -309,7 +309,7 @@ onMounted(() => {
           </div>
 
           <div class="form-group">
-            <label for="edit-workflow-description" class="form-label">Description</label>
+            <label for="edit-workflow-description" class="form-label">描述</label>
             <textarea
               id="edit-workflow-description"
               v-model="editWorkflowDescription"
@@ -327,7 +327,7 @@ onMounted(() => {
               @click="cancelEditForm"
               :disabled="workflowLoading"
             >
-              Cancel
+              取消
             </button>
             <button
               type="submit"
@@ -335,7 +335,7 @@ onMounted(() => {
               :disabled="!editWorkflowName.trim() || workflowLoading"
             >
               <div v-if="workflowLoading" class="button-spinner"></div>
-              <span v-else>Save changes</span>
+              <span v-else>保存更改</span>
             </button>
           </div>
         </form>
@@ -371,7 +371,7 @@ onMounted(() => {
             </button>
 
             <button class="action-button danger" @click="handleDeleteWorkflow">
-              Delete
+              删除
             </button>
           </div>
         </div>

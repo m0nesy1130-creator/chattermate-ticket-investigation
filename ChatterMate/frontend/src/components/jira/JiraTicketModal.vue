@@ -114,7 +114,7 @@ initModal()
             v-model="selectedProject"
             @change="handleProjectChange(selectedProject)"
           >
-            <option value="">Select a project</option>
+            <option value="">请选择项目</option>
             <option 
               v-for="project in jiraProjects" 
               :key="project.id" 
@@ -137,7 +137,7 @@ initModal()
             :disabled="!selectedProject"
             @change="handleIssueTypeChange(selectedIssueType)"
           >
-            <option value="">Select an issue type</option>
+            <option value="">请选择问题类型</option>
             <option 
               v-for="issueType in jiraIssueTypes" 
               :key="issueType.id" 
@@ -191,7 +191,7 @@ initModal()
         </div>
 
         <div class="form-group">
-          <label for="ticket-description">Description</label>
+          <label for="ticket-description">描述</label>
           <textarea 
             id="ticket-description" 
             v-model="ticketDescription"
@@ -201,7 +201,7 @@ initModal()
         </div>
 
         <div class="ticket-actions">
-          <button class="cancel-btn" @click="handleClose">Cancel</button>
+          <button class="cancel-btn" @click="handleClose">取消</button>
           <button 
             class="create-btn" 
             @click="handleSubmit"

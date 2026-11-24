@@ -115,7 +115,7 @@ const badgeStyle = computed(() => ({
       <div v-if="open" class="chat-window" :class="`at-${side}`" :style="windowStyle">
         <div class="chat-window-head" :style="{ background: brand, color: onBrand }">{{ agentName }}</div>
         <div class="chat-window-body"><span>Hi! How can we help today?</span></div>
-        <div class="chat-window-input">Type a message…</div>
+        <div class="chat-window-input">输入消息…</div>
       </div>
 
       <div v-else-if="greeting && !hidden" class="greeting" :class="`at-${side}`" :style="{ bottom: `${aboveLauncher}px` }">{{ greeting }}</div>

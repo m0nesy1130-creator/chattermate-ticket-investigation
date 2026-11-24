@@ -349,7 +349,7 @@ const { data } = await response.json();
 
           <!-- Iframe Preview -->
           <div class="iframe-preview-section">
-            <h5 class="preview-title">Preview</h5>
+            <h5 class="preview-title">预览</h5>
             <div class="iframe-preview-container">
               <iframe
                 :src="iframeUrl"

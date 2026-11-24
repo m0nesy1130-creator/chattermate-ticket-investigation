@@ -62,7 +62,7 @@ const navigate = (to?: string) => {
         <Transition name="more-sheet">
             <div v-if="open" class="more-sheet-root">
                 <div class="more-scrim" @click="emit('close')"></div>
-                <div class="more-sheet" role="dialog" aria-label="More">
+                <div class="more-sheet" role="dialog" aria-label="更多">
                     <div class="drag-handle" aria-hidden="true"></div>
 
                     <!-- Availability -->
@@ -86,7 +86,7 @@ const navigate = (to?: string) => {
                     <!-- Theme -->
                     <button type="button" class="sheet-row standalone" @click="emit('toggle-theme')">
                         <span class="row-icon theme-icon" aria-hidden="true" v-html="navIconSvg(themeIconName, 20)"></span>
-                        <span class="row-label">Theme</span>
+                        <span class="row-label">主题</span>
                         <span class="row-value">{{ themeLabel }}</span>
                     </button>
 
@@ -111,7 +111,7 @@ const navigate = (to?: string) => {
                     <!-- Notifications -->
                     <button type="button" class="sheet-row standalone" @click="emit('notifications')">
                         <span class="row-icon" v-html="navIconSvg('bell', 20)"></span>
-                        <span class="row-label">Notifications</span>
+                        <span class="row-label">通知</span>
                         <span v-if="unreadCount" class="row-badge">{{ badgeText }}</span>
                     </button>
 
@@ -123,7 +123,7 @@ const navigate = (to?: string) => {
                     <!-- Logout -->
                     <button type="button" class="logout-row" @click="emit('logout')">
                         <span class="row-icon" v-html="navIconSvg('logout', 19)"></span>
-                        Log out
+                        退出登录
                     </button>
                 </div>
             </div>

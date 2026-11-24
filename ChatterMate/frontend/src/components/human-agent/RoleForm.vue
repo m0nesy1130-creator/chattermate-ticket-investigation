@@ -86,7 +86,7 @@ onMounted(fetchPermissions)
     </div>
 
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">名称</label>
       <input
         id="name"
         v-model="name"
@@ -97,7 +97,7 @@ onMounted(fetchPermissions)
     </div>
 
     <div class="form-group">
-      <label for="description">Description</label>
+      <label for="description">描述</label>
       <textarea
         id="description"
         v-model="description"
@@ -107,7 +107,7 @@ onMounted(fetchPermissions)
     </div>
 
     <div class="form-group">
-      <label>Permissions</label>
+      <label>权限</label>
       <div v-if="loading" class="loading">Loading permissions...</div>
       <div v-else class="permissions-list">
         <label 
@@ -138,7 +138,7 @@ onMounted(fetchPermissions)
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" @click="emit('cancel')">
-        Cancel
+        取消
       </button>
       <button type="submit" class="btn btn-primary">
         {{ props.role ? 'Update' : 'Create' }}

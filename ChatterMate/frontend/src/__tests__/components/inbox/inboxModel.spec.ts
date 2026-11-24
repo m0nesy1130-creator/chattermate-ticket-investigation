@@ -61,15 +61,15 @@ describe('inbox views', () => {
   it('groups the views with their counts, channels busiest first', () => {
     const groups = inboxViewGroups(counts)
 
-    expect(groups.map((g) => g.heading)).toEqual([null, 'AI agents', 'Channels', 'Saved views'])
+    expect(groups.map((g) => g.heading)).toEqual([null, 'AI 助手', 'Channels', 'Saved views'])
     expect(groups[0].items.map((i) => [i.label, i.count])).toEqual([
-      ['Your inbox', 4], ['Mentions', 1], ['Waiting for a human', 3], ['All open', 27], ['Snoozed', 2],
+      ['我的收件箱', 4], ['提及我的', 1], ['等待人工接手', 3], ['全部待处理', 27], ['已暂缓', 2],
     ])
     expect(groups[1].items.map((i) => [i.label, i.count])).toEqual([
-      ['AI handling now', 18], ['Resolved by AI', 46], ['Closed', null],
+      ['AI 正在处理', 18], ['由 AI 解决', 46], ['已关闭', null],
     ])
     expect(groups[2].items.map((i) => i.label)).toEqual(['Web chat', 'WhatsApp', 'Messenger'])
-    expect(groups[3].items.map((i) => [i.label, i.count])).toEqual([['Negative sentiment', 2]])
+    expect(groups[3].items.map((i) => [i.label, i.count])).toEqual([['负面情绪', 2]])
   })
 
   it('keeps a selected channel that just emptied, so the list under it stays put', () => {
@@ -82,14 +82,14 @@ describe('inbox views', () => {
   it('has no Channels group before any channel has an open conversation, and no counts before they load', () => {
     const groups = inboxViewGroups(null)
 
-    expect(groups.map((g) => g.heading)).toEqual([null, 'AI agents', 'Saved views'])
+    expect(groups.map((g) => g.heading)).toEqual([null, 'AI 助手', 'Saved views'])
     expect(groups.flatMap((g) => g.items).every((i) => i.count === null)).toBe(true)
   })
 
   it('titles the list in full where the pane abbreviates', () => {
     const item = selectedViewItem(inboxViewGroups(counts), { view: 'resolved_by_ai', channel: null })
-    expect(item.label).toBe('Resolved by AI')
-    expect(item.title).toBe('Resolved by AI today')
+    expect(item.label).toBe('由 AI 解决')
+    expect(item.title).toBe('今日由 AI 解决')
   })
 })
 
@@ -124,7 +124,7 @@ describe('row chips', () => {
 
   it('marks an unhappy customer, and a closed chat', () => {
     expect(rowChips({ ...base, sentiment_label: 'negative' }, 'me', NOW).map((c) => c.kind)).toEqual(['ai', 'negative'])
-    expect(rowChips({ ...base, status: 'closed' }, 'me', NOW)).toEqual([{ kind: 'closed', text: 'Closed' }])
+    expect(rowChips({ ...base, status: 'closed' }, 'me', NOW)).toEqual([{ kind: 'closed', text: '已关闭' }])
   })
 })
 
@@ -204,8 +204,8 @@ describe('day separators', () => {
   const today = new Date(2026, 10, 13, 15)
 
   it('names the day the way the thread shows it', () => {
-    expect(dayLabel(local(2026, 11, 13, 9), today)).toBe('Today')
-    expect(dayLabel(local(2026, 11, 12, 23), today)).toBe('Yesterday')
+    expect(dayLabel(local(2026, 11, 13, 9), today)).toBe('今天')
+    expect(dayLabel(local(2026, 11, 12, 23), today)).toBe('昨天')
     expect(dayLabel(local(2026, 11, 10), today)).toMatch(/10/)
     expect(dayLabel(local(2025, 3, 2), today)).toMatch(/2025/)
   })

@@ -107,7 +107,7 @@ const connectorWarning = computed(() => {
   <div v-if="run" class="investigation-panel">
     <div class="panel-head">
       <div class="head-left">
-        <span class="panel-title">AI investigation</span>
+        <span class="panel-title">AI 调查</span>
         <span class="run-chip" :style="{ color: statusMeta.color, borderColor: statusMeta.color }">
           <span v-if="isActive" class="pulse-dot" :style="{ background: statusMeta.color }"></span>
           {{ statusMeta.label }}
@@ -184,9 +184,9 @@ const connectorWarning = computed(() => {
           @submit="submitRerun"
         />
         <p class="rerun-scope">
-          Applies to this run only. To tell the AI this every time, put it on the connector under
-          <router-link v-if="canEditSettings" to="/settings/ticketing">Ticketing settings</router-link>
-          <span v-else>Ticketing settings</span>.
+          仅对本次调查生效。要长期使用此指引，请配置对应连接器，入口在
+          <router-link v-if="canEditSettings" to="/settings/ticketing">工单设置</router-link>
+          <span v-else>工单设置</span>.
         </p>
       </template>
     </div>

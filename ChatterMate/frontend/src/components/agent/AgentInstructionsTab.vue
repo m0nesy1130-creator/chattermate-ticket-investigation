@@ -275,7 +275,7 @@ const handleSave = () => {
     <!-- Instructions Section -->
     <section class="detail-section instructions-section">
       <div class="instructions-header">
-        <h4 class="section-title">Instructions</h4>
+        <h4 class="section-title">指令</h4>
         <button 
           class="ai-generate-button" 
           @click="showAIPrompt = true"
@@ -290,7 +290,7 @@ const handleSave = () => {
       <!-- AI Prompt Modal -->
       <div v-if="showAIPrompt" class="ai-prompt-modal">
         <div class="ai-prompt-content">
-          <h5>Generate Instructions with AI</h5>
+          <h5>用 AI 生成指令</h5>
           <textarea 
             v-model="aiPrompt"
             placeholder="Describe what you want your agent to do. For example: 'Create a customer support agent that helps with product returns and exchanges'"
@@ -304,7 +304,7 @@ const handleSave = () => {
               @click="showAIPrompt = false"
               :disabled="isLoading"
             >
-              Cancel
+              取消
             </button>
             <button 
               class="generate-ai-button" 
@@ -329,7 +329,7 @@ const handleSave = () => {
     <!-- Guardrail Section -->
     <section class="detail-section guardrail-section">
       <div class="toggle-header">
-        <h4 class="section-title">Guardrail</h4>
+        <h4 class="section-title">安全约束</h4>
         <label class="switch">
           <input type="checkbox" v-model="localGuardrailEnabled" :disabled="!isEditing">
           <span class="slider"></span>
@@ -371,7 +371,7 @@ const handleSave = () => {
              contradict it. -->
         <div class="transfer-toggle">
           <div class="toggle-header">
-            <h4 class="section-title">Let AI Answer</h4>
+            <h4 class="section-title">允许 AI 回答</h4>
             <label class="switch">
               <input type="checkbox"
                 v-model="localAiRepliesEnabled"
@@ -388,7 +388,7 @@ const handleSave = () => {
         <!-- The AI's choices as tappable buttons where the channel can show them -->
         <div v-if="localAiRepliesEnabled" class="transfer-toggle">
           <div class="toggle-header">
-            <h4 class="section-title">Reply Buttons</h4>
+            <h4 class="section-title">回复按钮</h4>
             <label class="switch">
               <input type="checkbox"
                 v-model="localChannelQuickReplies"
@@ -406,7 +406,7 @@ const handleSave = () => {
         <!-- Transfer toggle -->
         <div v-if="localAiRepliesEnabled" class="transfer-toggle">
           <div class="toggle-header">
-            <h4 class="section-title">Transfer to Human</h4>
+            <h4 class="section-title">转人工</h4>
             <label class="switch" v-tooltip="tooltipContent">
               <input type="checkbox"
                 v-model="localTransferToHuman"
@@ -421,7 +421,7 @@ const handleSave = () => {
         <!-- Collect contact details at handoff -->
         <div v-if="localAiRepliesEnabled && localTransferToHuman" class="handoff-collect">
           <div class="toggle-header">
-            <span class="subsection-title">Ask for email at handoff</span>
+            <span class="subsection-title">转接时询问邮箱</span>
             <label class="switch">
               <input type="checkbox" v-model="localHandoffCollectEmail" :disabled="!isEditing">
               <span class="slider"></span>
@@ -441,7 +441,7 @@ const handleSave = () => {
         <!-- Also shown for a human-only agent: this is the queue its chats
              land in, so it is the one setting that still matters. -->
         <div v-if="localTransferToHuman || !localAiRepliesEnabled" class="transfer-groups">
-          <h4 class="subsection-title">Transfer Groups</h4>
+          <h4 class="subsection-title">转接团队</h4>
           <p v-if="userGroups.length" class="helper-text">Select groups that can handle transferred chats</p>
           
           <div v-if="!loadingGroups">
@@ -498,7 +498,7 @@ const handleSave = () => {
     <!-- Save Button -->
     <div v-if="isEditing" class="save-section">
       <button class="save-button" @click="handleSave">
-        Save Changes
+        保存更改
       </button>
     </div>
 

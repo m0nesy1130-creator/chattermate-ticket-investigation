@@ -97,7 +97,7 @@ function submit() {
 </script>
 
 <template>
-  <form class="action-editor" aria-label="Action" @submit.prevent="submit">
+  <form class="action-editor" aria-label="操作" @submit.prevent="submit">
     <fieldset class="editor-body" :disabled="readOnly">
     <header class="editor-head">
       <h4>{{ action ? action.name : 'New action' }}</h4>
@@ -105,12 +105,12 @@ function submit() {
 
     <div class="editor-grid">
       <label class="field">
-        <span class="field-label">Name</span>
+        <span class="field-label">名称</span>
         <input id="action-name" v-model.trim="form.name" class="input mono" placeholder="create_draft_invoice" autocomplete="off" />
         <span v-if="nameError" class="field-error">{{ nameError }}</span>
       </label>
       <label class="field">
-        <span class="field-label">Label</span>
+        <span class="field-label">标签</span>
         <input id="action-label" v-model="form.label" class="input" maxlength="80" placeholder="Draft an invoice" />
       </label>
       <label class="field full">

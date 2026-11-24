@@ -43,7 +43,7 @@ const copy = async () => {
     <label class="copy-label" :for="fieldId">{{ label }}</label>
     <div class="copy-row">
       <input :id="fieldId" class="copy-input" :value="value" readonly />
-      <button class="copy-btn" type="button" @click="copy">Copy</button>
+      <button class="copy-btn" type="button" @click="copy">复制</button>
     </div>
   </div>
 </template>

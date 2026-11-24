@@ -212,7 +212,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
         <div class="container">
             <!-- Header -->
             <header class="setup-header text-center">
-                <h1 class="gradient-text">Welcome to ChatterMate</h1>
+                <h1 class="gradient-text">欢迎使用 ChatterMate</h1>
                 <p class="subtitle opacity-80">Let's get your organization set up</p>
             </header>
 
@@ -221,11 +221,11 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                 <div class="card">
                     <form @submit.prevent="handleSubmit">
                         <div class="form-group">
-                            <label class="form-label" for="orgName">Organization Name</label>
+                            <label class="form-label" for="orgName">组织名称</label>
                             <input class="form-input" id="orgName" v-model="orgData.name"
                                 @input="handleOrgNameInput(orgData.name)" type="text" required
                                 :class="{ 'invalid': orgNameTouched && !isOrgNameValid }"
-                                placeholder="Enter your organization name" autocomplete="organization">
+                                placeholder="请输入组织名称" autocomplete="organization">
                             <p v-if="orgNameTouched && !isOrgNameValid" class="error-hint">
                                 Organization name must be 2-100 characters and can contain letters, numbers, spaces,
                                 hyphens, apostrophes, & and dots
@@ -233,7 +233,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="domain">Your website</label>
+                            <label class="form-label" for="domain">组织网站</label>
                             <input class="form-input" id="domain" v-model="orgData.domain"
                                 @input="handleDomainInput(orgData.domain)" type="text" required
                                 :class="{ 'invalid': domainTouched && !isDomainValid }" placeholder="yourwebsite.com">
@@ -243,7 +243,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="timezone">Timezone</label>
+                            <label class="form-label" for="timezone">时区</label>
                             <select 
                                 class="form-input" 
                                 id="timezone" 
@@ -307,7 +307,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                             <input class="form-input" id="adminName" v-model="orgData.admin_name"
                                 @input="handleAdminNameInput(orgData.admin_name)" type="text" required
                                 :class="{ 'invalid': adminNameTouched && !isAdminNameValid }"
-                                placeholder="Your full name" autocomplete="name">
+                                placeholder="请输入姓名" autocomplete="name">
                             <p v-if="adminNameTouched && !isAdminNameValid" class="error-hint">
                                 Name must be 2-100 characters and can contain letters, numbers, spaces, hyphens and
                                 apostrophes
@@ -329,7 +329,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                             <label class="form-label" for="adminPassword">Admin Password</label>
                             <input class="form-input" id="adminPassword" v-model="orgData.admin_password"
                                 @input="handlePasswordInput(orgData.admin_password)" type="password" required
-                                placeholder="Enter a secure password" autocomplete="new-password" minlength="8">
+                                placeholder="请输入安全密码" autocomplete="new-password" minlength="8">
                             <div v-if="passwordTouched" class="password-strength">
                                 <div class="strength-meter">
                                     <div class="strength-bar"
@@ -359,9 +359,9 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="confirmPassword">Confirm Password</label>
+                            <label class="form-label" for="confirmPassword">确认密码</label>
                             <input class="form-input" id="confirmPassword" v-model="confirmPassword" type="password"
-                                required placeholder="Confirm your password" autocomplete="new-password">
+                                required placeholder="请确认密码" autocomplete="new-password">
                         </div>
 
                         <div v-if="error" class="error-message" role="alert">

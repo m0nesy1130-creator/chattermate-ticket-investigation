@@ -311,7 +311,7 @@ const onAiConfigured = async () => {
   <div class="step">
     <!-- OSS provider-key gate -->
     <div v-if="showAiGate" class="ai-gate">
-      <p class="ai-gate-note">Connect an AI provider to power your agent, then we'll create it.</p>
+      <p class="ai-gate-note">先接入模型供应商，再创建助手。</p>
       <AISetup @ai-setup-complete="onAiConfigured" />
     </div>
 
@@ -411,7 +411,7 @@ const onAiConfigured = async () => {
       <div class="field lead-field">
         <div class="lead-enable-row">
           <div>
-            <label class="field-label">Lead capture <span v-if="leadCaptureLocked && leadCapturePlan" class="lead-pro">{{ leadCapturePlan }}</span></label>
+            <label class="field-label">线索收集 <span v-if="leadCaptureLocked && leadCapturePlan" class="lead-pro">{{ leadCapturePlan }}</span></label>
             <p class="lead-sub">
               <template v-if="leadCaptureLocked">Capture and qualify leads in conversation. {{ leadCaptureUpgradeText }} to turn it on.</template>
               <template v-else>The agent collects contact details in conversation — helps first, then asks at the natural moment.</template>

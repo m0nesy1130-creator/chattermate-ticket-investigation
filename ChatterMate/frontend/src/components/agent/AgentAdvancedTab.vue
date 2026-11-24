@@ -199,7 +199,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
 <template>
   <div class="advanced-tab">
     <div class="page-header">
-      <h3 class="page-title">Advanced settings</h3>
+      <h3 class="page-title">高级设置</h3>
       <p class="page-description">
         Configure rate limiting, security and other technical options for your agent.
       </p>
@@ -221,7 +221,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
               </svg>
             </div>
             <div class="card-meta">
-              <div class="card-title">Rate limiting</div>
+              <div class="card-title">请求限流</div>
               <div class="card-desc">Protect your agent from abuse by limiting requests per user.</div>
             </div>
           </div>
@@ -239,7 +239,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
         <div v-if="localSettings.enableRateLimiting" class="card-extra">
           <div class="num-fields">
             <div class="num-field">
-              <label class="num-label">Max requests</label>
+              <label class="num-label">最大请求数</label>
               <input
                 type="number"
                 v-model="localSettings.overallLimitPerIp"
@@ -278,7 +278,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
               </svg>
             </div>
             <div class="card-meta">
-              <div class="card-title">Widget authentication</div>
+              <div class="card-title">组件身份验证</div>
               <div class="card-desc">Require server-side token authentication for widget access.</div>
             </div>
           </div>
@@ -307,7 +307,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
           </div>
           <div v-else class="info-pill">
             <span class="info-pill-icon">&#9432;</span>
-            <span>Anonymous access allowed</span>
+            <span>允许匿名访问</span>
           </div>
         </div>
       </div>
@@ -322,7 +322,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
               </svg>
             </div>
             <div class="card-meta">
-              <div class="card-title">File attachments</div>
+              <div class="card-title">文件附件</div>
               <div class="card-desc">Allow users to upload files during human-agent handoff.</div>
             </div>
           </div>
@@ -371,7 +371,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
         @click="handleCancel"
         :disabled="isLoading || !hasUnsavedChanges"
       >
-        Cancel
+        取消
       </button>
       <button
         class="btn-primary"
@@ -379,7 +379,7 @@ const updateTokenAuthSetting = async (enabled: boolean) => {
         @click="handleSaveSettings"
         :disabled="isLoading || !hasUnsavedChanges"
       >
-        Save changes
+        保存更改
       </button>
     </div>
   </div>

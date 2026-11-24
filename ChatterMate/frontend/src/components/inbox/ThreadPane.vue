@@ -271,17 +271,17 @@ async function refreshLinkedTicket() {
 const moreActions = computed<ActionMenuItem[]>(() => {
   const items: ActionMenuItem[] = []
   const open = handler.value.kind !== 'closed'
-  if (linkedTicketId.value) items.push({ id: 'view-ticket', label: 'View ticket' })
+  if (linkedTicketId.value) items.push({ id: 'view-ticket', label: '查看工单' })
   else if (holdsIt.value && open) {
-    if (canUseNativeTickets) items.push({ id: 'create-ticket', label: 'Create ticket' })
-    if (jiraConnected.value) items.push({ id: 'create-jira', label: 'Create Jira ticket' })
+    if (canUseNativeTickets) items.push({ id: 'create-ticket', label: '新建工单' })
+    if (jiraConnected.value) items.push({ id: 'create-jira', label: '创建 Jira 工单' })
   }
-  if (canUseTemplates.value && open) items.push({ id: 'send-template', label: 'Send WhatsApp template' })
-  if (canManage && handler.value.kind === 'ai') items.push({ id: 'route-to-team', label: 'Hand to my team' })
+  if (canUseTemplates.value && open) items.push({ id: 'send-template', label: '发送 WhatsApp 模板' })
+  if (canManage && handler.value.kind === 'ai') items.push({ id: 'route-to-team', label: '移交给我的团队' })
   if (mayChangeHands.value && aiCapable.value && open && handler.value.kind !== 'ai') {
-    items.push({ id: 'release', label: 'Hand back to AI' })
+    items.push({ id: 'release', label: '交回 AI' })
   }
-  items.push({ id: 'refresh', label: 'Refresh conversation', separated: items.length > 0 })
+  items.push({ id: 'refresh', label: '刷新会话', separated: items.length > 0 })
   return items
 })
 
@@ -401,7 +401,7 @@ defineExpose({ requestClose })
       @chat-updated="onChatUpdated"
     />
 
-    <div ref="messagesContainer" class="messages" tabindex="0" aria-label="Messages">
+    <div ref="messagesContainer" class="messages" tabindex="0" aria-label="消息">
       <template v-for="entry in timeline" :key="entry.key">
         <div v-if="entry.kind === 'day'" class="day" role="separator" :aria-label="entry.label">
           <span aria-hidden="true">{{ entry.label }}</span>
@@ -485,8 +485,8 @@ defineExpose({ requestClose })
         {{ name }} is told the conversation has ended{{ chat.channel === 'web' || !chat.channel ? ' and asked for a rating' : '' }}.
       </p>
       <template #actions>
-        <button type="button" class="modal-btn" @click="confirmingClose = false">Cancel</button>
-        <button type="button" class="modal-btn primary" data-autofocus @click="confirmClose">Close conversation</button>
+        <button type="button" class="modal-btn" @click="confirmingClose = false">取消</button>
+        <button type="button" class="modal-btn primary" data-autofocus @click="confirmClose">关闭会话</button>
       </template>
     </BaseModal>
 
@@ -496,7 +496,7 @@ defineExpose({ requestClose })
         {{ aiCapable ? 'You can hand it back to the AI at any time.' : '' }}
       </p>
       <template #actions>
-        <button type="button" class="modal-btn" @click="confirmingTakeover = false">Cancel</button>
+        <button type="button" class="modal-btn" @click="confirmingTakeover = false">取消</button>
         <button type="button" class="modal-btn primary" data-autofocus @click="confirmTakeover">Take over chat</button>
       </template>
     </BaseModal>

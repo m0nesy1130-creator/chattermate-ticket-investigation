@@ -136,7 +136,7 @@ function answerPreview(md: string): string {
         <button class="btn-save" type="button" :disabled="saving" @click="$emit('save')">
           {{ saving ? 'Saving…' : 'Save' }}
         </button>
-        <button class="btn-cancel" type="button" :disabled="saving" @click="$emit('cancel')">Cancel</button>
+        <button class="btn-cancel" type="button" :disabled="saving" @click="$emit('cancel')">取消</button>
       </div>
     </div>
 
@@ -183,10 +183,10 @@ function answerPreview(md: string): string {
           <span class="pill__dot"></span>
           {{ faq.status === 'published' ? 'Published' : 'Draft' }}
         </button>
-        <button v-if="!locked" class="icon-btn icon-btn--edit" type="button" title="Edit" @click="$emit('edit')">
+        <button v-if="!locked" class="icon-btn icon-btn--edit" type="button" title="编辑" @click="$emit('edit')">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /></svg>
         </button>
-        <button v-if="!locked" class="icon-btn icon-btn--delete" type="button" title="Delete" @click="$emit('delete')">
+        <button v-if="!locked" class="icon-btn icon-btn--delete" type="button" title="删除" @click="$emit('delete')">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16" /><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /><path d="M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" /></svg>
         </button>
       </div>

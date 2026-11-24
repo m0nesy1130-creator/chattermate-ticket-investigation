@@ -72,7 +72,7 @@ const send = async () => {
     <WhatsAppTemplateSelect v-model:selection="selection" :account-id="accountId" />
 
     <template #actions>
-      <button class="modal-btn" @click="emit('close')">Cancel</button>
+      <button class="modal-btn" @click="emit('close')">取消</button>
       <button
         class="modal-btn modal-btn-primary"
         :disabled="!canSend"

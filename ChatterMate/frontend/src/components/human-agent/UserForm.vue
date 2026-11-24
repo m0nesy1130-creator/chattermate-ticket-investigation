@@ -173,7 +173,7 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-group">
-      <label for="email">Email</label>
+      <label for="email">邮箱</label>
       <input
         id="email"
         v-model="email"
@@ -184,7 +184,7 @@ const handleSubmit = () => {
     </div>
 
     <div class="form-group">
-      <label for="role">Role</label>
+      <label for="role">角色</label>
       <select 
         id="role"
         v-model="selectedRole"
@@ -224,7 +224,7 @@ const handleSubmit = () => {
 
     <template v-if="showPasswordFields">
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">密码</label>
         <input
           id="password"
           v-model="password"
@@ -238,7 +238,7 @@ const handleSubmit = () => {
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">确认密码</label>
         <input
           id="confirmPassword"
           v-model="confirmPassword"
@@ -264,7 +264,7 @@ const handleSubmit = () => {
 
     <div class="form-actions">
       <button type="button" class="btn btn-secondary" @click="emit('cancel')">
-        Cancel
+        取消
       </button>
       <button type="submit" class="btn btn-primary">
         {{ props.user ? 'Update' : 'Create' }}

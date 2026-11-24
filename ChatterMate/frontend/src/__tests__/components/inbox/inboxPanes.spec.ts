@@ -63,14 +63,14 @@ describe('ConversationRow', () => {
 
     expect(wrapper.find('.time').text()).toBe('6m')
     expect(wrapper.find('.summary').text()).toBe('Refund for order · Berlin is in the EU though.')
-    expect(wrapper.findAll('.chip').map((c) => c.text())).toEqual(['Closed', 'Negative'])
+    expect(wrapper.findAll('.chip').map((c) => c.text())).toEqual(['已关闭', '负面'])
   })
 
   it('shows the wait for a waiting chat, with no title yet', () => {
     const wrapper = mountRow()
 
     expect(wrapper.find('.title').exists()).toBe(false)
-    expect(wrapper.findAll('.chip').map((c) => c.text())).toEqual(['Waiting 6m', 'Negative'])
+    expect(wrapper.findAll('.chip').map((c) => c.text())).toEqual(['Waiting 6m', '负面'])
   })
 
   it('marks the open one and tells the list when picked', async () => {
@@ -94,11 +94,11 @@ describe('InboxViews', () => {
     const wrapper = mountViews()
     const waiting = wrapper.find('[data-view="waiting"]')
 
-    expect(waiting.attributes('aria-label')).toBe('Waiting for a human, 3')
+    expect(waiting.attributes('aria-label')).toBe('等待人工接手, 3')
     expect(waiting.find('.count').text()).toBe('3')
     expect(wrapper.find('[data-view="open"]').attributes('aria-current')).toBe('true')
     expect(wrapper.find('[data-view="closed"] .count').exists()).toBe(false)
-    expect(wrapper.findAll('.group-heading').map((h) => h.text())).toEqual(['AI agents', 'Channels', 'Saved views'])
+    expect(wrapper.findAll('.group-heading').map((h) => h.text())).toEqual(['AI 助手', 'Channels', 'Saved views'])
   })
 
   it('selects a view and hides itself on request', async () => {
@@ -123,8 +123,8 @@ describe('InboxViews', () => {
 
   it('has no status button outside the dashboard layout, and New conversation only with a WhatsApp number', () => {
     expect(mountViews({}, false).find('.status').exists()).toBe(false)
-    expect(mountViews().find('[aria-label="New conversation"]').exists()).toBe(false)
-    expect(mountViews({ canStartConversation: true }).find('[aria-label="New conversation"]').exists()).toBe(true)
+    expect(mountViews().find('[aria-label="新建会话"]').exists()).toBe(false)
+    expect(mountViews({ canStartConversation: true }).find('[aria-label="新建会话"]').exists()).toBe(true)
   })
 })
 
@@ -159,11 +159,11 @@ describe('InboxList', () => {
     })
 
   it('titles the list with the view and its size', () => {
-    expect(mountList().find('#inbox-list-title').text()).toBe('Waiting for a human 3')
+    expect(mountList().find('#inbox-list-title').text()).toBe('等待人工接手 3')
   })
 
   it('says why the list is empty: the view, a search, or an error with a retry', async () => {
-    expect(mountList({ conversations: [] }).find('.state').text()).toBe('Nobody is waiting for a person.')
+    expect(mountList({ conversations: [] }).find('.state').text()).toBe('暂无等待人工接手的会话。')
     expect(mountList({ conversations: [], search: 'zed' }).find('.state').text()).toBe('No conversations match “zed”.')
 
     const failed = mountList({ error: 'Conversations could not be loaded.' })
@@ -186,7 +186,7 @@ describe('InboxList', () => {
 
     await wrapper.find('.view-picker select').setValue('channel:whatsapp')
     await wrapper.find('[aria-label="Show views"]').trigger('click')
-    await wrapper.find('[aria-label="New conversation"]').trigger('click')
+    await wrapper.find('[aria-label="新建会话"]').trigger('click')
 
     expect(wrapper.emitted('select-view')?.[0][0]).toMatchObject({ id: 'channel:whatsapp' })
     expect(wrapper.emitted('restore-views')).toHaveLength(1)
@@ -195,13 +195,13 @@ describe('InboxList', () => {
 
   it("offers the app's navigation where the sidebar is off-canvas", async () => {
     const wrapper = mountList({ showNavButton: true })
-    await wrapper.find('[aria-label="Open navigation"]').trigger('click')
+    await wrapper.find('[aria-label="打开导航"]').trigger('click')
     expect(wrapper.emitted('open-nav')).toHaveLength(1)
-    expect(mountList().find('[aria-label="Open navigation"]').exists()).toBe(false)
+    expect(mountList().find('[aria-label="打开导航"]').exists()).toBe(false)
   })
 
   it("drops the view's count while a search or filter narrows the list", () => {
-    expect(mountList({ narrowed: true }).find('#inbox-list-title').text()).toBe('Waiting for a human')
+    expect(mountList({ narrowed: true }).find('#inbox-list-title').text()).toBe('等待人工接手')
   })
 
   it('filters by agent once there is more than one to choose from, and clears', async () => {

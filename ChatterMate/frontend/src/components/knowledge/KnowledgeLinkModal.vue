@@ -51,7 +51,7 @@ const filteredSources = computed(() => {
           <h3 class="modal__title">Link existing knowledge</h3>
           <p class="modal__sub">Attach knowledge from your organization to this agent so it can use it.</p>
         </div>
-        <button class="icon-btn" type="button" aria-label="Close" @click="emit('close')">
+        <button class="icon-btn" type="button" aria-label="关闭" @click="emit('close')">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
@@ -96,7 +96,7 @@ const filteredSources = computed(() => {
       </div>
 
       <div class="foot">
-        <button class="btn btn--ghost" type="button" @click="emit('close')">Done</button>
+        <button class="btn btn--ghost" type="button" @click="emit('close')">完成</button>
       </div>
     </div>
   </div>

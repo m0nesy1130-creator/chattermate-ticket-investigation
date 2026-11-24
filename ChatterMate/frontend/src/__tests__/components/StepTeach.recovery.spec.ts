@@ -63,7 +63,7 @@ const clickContinue = async () => {
 
 const typeAndAdd = async (url: string) => {
   await wrapper.find('input[type="text"]').setValue(url)
-  await button('Add')!.trigger('click')
+  await button('添加')!.trigger('click')
   await flushPromises()
 }
 
@@ -96,7 +96,7 @@ describe('StepTeach - after a website could not be read', () => {
     getKnowledgeByOrganization.mockResolvedValue(empty)
     getOrganization.mockResolvedValue({ id: 'org-1', domain: 'erfanpv.com' })
     planLimits.mockReturnValue({ maxKnowledgeSources: 0 })
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
     uploadPdfFiles.mockResolvedValue({ message: 'Uploaded' })
   })
 
@@ -109,12 +109,12 @@ describe('StepTeach - after a website could not be read', () => {
 
   it('staging a new URL clears the panel and brings back Continue, which checks again', async () => {
     await failFirst()
-    expect(primary().text()).toContain('Continue without it')
+    expect(primary().text()).toContain('跳过并继续')
 
     await typeAndAdd('chattermate.chat')
 
     expect(panel().exists()).toBe(false)
-    expect(primary().text()).toMatch(/^Continue\s*→$/)
+    expect(primary().text()).toMatch(/^继续\s*→$/)
     expect(staged()).toEqual(['https://chattermate.chat'])
 
     await clickContinue()
@@ -125,7 +125,7 @@ describe('StepTeach - after a website could not be read', () => {
   it('a URL typed but not added yet already reads as Continue', async () => {
     await failFirst()
     await wrapper.find('input[type="text"]').setValue('chattermate.chat')
-    expect(primary().text()).toMatch(/^Continue\s*→$/)
+    expect(primary().text()).toMatch(/^继续\s*→$/)
 
     await clickContinue()
     expect(addUrls).toHaveBeenLastCalledWith('org-1', ['https://chattermate.chat'], 'agent-1', expect.any(Function))
@@ -139,7 +139,7 @@ describe('StepTeach - after a website could not be read', () => {
 
     expect(staged()).toEqual([])
     expect(document.activeElement).toBe(wrapper.find('input[type="text"]').element)
-    expect(primary().text()).toMatch(/^Continue\s*→$/)
+    expect(primary().text()).toMatch(/^继续\s*→$/)
     await clickContinue()
     expect(addUrls).toHaveBeenCalledTimes(1)
     expect(wrapper.emitted('next')).toBeTruthy()
@@ -160,7 +160,7 @@ describe('StepTeach - after a website could not be read', () => {
     expect(panel().text()).not.toContain('erfanpv.com')
     expect(wrapper.find('textarea').exists()).toBe(false)
     expect(button('Paste some text instead')).toBeTruthy()
-    expect(primary().text()).toContain('Continue without it')
+    expect(primary().text()).toContain('跳过并继续')
   })
 
   it('a URL already staged says so and keeps the panel', async () => {
@@ -177,7 +177,7 @@ describe('StepTeach - after a website could not be read', () => {
     await typeAndAdd('docs.erfanpv.com')
     expect(wrapper.text()).toContain('already exists in your knowledge base')
     expect(panel().exists()).toBe(true)
-    expect(primary().text()).toContain('Continue without it')
+    expect(primary().text()).toContain('跳过并继续')
   })
 
   it('the plan cap message keeps the failure on screen when nothing could be staged', async () => {
@@ -198,7 +198,7 @@ describe('StepTeach - after a website could not be read', () => {
 
     expect(panel().exists()).toBe(false)
     expect(staged()).toEqual(['menu.pdf'])
-    expect(primary().text()).toMatch(/^Continue\s*→$/)
+    expect(primary().text()).toMatch(/^继续\s*→$/)
     await clickContinue()
     expect(uploadPdfFiles).toHaveBeenCalled()
     expect(wrapper.emitted('next')).toBeTruthy()
@@ -218,7 +218,7 @@ describe('StepTeach - after a website could not be read', () => {
     expect(staged()).toEqual([])
     expect(panel().text()).toContain("We couldn't read https://erfanpv.com")
     expect(button('Paste some text instead')).toBeTruthy()
-    expect(primary().text()).toContain('Continue without it')
+    expect(primary().text()).toContain('跳过并继续')
   })
 
   it('back on the step with something already indexed, the old failure stays out of the way', async () => {
@@ -237,7 +237,7 @@ describe('StepTeach - paste text instead', () => {
     getKnowledgeByOrganization.mockResolvedValue(empty)
     getOrganization.mockResolvedValue({ id: 'org-1', domain: 'erfanpv.com' })
     planLimits.mockReturnValue({ maxKnowledgeSources: 0 })
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
   })
 
   afterEach(() => wrapper?.unmount())
@@ -253,13 +253,13 @@ describe('StepTeach - paste text instead', () => {
   it('can be cancelled back to the choice, focus returned to it', async () => {
     await failFirst()
     await openPaste()
-    await button('Cancel')!.trigger('click')
+    await button('取消')!.trigger('click')
     await flushPromises()
 
     expect(wrapper.find('textarea').exists()).toBe(false)
     expect(panel().text()).toContain("We couldn't read")
     expect(document.activeElement).toBe(button('Paste some text instead')!.element)
-    expect(primary().text()).toContain('Continue without it')
+    expect(primary().text()).toContain('跳过并继续')
   })
 
   it('Esc cancels too', async () => {
@@ -329,8 +329,8 @@ describe('StepTeach - paste text instead', () => {
     await flushPromises()
 
     expect(button('Adding…')!.attributes('disabled')).toBeDefined()
-    expect(button('Cancel')!.attributes('disabled')).toBeDefined()
-    expect(button('Back')!.attributes('disabled')).toBeDefined()
+    expect(button('取消')!.attributes('disabled')).toBeDefined()
+    expect(button('返回')!.attributes('disabled')).toBeDefined()
     expect(primary().attributes('disabled')).toBeDefined()
 
     finish({ message: 'ok' })
@@ -377,7 +377,7 @@ describe('StepTeach - staged PDFs', () => {
   it('a site that failed is still reported when a PDF in the same batch fails', async () => {
     getAgentQueueItems.mockResolvedValueOnce({ queue_items: [] }).mockResolvedValue({ queue_items: [firstSite] })
     uploadPdfFiles.mockRejectedValue(new Error('That PDF is too large.'))
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
     await mountStep()
     await typeAndAdd('https://erfanpv.com')
     await pickPdfs('menu.pdf')
@@ -393,7 +393,7 @@ describe('StepTeach - staged PDFs', () => {
     const reading = { ...firstSite, status: 'pending', reason: null }
     getAgentQueueItems.mockResolvedValueOnce({ queue_items: [] }).mockResolvedValue({ queue_items: [reading] })
     uploadPdfFiles.mockRejectedValue(new Error('That PDF is too large.'))
-    addUrls.mockResolvedValue({ message: 'Queued' })
+    addUrls.mockResolvedValue({ message: '已排队' })
     await mountStep()
     await typeAndAdd('https://erfanpv.com')
     await pickPdfs('menu.pdf')

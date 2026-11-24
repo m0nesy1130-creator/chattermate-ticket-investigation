@@ -94,7 +94,7 @@ const nothingStaged = computed(() => !urls.value.length && !files.value.length &
 const continueLabel = computed(() => {
   if (reading.value) return 'Reading your site…'
   if (advancing.value) return 'Adding…'
-  return crawlFailure.value && nothingStaged.value ? 'Continue without it' : 'Continue'
+  return crawlFailure.value && nothingStaged.value ? '跳过并继续' : '继续'
 })
 
 // A source sent from here or by the setup assistant stays on the step while it
@@ -319,8 +319,8 @@ const handleTextAdded = () => {
       <!-- "Add" acts on the URL beside it, so the object is implicit. The PDF
            button opens a file picker, a different action — it keeps its own
            label rather than reading as a second way to add the same thing. -->
-      <button type="button" class="btn-soft" :disabled="busy" @click="stageUrl">Add</button>
-      <button type="button" class="btn-soft" :disabled="busy" @click="triggerFileInput">Upload PDF</button>
+      <button type="button" class="btn-soft" :disabled="busy" @click="stageUrl">添加</button>
+      <button type="button" class="btn-soft" :disabled="busy" @click="triggerFileInput">上传 PDF</button>
       <input
         ref="fileInput"
         type="file"
@@ -401,12 +401,12 @@ const handleTextAdded = () => {
         <button ref="pasteButton" type="button" class="btn-soft" :disabled="busy" @click="openTextFallback">
           Paste some text instead
         </button>
-        <button type="button" class="btn-soft" :disabled="busy" @click="triggerFileInput">Upload a PDF</button>
+        <button type="button" class="btn-soft" :disabled="busy" @click="triggerFileInput">上传 PDF</button>
       </div>
     </div>
 
     <div class="step-actions">
-      <button type="button" class="btn-ghost" :disabled="busy" @click="emit('back')">Back</button>
+      <button type="button" class="btn-ghost" :disabled="busy" @click="emit('back')">返回</button>
       <button type="button" class="btn-accent" :disabled="busy" @click="handleContinue">
         {{ continueLabel }}
         <span v-if="!advancing" class="arrow" aria-hidden="true">→</span>

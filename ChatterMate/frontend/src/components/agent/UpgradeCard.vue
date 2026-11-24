@@ -45,7 +45,7 @@ const label = computed(() => (props.gate ? `Upgrade for ${FEATURE_GATES[props.ga
     <p class="upgrade-card__text">{{ text }}</p>
     <button type="button" class="upgrade-card__button" :aria-label="label" @click="emit('upgrade')">
       <font-awesome-icon icon="fa-solid fa-crown" />
-      <span>Upgrade</span>
+      <span>升级</span>
     </button>
   </div>
 </template>

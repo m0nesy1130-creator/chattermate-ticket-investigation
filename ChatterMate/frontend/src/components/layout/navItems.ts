@@ -44,9 +44,9 @@ export interface NavGroup {
 
 /** Sidebar section names; also the first crumb of the header breadcrumb. */
 export const NAV_SECTIONS = {
-  workspace: 'Workspace',
-  settings: 'Settings',
-  account: 'Account',
+  workspace: '工作区',
+  settings: '设置',
+  account: '账户',
 } as const
 
 // Bottom-nav primary slots, in display order (remaining links go to the More sheet)

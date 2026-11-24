@@ -645,7 +645,7 @@ const loadDefaultQuickActions = () => {
                 :open="openSection === 'design'" @toggle="toggleSection('design')">
                 <!-- Chat design Section -->
                 <div class="subsection">
-                    <h4 class="subsection-heading">Style</h4>
+                    <h4 class="subsection-heading">样式</h4>
                     <p class="section-subtext">Pick the look that fits your store.</p>
 
                     <div class="chat-style-grid">
@@ -673,20 +673,20 @@ const loadDefaultQuickActions = () => {
 
                 <!-- Colors + typography -->
                 <div class="subsection">
-                    <h4 class="subsection-heading">Colors</h4>
-                    <span class="color-label">Brand color</span>
-                    <ColorSwatchPicker v-model="customization.accent_color" :swatches="accentSwatchColors" label="Brand color" />
+                    <h4 class="subsection-heading">颜色</h4>
+                    <span class="color-label">品牌色</span>
+                    <ColorSwatchPicker v-model="customization.accent_color" :swatches="accentSwatchColors" label="品牌色" />
 
                     <div class="aux-color-row">
                         <label class="aux-color">
-                            <span class="aux-color-label">Background</span>
+                            <span class="aux-color-label">背景</span>
                             <span class="aux-color-input">
                                 <input type="color" v-model="customization.chat_background_color">
                                 <span class="aux-color-value">{{ customization.chat_background_color }}</span>
                             </span>
                         </label>
                         <label class="aux-color">
-                            <span class="aux-color-label">Text color</span>
+                            <span class="aux-color-label">文字颜色</span>
                             <span class="aux-color-input">
                                 <input type="color" v-model="customization.chat_text_color">
                                 <span class="aux-color-value">{{ customization.chat_text_color }}</span>
@@ -694,7 +694,7 @@ const loadDefaultQuickActions = () => {
                         </label>
                     </div>
 
-                    <h4 class="subsection-heading">Typography</h4>
+                    <h4 class="subsection-heading">字体</h4>
                     <div class="font-picker">
                         <div class="font-dropdown" :class="{ 'active': showFontDropdown }">
                             <input type="text" :value="showFontDropdown ? fontSearch : customization.font_family"
@@ -724,7 +724,7 @@ const loadDefaultQuickActions = () => {
                 </div>
             </CustomizationSection>
 
-            <CustomizationSection id="launcher" title="Launcher" :summary="sectionSummaries.launcher"
+            <CustomizationSection id="launcher" title="启动按钮" :summary="sectionSummaries.launcher"
                 :open="openSection === 'launcher'" @toggle="toggleSection('launcher')">
                 <LauncherSection
                     :settings="launcher"
@@ -782,17 +782,17 @@ const loadDefaultQuickActions = () => {
                     </div>
 
                     <div v-if="!isSidebarMode" class="placement-side-row">
-                        <span class="placement-label">Side</span>
+                        <span class="placement-label">位置</span>
                         <div class="placement-side-chips">
                             <button type="button" class="font-chip" :class="{ 'active': (widgetDisplay.side ?? 'right') === 'left' }"
-                                @click="setDisplay('side', 'left')">Left</button>
+                                @click="setDisplay('side', 'left')">左侧</button>
                             <button type="button" class="font-chip" :class="{ 'active': (widgetDisplay.side ?? 'right') === 'right' }"
-                                @click="setDisplay('side', 'right')">Right</button>
+                                @click="setDisplay('side', 'right')">右侧</button>
                         </div>
                     </div>
 
                     <div v-if="activeDisplayMode === 'floating' && !isAskAiTheme" class="placement-side-row">
-                        <span id="window-size" class="placement-label">Window</span>
+                        <span id="window-size" class="placement-label">窗口</span>
                         <div class="placement-side-chips window-chips" role="radiogroup" aria-labelledby="window-size">
                             <button v-for="preset in WINDOW_PRESETS" :key="preset.value" type="button" role="radio"
                                 class="font-chip chip-tick" :class="{ 'active': windowSize.active.value === preset.value }"
@@ -801,7 +801,7 @@ const loadDefaultQuickActions = () => {
                             <button type="button" role="radio" class="font-chip chip-tick"
                                 :class="{ 'active': windowSize.active.value === 'custom' }"
                                 :aria-checked="windowSize.active.value === 'custom'"
-                                @click="pickCustomWindow">Custom</button>
+                                @click="pickCustomWindow">自定义</button>
                         </div>
                     </div>
 
@@ -825,7 +825,7 @@ const loadDefaultQuickActions = () => {
                                 @change="setDisplayNumber('sidebar_width', $event)">
                         </label>
                         <label v-if="activeDisplayMode === 'search-bar'" class="placement-field placement-field-wide">
-                            <span>Search bar text</span>
+                            <span>搜索框文字</span>
                             <input type="text" class="text-input" maxlength="80" :value="widgetDisplay.search_placeholder"
                                 placeholder="Ask anything..."
                                 @change="setDisplay('search_placeholder', ($event.target as HTMLInputElement).value)">
@@ -847,7 +847,7 @@ const loadDefaultQuickActions = () => {
                 </div>
             </CustomizationSection>
 
-            <CustomizationSection id="messages" title="Messages" :summary="sectionSummaries.messages"
+            <CustomizationSection id="messages" title="消息" :summary="sectionSummaries.messages"
                 :open="openSection === 'messages'" @toggle="toggleSection('messages')">
                 <!-- Welcome message + quick actions Section -->
                 <div class="subsection">
@@ -857,7 +857,7 @@ const loadDefaultQuickActions = () => {
                     </p>
 
                     <div class="form-group">
-                        <label for="welcome-title">Welcome title</label>
+                        <label for="welcome-title">欢迎标题</label>
                         <input
                             id="welcome-title"
                             type="text"
@@ -870,7 +870,7 @@ const loadDefaultQuickActions = () => {
                     </div>
 
                     <div class="form-group">
-                        <label for="welcome-subtitle">Welcome subtitle</label>
+                        <label for="welcome-subtitle">欢迎副标题</label>
                         <input
                             id="welcome-subtitle"
                             type="text"
@@ -883,7 +883,7 @@ const loadDefaultQuickActions = () => {
                     </div>
 
                     <div class="form-group">
-                        <label for="welcome-message">Welcome message</label>
+                        <label for="welcome-message">欢迎语</label>
                         <textarea
                             id="welcome-message"
                             v-model="customization.welcome_message"
@@ -896,11 +896,11 @@ const loadDefaultQuickActions = () => {
                     </div>
 
                     <div class="section-head-row">
-                        <h4 class="subsection-heading">Quick actions</h4>
-                        <button v-if="!isQuickActionsLocked" type="button" class="load-defaults-link" @click="loadDefaultQuickActions">Load defaults</button>
+                        <h4 class="subsection-heading">快捷操作</h4>
+                        <button v-if="!isQuickActionsLocked" type="button" class="load-defaults-link" @click="loadDefaultQuickActions">恢复默认设置</button>
                         <div v-else class="premium-badge-small">
                             <font-awesome-icon icon="fa-solid fa-crown" />
-                            <span>Premium</span>
+                            <span>高级版</span>
                         </div>
                     </div>
 
@@ -937,7 +937,7 @@ const loadDefaultQuickActions = () => {
                         <div v-if="isPageRulesLocked" class="page-rules-locked" data-testid="page-rules-locked">
                             <font-awesome-icon icon="fa-solid fa-lock" class="page-rules-locked__icon" />
                             <span>Upgrade to show a quick action only on some pages, like your product pages.</span>
-                            <button type="button" class="page-rules-locked__upgrade" aria-label="Upgrade to show quick actions on some pages" @click="handleUpgrade">Upgrade</button>
+                            <button type="button" class="page-rules-locked__upgrade" aria-label="Upgrade to show quick actions on some pages" @click="handleUpgrade">升级</button>
                         </div>
 
                         <div v-if="customization.quick_actions && customization.quick_actions.length > 0" class="init-list">
@@ -972,11 +972,11 @@ const loadDefaultQuickActions = () => {
                                         class="page-rules-locked__upgrade"
                                         data-testid="quick-action-every-page"
                                         @click="editingQuickActionMatch = ''"
-                                    >Show on every page</button>
-                                    <button type="button" class="init-icon-btn save" @click="saveEditQuickAction" title="Save">
+                                    >在所有页面显示</button>
+                                    <button type="button" class="init-icon-btn save" @click="saveEditQuickAction" title="保存">
                                         <font-awesome-icon icon="fa-solid fa-check" />
                                     </button>
-                                    <button type="button" class="init-icon-btn cancel" @click="cancelEditQuickAction" title="Cancel">
+                                    <button type="button" class="init-icon-btn cancel" @click="cancelEditQuickAction" title="取消">
                                         <font-awesome-icon icon="fa-solid fa-times" />
                                     </button>
                                 </div>
@@ -989,10 +989,10 @@ const loadDefaultQuickActions = () => {
                                         :class="{ 'init-match--off': isPageRulesLocked }"
                                         :title="isPageRulesLocked ? 'Not shown on your plan' : `Shown on ${actionMatch(action)}`"
                                     ><font-awesome-icon v-if="isPageRulesLocked" icon="fa-solid fa-lock" aria-hidden="true" /> {{ actionMatch(action) }}<span v-if="isPageRulesLocked" class="sr-only"> (not shown on your plan)</span></span>
-                                    <button type="button" class="init-icon-btn edit" @click="startEditQuickAction(index)" title="Edit">
+                                    <button type="button" class="init-icon-btn edit" @click="startEditQuickAction(index)" title="编辑">
                                         <font-awesome-icon icon="fa-solid fa-pen" />
                                     </button>
-                                    <button type="button" class="init-remove" @click="removeQuickAction(index)" title="Remove">✕</button>
+                                    <button type="button" class="init-remove" @click="removeQuickAction(index)" title="移除">✕</button>
                                 </template>
                             </div>
                         </div>
@@ -1006,16 +1006,16 @@ const loadDefaultQuickActions = () => {
                 <!-- Greeting messages Section -->
                 <div class="subsection chat-initiation-section" :class="{ 'locked': isChatInitiationsLocked }">
                     <div class="section-head-row">
-                        <h4 class="subsection-heading">Greeting messages</h4>
+                        <h4 class="subsection-heading">主动问候</h4>
                         <button
                             v-if="!isChatInitiationsLocked"
                             type="button"
                             class="load-defaults-link"
                             @click="loadDefaultInitiations"
-                        >Load defaults</button>
+                        >恢复默认设置</button>
                         <div v-if="isChatInitiationsLocked" class="premium-badge-small">
                             <font-awesome-icon icon="fa-solid fa-crown" />
-                            <span>Premium</span>
+                            <span>高级版</span>
                         </div>
                     </div>
                     <p class="section-subtext">
@@ -1063,10 +1063,10 @@ const loadDefaultQuickActions = () => {
                                         @keyup.esc="cancelEditInitiationMessage"
                                         ref="editInput"
                                     >
-                                    <button type="button" class="init-icon-btn save" @click="saveEditInitiationMessage" title="Save">
+                                    <button type="button" class="init-icon-btn save" @click="saveEditInitiationMessage" title="保存">
                                         <font-awesome-icon icon="fa-solid fa-check" />
                                     </button>
-                                    <button type="button" class="init-icon-btn cancel" @click="cancelEditInitiationMessage" title="Cancel">
+                                    <button type="button" class="init-icon-btn cancel" @click="cancelEditInitiationMessage" title="取消">
                                         <font-awesome-icon icon="fa-solid fa-times" />
                                     </button>
                                 </div>
@@ -1077,7 +1077,7 @@ const loadDefaultQuickActions = () => {
                                         type="button"
                                         class="init-icon-btn edit"
                                         @click="startEditInitiationMessage(index)"
-                                        title="Edit"
+                                        title="编辑"
                                     >
                                         <font-awesome-icon icon="fa-solid fa-pen" />
                                     </button>
@@ -1085,7 +1085,7 @@ const loadDefaultQuickActions = () => {
                                         type="button"
                                         class="init-remove"
                                         @click="removeInitiationMessage(index)"
-                                        title="Remove"
+                                        title="移除"
                                     >✕</button>
                                 </template>
                             </div>
@@ -1108,7 +1108,7 @@ const loadDefaultQuickActions = () => {
                         <input type="checkbox" v-model="customization.show_citations">
                         <span class="citations-toggle-track"><span class="citations-toggle-thumb"></span></span>
                         <span class="citations-toggle-text">
-                            <span class="citations-toggle-title">Show citations</span>
+                            <span class="citations-toggle-title">显示引用</span>
                             <span class="citations-toggle-desc">Shows the sources behind each answer.</span>
                         </span>
                     </label>
@@ -1116,10 +1116,10 @@ const loadDefaultQuickActions = () => {
                     <!-- Locked like the greeting messages; the saved switch stays as it was -->
                     <div v-if="isFollowUpsLocked" class="citations-toggle follow-ups-locked" data-testid="follow-ups-locked">
                         <div class="follow-ups-locked__head">
-                            <span class="citations-toggle-title">Suggest follow-up questions</span>
+                            <span class="citations-toggle-title">建议后续问题</span>
                             <div class="premium-badge-small">
                                 <font-awesome-icon icon="fa-solid fa-crown" />
-                                <span>Premium</span>
+                                <span>高级版</span>
                             </div>
                         </div>
                         <UpgradeCard gate="follow-ups" lock @upgrade="handleUpgrade" />
@@ -1128,7 +1128,7 @@ const loadDefaultQuickActions = () => {
                         <input type="checkbox" v-model="followUps">
                         <span class="citations-toggle-track"><span class="citations-toggle-thumb"></span></span>
                         <span class="citations-toggle-text">
-                            <span class="citations-toggle-title">Suggest follow-up questions</span>
+                            <span class="citations-toggle-title">建议后续问题</span>
                             <span class="citations-toggle-desc">Shows up to three questions to ask next under an answer.</span>
                         </span>
                     </label>
@@ -1137,7 +1137,7 @@ const loadDefaultQuickActions = () => {
                         <input type="checkbox" v-model="customization.collect_email">
                         <span class="citations-toggle-track"><span class="citations-toggle-thumb"></span></span>
                         <span class="citations-toggle-text">
-                            <span class="citations-toggle-title">Collect email before chat</span>
+                            <span class="citations-toggle-title">对话前收集邮箱</span>
                             <span class="citations-toggle-desc">Visitors give their email before they can chat.</span>
                         </span>
                     </label>
@@ -1146,7 +1146,7 @@ const loadDefaultQuickActions = () => {
                         <input type="checkbox" v-model="customization.show_ai_disclaimer">
                         <span class="citations-toggle-track"><span class="citations-toggle-thumb"></span></span>
                         <span class="citations-toggle-text">
-                            <span class="citations-toggle-title">Show AI disclaimer</span>
+                            <span class="citations-toggle-title">显示 AI 使用说明</span>
                             <span class="citations-toggle-desc">Shows “{{ AI_DISCLAIMER_TEXT }}” under the chat while the AI answers.</span>
                         </span>
                     </label>
@@ -1166,7 +1166,7 @@ const loadDefaultQuickActions = () => {
             </div>
             
             <div class="button-actions">
-                <button class="cancel-button" @click="emit('cancel')" :disabled="isSaving">Cancel</button>
+                <button class="cancel-button" @click="emit('cancel')" :disabled="isSaving">取消</button>
                 <button class="save-button" @click="handleSave" :disabled="isSaving">
                     <font-awesome-icon 
                         v-if="isSaving" 

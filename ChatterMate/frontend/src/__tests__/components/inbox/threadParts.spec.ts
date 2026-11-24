@@ -175,7 +175,7 @@ describe('HandoverSummaryCard', () => {
   it('puts its actions slot in place of the plain knowledge link, and shows a newer summary', () => {
     const wrapper = mount(HandoverSummaryCard, {
       props: { agentName: 'Shop assistant', summary: 'Wants a refund.', knowledgeLink: '/faq?question=Refund', latestSummary: 'Refund sent.' },
-      slots: { actions: () => h('button', { class: 'refresh' }, 'Refresh') },
+      slots: { actions: () => h('button', { class: 'refresh' }, '刷新') },
       global: { stubs: { RouterLink: RouterLinkStub } },
     })
     expect(wrapper.find('.refresh').exists()).toBe(true)
@@ -241,7 +241,7 @@ describe('ThreadMessage', () => {
     const mine = { message_type: 'agent', user_id: 'me', id: 5, message: 'Your refund is on its way' }
 
     it('offers Edit only when it may be edited, and says Edited once it was', () => {
-      expect(mountMessage(mine, { editable: true, saveEdit: vi.fn() }).find('.edit-btn').text()).toBe('Edit')
+      expect(mountMessage(mine, { editable: true, saveEdit: vi.fn() }).find('.edit-btn').text()).toBe('编辑')
       expect(mountMessage(mine, { editable: false, saveEdit: vi.fn() }).find('.edit-btn').exists()).toBe(false)
       expect(mountMessage({ ...mine, attributes: { edited_at: ago(1) } }).find('.edited').text()).toBe('Edited')
       expect(mountMessage(mine).find('.edited').exists()).toBe(false)
@@ -351,13 +351,13 @@ describe('DetailsPanel', () => {
     expect(wrapper.find('.customer-name').text()).toBe('Maya')
     expect(wrapper.find('.customer-contact').text()).toBe('maya@example.com')
     const facts = wrapper.find('.customer .facts').findAll('.fact').map((f) => f.text())
-    expect(facts).toEqual(['Phone+49', 'Student NameAna'])
+    expect(facts).toEqual(['电话+49', 'Student NameAna'])
   })
 
   it("lists the conversation's facts, and folds them away", async () => {
     const wrapper = mountPanel({ sentiment_label: 'negative' })
     const facts = () => wrapper.find('#details-conversation').findAll('.fact').map((f) => f.find('dt').text())
-    expect(facts()).toEqual(['Status', 'AI agent', 'Channel', 'Handover', 'Sentiment', 'Started'])
+    expect(facts()).toEqual(['状态', 'AI 助手', '渠道', '转接', '情绪', '开始时间'])
 
     const toggle = wrapper.find('.section-toggle')
     await toggle.trigger('click')
@@ -485,7 +485,7 @@ describe('ThreadComposer notes', () => {
   it("is amber and needs no takeover; Reply asks to take the chat over", async () => {
     const wrapper = mountComposer({ modelValue: 'x' })
     expect(wrapper.find('.composer').classes()).toContain('note')
-    expect(wrapper.find('.send').text()).toBe('Add note')
+    expect(wrapper.find('.send').text()).toBe('添加备注')
     expect(wrapper.find('.send').attributes('disabled')).toBeUndefined()
     await wrapper.find('[role="tab"]').trigger('click')
     expect(wrapper.emitted('take-over')).toHaveLength(1)

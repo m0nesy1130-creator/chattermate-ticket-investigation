@@ -44,17 +44,18 @@ const SupportChatButton = enterpriseComponent(moduleImports.supportChatButton)
 // Always-on offer pill: survives the promo strip being dismissed
 const PromoHeaderPill = enterpriseComponent(moduleImports.promoHeaderPill)
 
-const THEME_NEXT: Record<ThemeMode, string> = { dark: 'Light', light: 'System', system: 'Dark' }
+const THEME_NEXT: Record<ThemeMode, string> = { dark: '浅色', light: '系统', system: '深色' }
+const THEME_LABEL: Record<ThemeMode, string> = { dark: '深色', light: '浅色', system: '系统' }
 const THEME_ICON: Record<ThemeMode, string> = { dark: 'moon', light: 'sun', system: 'monitor' }
 const themeLabel = computed(
-    () => `Theme: ${props.themeMode[0].toUpperCase()}${props.themeMode.slice(1)}. Switch to ${THEME_NEXT[props.themeMode]}`
+    () => `主题：${THEME_LABEL[props.themeMode]}，切换到${THEME_NEXT[props.themeMode]}`
 )
 
-const statusLabel = computed(() => (props.isOnline ? 'Online' : 'Offline'))
-const statusAction = computed(() => (props.isOnline ? 'Go offline' : 'Go online'))
+const statusLabel = computed(() => (props.isOnline ? '在线' : '离线'))
+const statusAction = computed(() => (props.isOnline ? '下线' : '上线'))
 const badgeText = computed(() => formatBadgeCount(props.unreadCount))
 const bellLabel = computed(() =>
-    props.unreadCount ? `Notifications, ${props.unreadCount} unread` : 'Notifications'
+    props.unreadCount ? `通知，${props.unreadCount} 条未读` : '通知'
 )
 </script>
 
@@ -66,14 +67,14 @@ const bellLabel = computed(() =>
                 <button
                     type="button"
                     class="hamburger-menu"
-                    aria-label="Open menu"
+                    aria-label="打开菜单"
                     @click="emit('toggle-sidebar')"
                 >
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>
                 </button>
-                <nav v-if="pageTitle" class="breadcrumb" aria-label="Breadcrumb">
+                <nav v-if="pageTitle" class="breadcrumb" aria-label="面包屑导航">
                     <template v-if="section">
                         <span class="crumb">{{ section }}</span>
                         <span class="crumb-sep" aria-hidden="true" v-html="navIconSvg('chevronRight', 14)"></span>
@@ -88,7 +89,7 @@ const bellLabel = computed(() =>
                     class="status-pill"
                     :class="{ online: isOnline }"
                     :aria-pressed="isOnline"
-                    :aria-label="`Status: ${statusLabel}. ${statusAction}`"
+                    :aria-label="`状态：${statusLabel} · ${statusAction}`"
                     :title="statusAction"
                     :disabled="statusUpdating"
                     @click="emit('toggle-status')"

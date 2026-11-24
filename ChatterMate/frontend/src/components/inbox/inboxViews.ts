@@ -19,7 +19,7 @@ import { channelGlyph } from '@/utils/channelGlyphs'
 
 /**
  * Which slice of the inbox is listed: one of the saved views, optionally
- * narrowed to a channel ("Channels" in the views pane is All open on that
+ * narrowed to a channel ("Channels" in the views pane is 全部待处理 on that
  * channel). The backend applies the same rules (inbox_views.py).
  */
 export interface InboxSelection {
@@ -90,20 +90,20 @@ interface ViewDef {
 }
 
 const VIEW_DEFS: Record<InboxViewKey, ViewDef> = {
-  mine: { view: 'mine', label: 'Your inbox', countKey: 'assigned_to_me', tone: 'plain', empty: 'Nothing is assigned to you.' },
-  mentions: { view: 'mentions', label: 'Mentions', countKey: 'mentions', tone: 'plain', empty: 'Nobody has mentioned you in an open conversation.' },
-  waiting: { view: 'waiting', label: 'Waiting for a human', countKey: 'waiting_for_human', tone: 'waiting', empty: 'Nobody is waiting for a person.' },
-  open: { view: 'open', label: 'All open', countKey: 'open', tone: 'plain', empty: 'No open conversations.' },
-  ai: { view: 'ai', label: 'AI handling now', countKey: 'ai_handling', tone: 'ai', empty: 'The AI has no live conversations.' },
-  resolved_by_ai: { view: 'resolved_by_ai', label: 'Resolved by AI', title: 'Resolved by AI today', countKey: 'resolved_by_ai_today', tone: 'plain', empty: 'Nothing resolved by the AI yet today.' },
-  closed: { view: 'closed', label: 'Closed', countKey: null, tone: 'plain', empty: 'No closed conversations.' },
-  negative: { view: 'negative', label: 'Negative sentiment', countKey: 'negative', tone: 'plain', empty: 'No unhappy customers right now.' },
-  snoozed: { view: 'snoozed', label: 'Snoozed', countKey: 'snoozed', tone: 'plain', empty: 'Nothing is snoozed.' },
+  mine: { view: 'mine', label: '我的收件箱', countKey: 'assigned_to_me', tone: 'plain', empty: '暂无分配给你的会话。' },
+  mentions: { view: 'mentions', label: '提及我的', countKey: 'mentions', tone: 'plain', empty: '暂无待处理会话提及你。' },
+  waiting: { view: 'waiting', label: '等待人工接手', countKey: 'waiting_for_human', tone: 'waiting', empty: '暂无等待人工接手的会话。' },
+  open: { view: 'open', label: '全部待处理', countKey: 'open', tone: 'plain', empty: '暂无待处理会话。' },
+  ai: { view: 'ai', label: 'AI 正在处理', countKey: 'ai_handling', tone: 'ai', empty: 'AI 暂无正在处理的会话。' },
+  resolved_by_ai: { view: 'resolved_by_ai', label: '由 AI 解决', title: '今日由 AI 解决', countKey: 'resolved_by_ai_today', tone: 'plain', empty: '今日暂无由 AI 解决的会话。' },
+  closed: { view: 'closed', label: '已关闭', countKey: null, tone: 'plain', empty: '暂无已关闭会话。' },
+  negative: { view: 'negative', label: '负面情绪', countKey: 'negative', tone: 'plain', empty: '暂无负面情绪会话。' },
+  snoozed: { view: 'snoozed', label: '已暂缓', countKey: 'snoozed', tone: 'plain', empty: '暂无暂缓会话。' },
 }
 
 const GROUPS: Array<{ heading: string | null; views: InboxViewKey[] }> = [
   { heading: null, views: ['mine', 'mentions', 'waiting', 'open', 'snoozed'] },
-  { heading: 'AI agents', views: ['ai', 'resolved_by_ai', 'closed'] },
+  { heading: 'AI 助手', views: ['ai', 'resolved_by_ai', 'closed'] },
 ]
 // Snoozed shows once something is (snoozing is the enterprise module's)
 const SAVED_VIEWS: InboxViewKey[] = ['negative']

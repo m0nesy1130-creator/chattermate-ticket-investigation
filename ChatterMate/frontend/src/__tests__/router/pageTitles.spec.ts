@@ -23,15 +23,15 @@ const routeAt = (...paths: string[]) => ({ matched: paths.map((path) => ({ path 
 
 describe('page titles', () => {
   it('names a page by its route pattern, deepest match first', () => {
-    expect(routePageTitle(routeAt('/tickets/:id'))).toBe('Ticket')
-    expect(routePageTitle(routeAt('/settings', '/settings/ai-config'))).toBe('AI Configuration')
+    expect(routePageTitle(routeAt('/tickets/:id'))).toBe('工单详情')
+    expect(routePageTitle(routeAt('/settings', '/settings/ai-config'))).toBe('AI 配置')
     expect(routePageTitle(routeAt('/login'))).toBeUndefined()
     expect(routePageTitle(routeAt())).toBeUndefined()
   })
 
   it('names a titled page', () => {
-    expect(pageTitle('/analytics')).toBe('Analytics')
-    expect(pageTitle('/tickets/:id')).toBe('Ticket')
+    expect(pageTitle('/analytics')).toBe('数据分析')
+    expect(pageTitle('/tickets/:id')).toBe('工单详情')
   })
 
   it('builds the tab title, with a count only when there is one', () => {

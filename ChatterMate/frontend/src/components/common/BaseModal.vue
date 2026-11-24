@@ -117,7 +117,7 @@ onBeforeUnmount(() => {
     <div class="bm-panel" :style="{ '--bm-width': props.width }">
       <div class="bm-header">
         <h3 class="bm-title">{{ title }}</h3>
-        <button v-if="dismissible" class="bm-close" aria-label="Close" @click="emit('close')">×</button>
+        <button v-if="dismissible" class="bm-close" aria-label="关闭" @click="emit('close')">×</button>
       </div>
 
       <div class="bm-body">

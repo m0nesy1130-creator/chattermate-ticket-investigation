@@ -44,7 +44,7 @@ describe('KnowledgeAddSourceModal: which agent answers from the source', () => {
   it('with several agents, asks which one and will not add until answered', async () => {
     const wrapper = await mountModal({ agents: [SALES, SUPPORT] })
     const options = wrapper.findAll('#kb-add-agent option').map((o) => o.text())
-    expect(options).toEqual(['Choose an agent', 'Sales', 'Support', 'None for now'])
+    expect(options).toEqual(['请选择助手', 'Sales', 'Support', '暂不选择'])
     expect(addButton(wrapper).attributes('disabled')).toBeDefined()
 
     await addButton(wrapper).trigger('click')

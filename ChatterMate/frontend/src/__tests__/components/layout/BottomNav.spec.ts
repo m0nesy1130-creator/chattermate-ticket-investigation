@@ -53,21 +53,21 @@ describe('BottomNav', () => {
   it('renders the four primary items plus More', async () => {
     const wrapper = await mountNav()
     const labels = wrapper.findAll('.bottom-nav-label').map((n) => n.text())
-    expect(labels).toEqual(['Inbox', 'People', 'AI Agents', 'Analytics', 'More'])
+    expect(labels).toEqual(['收件箱', '联系人', 'AI 助手', '数据分析', '更多'])
   })
 
   it('marks the current route active', async () => {
     const wrapper = await mountNav({}, '/analytics')
     const active = wrapper.findAll('.bottom-nav-item.active')
     expect(active).toHaveLength(1)
-    expect(active[0].text()).toContain('Analytics')
+    expect(active[0].text()).toContain('数据分析')
   })
 
   it('marks More active when on an overflow route', async () => {
     const wrapper = await mountNav({}, '/knowledge')
     const active = wrapper.findAll('.bottom-nav-item.active')
     expect(active).toHaveLength(1)
-    expect(active[0].text()).toContain('More')
+    expect(active[0].text()).toContain('更多')
   })
 
   it('shows an unread badge on More and caps it at 99+', async () => {

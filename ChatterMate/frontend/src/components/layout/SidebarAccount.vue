@@ -48,8 +48,8 @@ const myAvatar = useMyAvatar(() => props.user?.profile_pic)
 const avatarSrc = computed(() => (myAvatar.failed.value ? userAvatar : myAvatar.src.value ?? userAvatar))
 
 const name = computed(() => props.user?.full_name || props.user?.email || '')
-const statusText = computed(() => (props.isOnline ? 'Online' : 'Offline'))
-const triggerLabel = computed(() => `Account menu: ${name.value}, ${statusText.value.toLowerCase()}`)
+const statusText = computed(() => (props.isOnline ? '在线' : '离线'))
+const triggerLabel = computed(() => `账户菜单：${name.value}，${statusText.value}`)
 
 const { open, openMenu, close, onTriggerKeydown, onMenuKeydown } = useMenu(root, trigger, menu)
 
@@ -97,7 +97,7 @@ const pick = (action: 'toggle-status' | 'logout' | 'navigate') => {
             >
                 <span class="row-dot" :class="{ online: isOnline }" aria-hidden="true"></span>
                 <span class="row-label">{{ isOnline ? "You're online" : "You're offline" }}</span>
-                <span class="row-hint">{{ isOnline ? 'Go offline' : 'Go online' }}</span>
+                <span class="row-hint">{{ isOnline ? '下线' : '上线' }}</span>
             </button>
             <div class="menu-divider" role="separator"></div>
             <router-link
@@ -115,7 +115,7 @@ const pick = (action: 'toggle-status' | 'logout' | 'navigate') => {
             <div v-if="items.length" class="menu-divider" role="separator"></div>
             <button type="button" class="menu-row" role="menuitem" tabindex="-1" @click="pick('logout')">
                 <span class="row-icon" aria-hidden="true" v-html="navIconSvg('logout', 16)"></span>
-                <span class="row-label">Log out</span>
+                <span class="row-label">退出登录</span>
             </button>
         </div>
     </div>
