@@ -1,6 +1,6 @@
 # TicketResolve 工单调查 Agent
 
-Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能。经办人在原有工单详情页发起分析、上传材料和确认范围，系统按计划调查并生成带证据的结论，审核后将结果写回同一张工单的内部活动。
+TicketResolve 是集成到开源客服平台 ChatterMate 的工单调查功能。经办人在原有工单详情页发起分析、上传材料和确认范围，系统按计划调查并生成带证据的结论，审核后将结果写回同一张工单的内部活动。
 
 **典型场景：核对合同付款。** 系统读取合同条款和只读 MySQL 台账，分别确认应付金额、实付金额和差额。经办人可以点开每项结论查看合同原文行号或台账记录编号。证据不足时可上传补充材料。若台账查询中断，可从失败步骤续跑，复用已核实的合同条款。
 
@@ -21,7 +21,7 @@ Analysis Agent 是集成到开源客服平台 ChatterMate 的工单调查功能�
 | 模块 | 技术与职责 |
 | --- | --- |
 | ChatterMate 社区版 | Vue 3、TypeScript 和 PostgreSQL。复用工单、组织权限和活动记录，新增调查面板和任务队列。 |
-| Analysis Agent | Python、FastAPI、LangGraph 和 DeepSeek API。负责澄清需求、按依赖规划执行、检索和复核证据。 |
+| TicketResolve 分析引擎 | Python、FastAPI 和 LangGraph。组织需求澄清、依赖执行、工具调用与证据复核，通过 DeepSeek API 获取 LLM 推理能力。互联网检索由独立工具执行。 |
 | 调查队列与检查点 | ChatterMate Worker 通过 FastAPI 调用分析引擎。PostgreSQL 保存调查队列，MySQL 保存 LangGraph 检查点。合同付款台账走独立的只读业务连接。 |
 
 分析引擎采用 Plan-and-Execute，以 LangGraph 固定步骤依赖并调度执行，自适应取证在步骤内结合 ReAct 风格工具调用与复核反馈继续补查，人工补证和审批通过 HITL 参与。
